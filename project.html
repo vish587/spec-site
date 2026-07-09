@@ -1,0 +1,666 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIFTREX — 41 North St, Bronx NY — Elevator Specification (Car PE-1)</title>
+<style>
+:root{
+ --bg:#edeadf;--panel:#fbf9f3;--panel2:#f4f0e5;--ink:#26251f;--mut:#6d6656;--faint:#98907d;
+ --line:#ddd6c5;--line2:#e7e1d2;--acc:#0e7377;--acc2:#FD630D;--red:#b3261e;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:radial-gradient(1000px 420px at 78% -10%,rgba(14,115,119,.07),transparent 60%),var(--bg)}
+body{font-family:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;padding:32px 26px 46px;color:var(--ink);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1480px;margin:0 auto}
+::selection{background:rgba(14,115,119,.22)}
+/* ---- brand bar ---- */
+.brandbar{display:flex;align-items:center;gap:24px;padding:2px 2px 20px;margin:0 0 24px;border-bottom:2px solid var(--ink);flex-wrap:wrap}
+.brandbar .lx{display:flex;align-items:center;gap:12px}
+.logo-mark{display:inline-flex;align-items:center;color:#E4581D;font-weight:800;font-size:27px;letter-spacing:.04em;line-height:1;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+.logo-mark svg{height:20px;width:auto;margin-left:2px}
+.clientmark b{font:700 14px/1 system-ui,-apple-system,"Segoe UI",sans-serif;color:#4a463c;letter-spacing:1px}
+.brandbar .tag{flex:1;min-width:280px}
+.brandbar .tag h1{margin:0;font-family:Georgia,"Times New Roman",serif;font-size:23px;font-weight:700;color:var(--ink);letter-spacing:.2px}
+.brandbar .tag p{margin:5px 0 0;font-size:12px;color:var(--mut);letter-spacing:.4px}
+.clientmark{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 16px;box-shadow:0 2px 6px rgba(80,70,45,.08)}
+.clientmark span{font-size:10px;font-weight:700;color:#4d5258;letter-spacing:2.2px}
+/* ---- hero stats ---- */
+.hero{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:0 0 22px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:15px 17px 13px;position:relative;box-shadow:0 1px 3px rgba(80,70,45,.07)}
+.stat::before{content:"";position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:var(--acc);border-radius:6px 6px 0 0}
+.stat b{display:block;font-size:9.5px;font-weight:700;color:var(--faint);letter-spacing:2px;text-transform:uppercase;margin-bottom:7px}
+.stat span{font-family:Georgia,serif;font-size:22px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+.stat small{display:block;font-size:11px;color:var(--mut);margin-top:4px}
+/* ---- filters ---- */
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 18px;padding-left:2px}
+.flabel{color:var(--faint);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-right:4px}
+.fchip{font-size:11.5px;font-weight:600;padding:6px 14px;border-radius:3px;border:1px solid var(--line);background:var(--panel);color:var(--mut);cursor:pointer;letter-spacing:.3px;transition:all .15s}
+.fchip:hover{border-color:var(--acc);color:var(--acc)}
+.fchip.on{background:var(--acc);border-color:var(--acc);color:#fdfcf7}
+.fhint{color:var(--faint);font-size:10.5px;margin-left:6px}
+/* ---- cards ---- */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:14px;align-items:start}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;overflow:hidden;box-shadow:0 1px 3px rgba(80,70,45,.07)}
+.card h2{margin:0;padding:13px 19px;font-family:Georgia,serif;font-size:13px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--ink);background:var(--panel2);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:11px}
+.card h2 i{width:23px;height:23px;border-radius:50%;border:1.4px solid var(--acc);background:rgba(14,115,119,.08);color:var(--acc);font-style:normal;font-family:"Segoe UI",system-ui,sans-serif;font-size:10.5px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.card table{width:100%;border-collapse:collapse;font-size:12.5px}
+.card td{padding:8px 19px;vertical-align:top;border-top:1px solid var(--line2)}
+.card tr:first-child td{border-top:none}
+.card tr:hover td{background:rgba(14,115,119,.035)}
+.card td.k{color:var(--mut);font-weight:500;width:44%}
+.card td.v{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.card td.v em{font-style:normal;color:var(--acc);font-weight:700}
+.card .note{padding:10px 19px 14px;font-size:11px;color:var(--faint);border-top:1px solid var(--line);line-height:1.65}
+.card ul{margin:8px 0 14px;padding:0 19px 0 35px;font-size:12px;color:var(--mut);line-height:1.7}
+.card ul li{margin:5px 0}
+.card ul li::marker{color:var(--acc)}
+.wide{grid-column:1/-1}
+/* ---- mini tables ---- */
+.mini{display:flex;gap:12px;flex-wrap:wrap;padding:14px 19px}
+.mini table{width:auto;min-width:212px;background:#fff;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+.mini caption{caption-side:top;text-align:left;font-size:10px;font-weight:700;letter-spacing:1.6px;color:var(--acc);padding:9px 12px 5px;text-transform:uppercase}
+.mini td,.mini th{padding:5.5px 13px;font-size:12px;border-top:1px solid var(--line2)}
+.mini th{color:var(--faint);font-weight:600;text-align:left}
+.mini td{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+/* ---- stage / animation ---- */
+.controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);border-bottom:none;border-radius:6px 6px 0 0;padding:12px 16px}
+.btn{font-weight:600;font-size:13px;cursor:pointer;border:none;border-radius:4px;padding:9px 18px;color:#fdfcf7;background:var(--acc);display:inline-flex;align-items:center;gap:8px;letter-spacing:.3px;transition:filter .15s}
+.btn:hover{filter:brightness(1.12)}
+.btn.ghost{background:#8a8271}
+.sg{display:flex;align-items:center;gap:9px;color:var(--mut);font-size:12px;background:var(--panel2);border:1px solid var(--line);padding:6px 13px;border-radius:4px}
+.sg b{color:var(--ink);font-weight:600}
+input[type=range]{width:150px;accent-color:var(--acc)}
+.sval{font-weight:700;color:var(--acc);min-width:44px;font-size:12.5px;font-variant-numeric:tabular-nums}
+.stage{position:relative;border:1px solid var(--line);border-top:none;overflow:hidden;background:#e9e4d8}
+.stage svg{display:block;width:100%;height:auto}
+.stagecap{background:var(--panel);border:1px solid var(--line);border-top:1px dashed var(--line);border-radius:0 0 6px 6px;padding:11px 16px;text-align:center;font-size:10.5px;font-weight:700;color:var(--mut);letter-spacing:1.8px;text-transform:uppercase}
+/* ---- drawing sheets ---- */
+.sheets{display:grid;grid-template-columns:repeat(auto-fit,minmax(440px,1fr));gap:14px}
+.sheet{background:#e9e4d8;border:1px solid var(--line);border-radius:6px;overflow:hidden;box-shadow:0 1px 3px rgba(80,70,45,.07)}
+.sheet .shead{background:var(--panel);border-bottom:1px solid var(--line);padding:11px 16px;font-family:Georgia,serif;font-size:11.5px;font-weight:700;color:var(--mut);letter-spacing:1.8px;text-transform:uppercase}
+.sheet .shead b{color:var(--acc);margin-right:9px}
+.sheet svg{display:block;width:100%;height:auto}
+.secttl{margin:28px 0 12px;padding-left:2px;font-family:Georgia,serif;font-size:12px;font-weight:700;color:var(--ink);letter-spacing:2.4px;text-transform:uppercase}
+.secttl small{font-family:"Segoe UI",system-ui,sans-serif;font-weight:500;color:var(--faint);font-size:10.5px;margin-left:10px;letter-spacing:.6px;text-transform:none}
+footer{color:var(--faint);font-size:11.5px;margin-top:28px;padding-top:18px;border-top:2px solid var(--ink);text-align:center;line-height:1.9}
+footer code{background:#fff;border:1px solid var(--line);padding:2px 7px;border-radius:4px;color:var(--mut)}
+.prelim{display:inline-block;margin-top:8px;padding:5px 18px;border:1px solid var(--red);background:rgba(179,38,30,.06);border-radius:3px;color:var(--red);font-weight:700;letter-spacing:2.8px;font-size:10px}
+</style></head><body><div class="wrap">
+
+<!-- ================= BRAND BAR : LIFTREX (ours) + CLIENT "R" MARK (theirs) ================= -->
+<div class="brandbar">
+ <div class="lx" title="LIFTREX">
+  <span class="logo-mark" role="img" aria-label="LIFTREX">LIFTRE<svg viewBox="0 0 120 90" fill="currentColor" aria-hidden="true"><polygon points="0,0 30,0 75,45 30,90 0,90 45,45"/><polygon points="120,0 90,0 45,45 90,90 120,90 75,45"/></svg></span>
+
+ </div>
+ <div class="tag">
+  <h1>Elevator Specification — Car PE‑1</h1>
+  <p>41 North St, Bronx NY 10486 &bull; Passenger &bull; ASME A17.1‑2013 (Appendix K Ch. K1) &amp; 2022 NYC BC Ch. 30 &bull; Rev 2 — 5/20/26</p>
+ </div>
+ <div class="clientmark" title="Client logo">
+  <b>REVEMP</b>
+  <span>41 NORTH ST</span>
+ </div>
+</div>
+
+<!-- ================= HERO STATS ================= -->
+<div class="hero">
+ <div class="stat"><b>Capacity</b><span>3,500 lb</span><small>Class A loading</small></div>
+ <div class="stat"><b>Speed</b><span>200 FPM</span><small>VVVF‑AC control</small></div>
+ <div class="stat"><b>Travel</b><span>53'-0"</span><small>*1–5 &amp; Roof — 6 front openings</small></div>
+ <div class="stat"><b>Roping</b><span>2:1 S.W.</span><small>underslung — machine carries 50%</small></div>
+ <div class="stat"><b>Machine</b><span>Imperial 478</span><small>gearless PM &bull; Ø15.75" sheave</small></div>
+ <div class="stat"><b>Controller</b><span>ESI</span><small>208V &bull; 3PH &bull; 60Hz</small></div>
+</div>
+
+<!-- ================= FILTERS ================= -->
+<div class="filters"><span class="flabel">Show:</span>
+ <button class="fchip" data-i="all">All</button>
+ <button class="fchip on" data-i="none">None</button>
+ <span id="chips"></span>
+ <span class="fhint">tap one to isolate &middot; tap more to compare</span>
+</div>
+
+<!-- ================= SPEC CARDS (rendered by JS) ================= -->
+<div class="grid" id="grid"></div>
+
+<!-- ================= DRAWING SHEET ILLUSTRATIONS VT-001…VT-005 ================= -->
+<div class="secttl">Drawing Illustrations — VT‑001 … VT‑006 <small>schematic, not to scale — per sealed drawings REV 2 (5/20/26)</small></div>
+<div class="sheets">
+ <div class="sheet"><div class="shead"><b>VT‑001</b> GENERAL DATA — TITLE SHEET</div><svg id="vt1"></svg></div>
+ <div class="sheet"><div class="shead"><b>VT‑002</b> CONTROLLER ROOM PLAN (AT ROOF)</div><svg id="vt2"></svg></div>
+ <div class="sheet"><div class="shead"><b>VT‑003</b> OVERHEAD PLAN</div><svg id="vt3"></svg></div>
+ <div class="sheet"><div class="shead"><b>VT‑004</b> TYPICAL SHAFT PLAN</div><svg id="vt4"></svg></div>
+ <div class="sheet"><div class="shead"><b>VT‑005</b> PIT PLAN</div><svg id="vt5"></svg></div>
+ <div class="sheet"><div class="shead"><b>VT‑006</b> ELEVATION PLAN — <span style="color:#0e7377">animated below &darr;</span></div>
+  <div style="padding:14px 16px;font-size:12.5px;color:#5d5749;line-height:1.7">The elevation sheet is rendered as the live animation at the bottom of this page — 2:1 s.w. underslung, dead ends on the building hitch beams (&frac12; car + &frac12; cwt), machine carries 50%. Total travel 53'-0&quot;, pit 6'-2&quot;, overhead appx. 20'-0&quot;, floor‑to‑floor 11'-0&quot; / 10'-4&quot; / 10'-4&quot; / 10'-4&quot; / 11'-0&quot;, rails 4 &times; 16' + 1 &times; 5'-0&quot;, max bracket spacing 13'-0&quot;.</div></div>
+</div>
+
+<!-- ================= HOISTWAY ELEVATION — ANIMATED (VT-006) ================= -->
+<div style="margin-top:12px" id="sec-elev">
+ <div class="controls">
+  <button id="play" class="btn"><svg id="pIcon" width="14" height="14" viewBox="0 0 14 14"><path d="M2 1l11 6L2 13z" fill="#fff"/></svg><span id="pLabel">Play</span></button>
+  <button id="reset" class="btn ghost">Reset</button>
+  <div class="sg"><b>Speed</b><input id="spd" type="range" min="0.25" max="2" step="0.05" value="1"><span class="sval" id="spdv">1.00&times;</span></div>
+  <span style="color:#4a463c;font-size:12.5px">VT‑006 — Hoistway elevation — 2:1 s.w. underslung &bull; dead ends shackled to bldg hitch beams (&frac12; car + &frac12; cwt) &bull; machine carries 50% &bull; pit 6'-2" &bull; overhead appx. 20'-0"</span>
+ </div>
+ <div class="stage"><svg id="scene" viewBox="0 0 1180 1330" role="img" aria-label="41 North St hoistway elevation"></svg></div>
+ <div class="stagecap">PIT 6'-2" &bull; dry &amp; reinforced &bull; sump 24"&times;24"&times;24" &bull; refuge 48"&times;24"</div>
+</div>
+
+<footer>
+ Governing code: ASME A17.1‑2013 as modified by Ch. K1 of Appendix K &amp; Ch. 30 of the 2022 NYC Building Code &mdash; acceptance tests witnessed per Industry Notice dated 5/28/2025.<br>
+ Source drawings: <code>VT‑001…VT‑006</code> &bull; Job 00‑0000 &bull; Rev 0 construction release 5/6/26 &bull; Rev 1 ladder location / machine‑beam support 5/14/26 &bull; Rev 2 changed elevations 5/20/26 &bull; LIFTREX — 877‑543‑8739<br>
+ <span class="prelim">PRELIMINARY — PER SEALED DRAWINGS</span>
+</footer>
+</div>
+
+<script>
+(function(){"use strict";
+/* ============================================================
+   SPEC DATA — extracted from 41 NORTH ST- REV2- 05.20.26.pdf
+   ============================================================ */
+var SECTIONS=[
+{t:"General Data",rows:[
+ ["Elevator designation","CAR PE‑1"],
+ ["City ID number","TBD"],
+ ["Type / class","Passenger — Class A loading"],
+ ["Capacity","<em>3,500 lb</em> (platform 32.62 sq.ft)"],
+ ["Speed","<em>200 FPM</em>"],
+ ["Travel","53'-0&quot;"],
+ ["Floors served","*1, 2, 3, 4, 5, Roof"],
+ ["Openings","6 front &bull; rear n/a &bull; side n/a"],
+ ["Roping","2:1 single wrap — underslung (sheaves under the car)"],
+ ["Control","VVVF‑AC"],
+ ["Fire service","Phase 1 &amp; 2 (switch at *1)"]]},
+{t:"Machine Room & Drive",rows:[
+ ["Machine type","Imperial Gearless 478"],
+ ["Drive sheave Ø","15.75&quot;"],
+ ["Deflector sheave","n/a"],
+ ["Machine beams","(2) MC12 &times; 31 — A992"],
+ ["Hitch beams","Car (2) C10&times;15.3 &bull; CWT (2) C8&times;11.5"],
+ ["Controller","ESI"],
+ ["Power supply","208V &bull; 3PH &bull; 60Hz"],
+ ["Control room","ECR at roof, adjacent to hoistway &bull; min 2‑hr fire‑rated enclosure"],
+ ["Machine room size","8'-5&quot; &times; 9'-7&quot; &bull; live load 125 PSF min &bull; 3'-6&quot; min clear work area"],
+ ["Hoist beam","10,000 lb min lifting capacity per car (by GC)"]],
+ note:"Machine room 65–95°F, lighted &amp; ventilated per code; self‑closing, locking door openable from inside without key."},
+{t:"Hoistway Equipment",rows:[
+ ["Guide rails","Car 15 lb/ft steel &bull; CWT 8 lb/ft steel"],
+ ["Safety","Car HW #480 &bull; CWT n/a"],
+ ["Guide shoes","Car HW #378 &bull; CWT HW #377"],
+ ["Buffers / stroke","Car HW #400‑55 / 5&quot; &bull; CWT HW #400‑55 / 5&quot;"],
+ ["Governor / trip speed","Car HW #207 — <em>280 FPM</em> &bull; CWT n/a"],
+ ["Sheaves","Car (2) 15.75&quot; &bull; CWT 15.75&quot;"],
+ ["Overhead sheaves","n/a"],
+ ["Limit switches","By ESI (cam operated)"],
+ ["Hoist ropes","8 &times; 10 mm (8&times;19 FC, 1180/1770)"],
+ ["Governor rope","&#8540;&quot; (8&times;19 T.S.)"],
+ ["Compensation","n/a (sheave n/a &bull; Whisperflex n/a)"],
+ ["Levelling","Perforated steel tape (landing tape &amp; reader)"]]},
+{t:"Car Frame & Platform",rows:[
+ ["Crosshead","C6 &times; 8.2"],
+ ["Stiles","C8 &times; 11.5"],
+ ["Safety plank","C10 &times; 15.3"],
+ ["Sheave mounting","C10 &times; 15.3"],
+ ["Rail lock / corner post brace","n/a &bull; n/a"],
+ ["Platform thickness","6&quot; (C5 / C6 / MC6)"],
+ ["Subfloor","2 &times; &frac34;&quot; marine plywood"],
+ ["Platform isolation","Rubber iso &amp; L4&times;4&times;&frac14;"],
+ ["Finished floor","1&frac14;&quot; thick allowance"],
+ ["Toe guard","48&quot;"],
+ ["Total sling height","11'-2&frac12;&quot; (8'-1&frac12;&quot; under crosshead) &bull; frame ht 9'-6&quot;"]]},
+{t:"Entrances & Doors",rows:[
+ ["Hoistway entrance type/size","3'-6&quot; &times; 7'-0&quot; SS RH"],
+ ["Car door (front)","3'-6&quot; &times; 7'-0&quot; SS RH &bull; rear n/a"],
+ ["Door operator","GAL MOVFR II"],
+ ["Reopening device","3D infrared"],
+ ["Hangers / tracks","GAL"],
+ ["Interlocks","GAL"],
+ ["Closers","GAL"],
+ ["Sill","5&frac14;&quot; &bull; sill to wall 7'-0&frac34;&quot; &bull; sill angle by GC"],
+ ["Clear opening","3'-6&quot; &times; 7'-0&quot; front, *1–5 &amp; roof"]]},
+{t:"Car & Hall Fixtures",rows:[
+ ["C.O.P.","Main only &bull; digital PI in C.O.P."],
+ ["Car lanterns","2 per car"],
+ ["Communication","ADA audio &amp; visual &bull; comm‑loss indicator at *1"],
+ ["Lobby position indicator","Adjacent to entrance"],
+ ["Hall stations","Standard with PI at all floors (ex. lobby)"],
+ ["Hall lanterns","n/a"],
+ ["Access switches","Top &amp; bottom"],
+ ["Fire service switch","At *1"],
+ ["Car‑top exit","20&quot; &times; 20&quot; w/ contact switch (min 400 sq.in.)"]]},
+{t:"Estimated Weights",rows:[
+ ["Capacity","3,500 lb"],
+ ["Car sling","935 lb"],
+ ["Safety","400 lb"],
+ ["Guide shoes &amp; plates","175 lb"],
+ ["Platform","635 lb"],
+ ["Isolation","350 lb"],
+ ["Cab enclosure, door &amp; interior","2,200 lb"],
+ ["Door operator","220 lb"],
+ ["Balance weight","150 lb"],
+ ["Miscellaneous","500 lb"],
+ ["<b>Total car</b>","<em>5,565 lb</em>"],
+ ["Counterweight frame + fillers","900 + 6,415 lb"],
+ ["<b>Total counterweight</b> (CTBL 50%)","<em>7,315 lb</em>"],
+ ["Hoist ropes / trav. cable","215 lb / 180 lb (comp n/a)"],
+ ["<b>Total suspended load</b>","<em>16,775 lb</em>"],
+ ["Machine &amp; base, def, etc.","2,500 lb"]]},
+{t:"Hoistway & Pit Dimensions",rows:[
+ ["Clear hoistway (wall‑to‑wall)","9'-0&quot; &times; 7'-6&quot; — plumb within 1&quot;"],
+ ["Pit depth","<em>6'-2&quot;</em> (dry, reinforced) &bull; no occupied space under pit"],
+ ["Overhead","Appx. 20'-0&quot; &bull; under machine beams 12'-5&frac12;&quot; &bull; floor‑to‑governor access door 13'-5&frac12;&quot;"],
+ ["Inside cab","6'-9&quot; W &times; 4'-10&quot; D"],
+ ["Platform","7'-1&quot; &times; 5'-8&frac12;&quot;"],
+ ["Car rails","B‑B 8'-0&quot; &bull; D.B.G. 7'-5&quot;"],
+ ["CWT rails","B‑B 3'-9&#8541;&quot; &bull; D.B.G. 3'-4&frac34;&quot; &bull; overall cwt height 11'-10&quot;"],
+ ["Refuge","Top 3'-3&#8542;&quot; &bull; pit 48&quot; &times; 24&quot; space (24&quot; high)"],
+ ["Runby / buffers","6&quot; cwt runby &bull; car buffer ht 3'-1&frac12;&quot; &bull; cwt buffer ht 1'-11&quot;"],
+ ["Floor‑to‑floor","*1&rarr;2: 11'-0&quot; &bull; 2&rarr;3: 10'-4&quot; &bull; 3&rarr;4: 10'-4&quot; &bull; 4&rarr;5: 10'-4&quot; &bull; 5&rarr;Roof: 11'-0&quot;"],
+ ["Rail stack","64'-0&quot; — 4 sections @ 16' + 1 @ 5'-0&quot;, start 3&quot; above pit channel"],
+ ["Rail brackets","Max spacing 13'-0&quot; &bull; inserts 24&quot; by GC with shaft walls"],
+ ["Sump pit","24&quot; &times; 24&quot; &times; 24&quot; (by GC, coordinate w/ plumbing)"]]},
+{t:"Reactions & Rail Loads",mini:[
+ {c:"Machine beam reactions (lb)",h:["R1","R2","R3","R4","R5"],d:["20,000","6,000","11,000","12,000","n/a"]},
+ {c:"Pit buffer reactions (lb)",h:["R1","R2","R3"],d:["31,000","27,000","23,500"]},
+ {c:"Rail loads (lb)",h:["Condition","Rx","Ry","Rz"],rows:[["Running","300","600","–"],["Loading","315","600","–"],["Safety app.","500","1,000","23,500"]]}],
+ note:"Loads doubled for impact. Rail &amp; buffer forces do not occur simultaneously; weight of rail stack not included. Machine beams &amp; supports: max deflection 1/1666 of span under static load. Rail bracket supports: max deflection &frac18;&quot; (non‑seismic) / &frac14;&quot; (seismic)."},
+{t:"By Purchaser / GC",list:[
+ "Machine room / ECR: lighted, ventilated, 65–95°F; self‑closing locking door; fire extinguisher; min 2‑hr rated enclosure; AC unit.",
+ "Clear plumb hoistway (within 1&quot;), shaftway ventilation per code; dry reinforced pit with pit ladder to 48&quot; above lowest sill, sump pump/drain.",
+ "Structural support for machine beams, hitch plates &amp; rail brackets (see reactions); hoist beam 10,000 lb per car; beam pockets grouted after installation.",
+ "24&quot; &times; 24&quot; governor access door, self‑closing &amp; locking; auto‑stop activates when door opens.",
+ "Entrance walls erected after frames &amp; sills installed; sill supports &amp; recess full width, grouted after sill installation.",
+ "Lockable fused mainline disconnect, 110V AC fused disconnect for cab lights, light/switch &amp; GFCI outlets in machine room and pit; 12&quot;&times;12&quot; wiring hole fire‑proofed after install.",
+ "Heat &amp; smoke sensors in each elevator lobby wired to controller (fire service); (1) dedicated telephone line per elevator to the controller.",
+ "Hoistway assumed NOT sprinklered — GC must advise otherwise; if sprinklered, shunt‑trip main line power before water application."]}
+];
+
+/* ---------- render cards ---------- */
+var grid=document.getElementById("grid"),chipWrap=document.getElementById("chips");
+SECTIONS.forEach(function(s,i){
+ var card=document.createElement("div");card.className="card"+((s.mini||s.list)?" ":"");card.id="card"+i;
+ var h="<h2><i>"+(i+1)+"</i>"+s.t+"</h2>";
+ if(s.rows){h+="<table>"+s.rows.map(function(r){return "<tr><td class='k'>"+r[0]+"</td><td class='v'>"+r[1]+"</td></tr>";}).join("")+"</table>";}
+ if(s.mini){h+="<div class='mini'>"+s.mini.map(function(m){
+   var t="<table><caption>"+m.c+"</caption>";
+   if(m.rows){t+="<tr>"+m.h.map(function(x){return "<th>"+x+"</th>";}).join("")+"</tr>";
+     t+=m.rows.map(function(r){return "<tr>"+r.map(function(x,j){return j?"<td>"+x+"</td>":"<th>"+x+"</th>";}).join("")+"</tr>";}).join("");}
+   else{t+="<tr>"+m.h.map(function(x){return "<th>"+x+"</th>";}).join("")+"</tr><tr>"+m.d.map(function(x){return "<td>"+x+"</td>";}).join("")+"</tr>";}
+   return t+"</table>";}).join("")+"</div>";}
+ if(s.list){h+="<ul>"+s.list.map(function(x){return "<li>"+x+"</li>";}).join("")+"</ul>";}
+ if(s.note)h+="<div class='note'>"+s.note+"</div>";
+ card.innerHTML=h;grid.appendChild(card);
+ var c=document.createElement("button");c.className="fchip";c.dataset.i=i;c.textContent=s.t;chipWrap.appendChild(c);
+});
+
+/* ---------- filter chips ---------- */
+var chips=[].slice.call(document.querySelectorAll(".fchip"));
+function apply(){chips.forEach(function(c){var i=c.dataset.i;
+ if(i==="all"||i==="none")return;
+ document.getElementById("card"+i).style.display=c.classList.contains("on")?"":"none";});}
+chips.forEach(function(c){c.addEventListener("click",function(){
+ var i=c.dataset.i;
+ if(i==="all"||i==="none"){chips.forEach(function(x){if(x.dataset.i!=="all"&&x.dataset.i!=="none")x.classList.toggle("on",i==="all");});}
+ else c.classList.toggle("on");
+ apply();});});
+apply();  /* start collapsed — "None" selected by default */
+
+/* ============================================================
+   HOISTWAY ELEVATION — animated (2:1 s.w., Imperial 478)
+   ============================================================ */
+var NS="http://www.w3.org/2000/svg",scene=document.getElementById("scene");
+function el(t,at){var e=document.createElementNS(NS,t);for(var k in at)e.setAttribute(k,at[k]);return e;}
+function txt(at,s){var e=el("text",at);e.textContent=s;return e;}
+var ORANGE="#FD630D",NAVY2="#175054",NAVYD="#0d3538",STEEL="#6e675a",STEELD="#46413a",ROPE="#c25400";
+var FT=12;                                   // px per foot
+var F1Y=1180;                                // y of *1st floor landing
+var FLOORS=[["*1ST",0],["2ND",11],["3RD",21.333],["4TH",31.667],["5TH",42],["ROOF",53]];
+var F2F=["11'-0\"","10'-4\"","10'-4\"","10'-4\"","11'-0\""];
+var TRAVEL=53*FT, PITD=6.167*FT;
+var SHL=330,SHR=830;                         // shaft walls
+var CARX=470,CARW=190,CARH=130;              // car
+var CWTX=688,CWTW=64,CWTH=118;               // counterweight (traveling sheave on top)
+var MCX=676,MCY=346,MR=30;                   // machine drive sheave (Ø15.75" — schematic)
+function yOf(ft){return F1Y-ft*FT;}
+/* backdrop */
+scene.appendChild(el("rect",{x:0,y:0,width:1180,height:1330,fill:"#e9e4d8"}));
+scene.appendChild(el("rect",{x:SHL-14,y:246,width:SHR-SHL+28,height:14,fill:"#aaa18d"}));
+scene.appendChild(el("rect",{x:SHL,y:260,width:SHR-SHL,height:F1Y+PITD-260,fill:"#f4efe3"}));
+[SHL,SHR].forEach(function(x){scene.appendChild(el("rect",{x:x-14,y:260,width:14,height:F1Y+PITD-260+22,fill:"#aaa18d"}));
+ for(var y=270;y<F1Y+PITD;y+=26)scene.appendChild(el("line",{x1:x-14,y1:y,x2:x,y2:y+10,stroke:"#8d8471","stroke-width":2}));});
+/* pit */
+scene.appendChild(el("rect",{x:SHL-14,y:F1Y+PITD,width:SHR-SHL+28,height:22,fill:"#aaa18d"}));
+scene.appendChild(el("rect",{x:SHL,y:F1Y,width:SHR-SHL,height:PITD,fill:"#d9d1bf"}));
+scene.appendChild(txt({x:(SHL+SHR)/2,y:F1Y+PITD-12,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":15,"font-weight":700,fill:"#8a8271"},'PIT 6\'-2"'));
+/* buffers */
+[[CARX+CARW/2,26],[CWTX+CWTW/2,23]].forEach(function(b){
+ scene.appendChild(el("rect",{x:b[0]-9,y:F1Y+PITD-b[1]-8,width:18,height:b[1],fill:STEEL,stroke:STEELD,"stroke-width":2}));
+ scene.appendChild(el("rect",{x:b[0]-16,y:F1Y+PITD-10,width:32,height:8,rx:2,fill:"#4c463c"}));});
+/* floors & labels */
+FLOORS.forEach(function(f,i){var y=yOf(f[1]);
+ scene.appendChild(el("rect",{x:SHL-84,y:y,width:70,height:8,fill:"#aaa18d"}));
+ scene.appendChild(txt({x:SHL-98,y:y+6,"text-anchor":"end","font-family":"system-ui,Arial","font-size":16,"font-weight":800,fill:"#4a463c"},f[0]));
+ scene.appendChild(el("line",{x1:SHL,y1:y,x2:SHR,y2:y,stroke:"#b3aa94","stroke-width":2,"stroke-dasharray":"7 9"}));
+ if(i<FLOORS.length-1){var ym=(y+yOf(FLOORS[i+1][1]))/2;
+  scene.appendChild(txt({x:SHR+26,y:ym+5,"font-family":"system-ui,Arial","font-size":14,"font-weight":700,fill:"#6b6455"},F2F[i]));}
+});
+/* travel bracket */
+scene.appendChild(el("line",{x1:SHR+108,y1:yOf(0),x2:SHR+108,y2:yOf(53),stroke:ORANGE,"stroke-width":3}));
+[yOf(0),yOf(53)].forEach(function(y){scene.appendChild(el("line",{x1:SHR+100,y1:y,x2:SHR+116,y2:y,stroke:ORANGE,"stroke-width":3}));});
+scene.appendChild(txt({x:SHR+130,y:yOf(26.5),"font-family":"system-ui,Arial","font-size":17,"font-weight":800,fill:ORANGE,transform:"rotate(90 "+(SHR+130)+" "+yOf(26.5)+")","text-anchor":"middle"},'TOTAL TRAVEL 53\'-0"'));
+/* ECR / machine space at roof */
+scene.appendChild(el("rect",{x:SHL,y:262,width:SHR-SHL,height:yOf(53)-262,fill:"#cdc5af",opacity:.55}));
+scene.appendChild(txt({x:(SHL+SHR)/2,y:236,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":13.5,"font-weight":800,fill:"#6b6455"},'ECR AT ROOF — 2-HR RATED • OVERHEAD APPX. 20\'-0" • HOIST BEAM 10K (BY GC)'));
+/* machine beams — (2) MC12×31 A992, underside 12'-5½" above roof landing */
+scene.appendChild(el("rect",{x:SHL+8,y:MCY+MR+4,width:SHR-SHL-16,height:14,fill:"#847c6b"}));
+scene.appendChild(el("rect",{x:SHL+8,y:MCY+MR+4,width:SHR-SHL-16,height:4,fill:"#6e675a"}));
+/* machine 478 */
+var mg=el("g",{});
+mg.appendChild(el("rect",{x:MCX-64,y:MCY-58,width:128,height:52,rx:10,fill:NAVY2,stroke:NAVYD,"stroke-width":3}));
+mg.appendChild(el("rect",{x:MCX+22,y:MCY-72,width:34,height:16,rx:4,fill:"#847c6b",stroke:STEELD,"stroke-width":2}));
+mg.appendChild(el("rect",{x:MCX-58,y:MCY-20,width:52,height:13,rx:3,fill:ORANGE}));
+mg.appendChild(txt({x:MCX-32,y:MCY-9.5,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":9.5,"font-weight":900,fill:"#fff"},"IMP 478"));
+scene.appendChild(mg);
+var disc=el("g",{});
+disc.appendChild(el("circle",{cx:MCX,cy:MCY,r:MR,fill:"#5d564a",stroke:"#3a352c","stroke-width":3}));
+for(var k=0;k<6;k++){var a=k*Math.PI/3;disc.appendChild(el("line",{x1:MCX+Math.cos(a)*(MR-6),y1:MCY+Math.sin(a)*(MR-6),x2:MCX+Math.cos(a)*MR*.28,y2:MCY+Math.sin(a)*MR*.28,stroke:"#3a352c","stroke-width":5,"stroke-linecap":"round"}));}
+disc.appendChild(el("circle",{cx:MCX,cy:MCY,r:MR*.24,fill:"#7f7767"}));
+disc.appendChild(el("circle",{cx:MCX,cy:MCY-(MR-4),r:2.6,fill:"#FF8a2b"}));
+scene.appendChild(disc);
+/* ===== 2:1 UNDERSLUNG roping =====
+   dead end (car side)  -> shackled to (2) C10x15.3 car hitch beams   = 1/2 car load to building
+   dead end (cwt side)  -> shackled to (2) C8x11.5 cwt hitch beams    = 1/2 cwt load to building
+   machine drive sheave -> carries 50% of the suspended load           */
+var SHR_R=16, CSHL=CARX+30, CSHR=CARX+CARW-30;   // under-car sheaves (2) Ø15.75"
+var CWTSR=14, CWTCX=CWTX+CWTW/2;                 // cwt traveling sheave Ø15.75"
+var DE1=CSHL-SHR_R, DE2X=CWTCX+CWTSR;            // stationary dead-end x positions
+var DEADY=400;                                   // hitch level (under machine beams)
+var red1=el("line",{x1:DE1,y1:DEADY,x2:DE1,y2:DEADY,stroke:"#b3261e","stroke-width":5,"stroke-linecap":"round"});
+var red2=el("line",{x1:DE2X,y1:DEADY,x2:DE2X,y2:DEADY,stroke:"#b3261e","stroke-width":5,"stroke-linecap":"round"});
+var rope=el("path",{d:"",fill:"none",stroke:ROPE,"stroke-width":5,"stroke-linecap":"round","stroke-linejoin":"round"});
+scene.appendChild(red1);scene.appendChild(red2);scene.appendChild(rope);
+/* rails */
+[CARX-14,CARX+CARW+14].forEach(function(x){scene.appendChild(el("rect",{x:x-3,y:yOf(53)-CARH-20,width:6,height:F1Y+PITD-(yOf(53)-CARH-20)-14,fill:"#7b7466"}));});
+/* car */
+var carTop0=F1Y-CARH;
+var carG=el("g",{});
+carG.appendChild(el("rect",{x:CARX,y:carTop0-12,width:CARW,height:12,rx:2,fill:STEEL,stroke:STEELD,"stroke-width":2}));
+carG.appendChild(el("rect",{x:CARX+6,y:carTop0,width:CARW-12,height:CARH,rx:7,fill:NAVY2,stroke:NAVYD,"stroke-width":2.5}));
+carG.appendChild(el("rect",{x:CARX+CARW/2-32,y:carTop0+12,width:64,height:14,rx:3,fill:ORANGE}));
+carG.appendChild(txt({x:CARX+CARW/2,y:carTop0+23,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":9.5,"font-weight":900,fill:"#fff","letter-spacing":"1.5"},"LIFTREX"));
+[[CARX+22,CARX+CARW/2-4],[CARX+CARW/2+4,CARX+CARW-22]].forEach(function(d){
+ carG.appendChild(el("rect",{x:d[0],y:carTop0+36,width:d[1]-d[0],height:CARH-52,rx:3,fill:"#2b6f74",stroke:"#175054","stroke-width":2}));});
+/* underslung sheaves — (2) Ø15.75" on C10x15.3 sheave mounting below the plank */
+[CSHL,CSHR].forEach(function(sx){
+ carG.appendChild(el("rect",{x:sx-5,y:F1Y-6,width:10,height:13,fill:"#4c463c",stroke:"#2e2a23","stroke-width":1.5}));
+ carG.appendChild(el("circle",{cx:sx,cy:F1Y+18,r:SHR_R,fill:"#E06A17",stroke:"#7a3608","stroke-width":3}));
+ carG.appendChild(el("circle",{cx:sx,cy:F1Y+18,r:5,fill:"#f2e6cf",stroke:"#7a3608","stroke-width":1.5}));
+});
+scene.appendChild(carG);
+/* cwt */
+var cwtTop0=yOf(53)+40;
+var cwtG=el("g",{});
+cwtG.appendChild(el("rect",{x:CWTX,y:cwtTop0,width:CWTW,height:CWTH,rx:3,fill:STEEL,stroke:STEELD,"stroke-width":2}));
+for(var i2=0;i2<5;i2++)cwtG.appendChild(el("rect",{x:CWTX+7,y:cwtTop0+9+i2*21,width:CWTW-14,height:16,rx:2,fill:(i2%2?"#9a917e":"#8a8270")}));
+cwtG.appendChild(txt({x:CWTX+CWTW/2,y:cwtTop0+CWTH+20,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":11,"font-weight":700,fill:"#6b6455"},"CWT 7315 LB"));
+/* cwt traveling sheave — Ø15.75" */
+cwtG.appendChild(el("rect",{x:CWTCX-5,y:cwtTop0-8,width:10,height:10,fill:"#4c463c",stroke:"#2e2a23","stroke-width":1.5}));
+cwtG.appendChild(el("circle",{cx:CWTCX,cy:cwtTop0-18,r:CWTSR,fill:"#E06A17",stroke:"#7a3608","stroke-width":3}));
+cwtG.appendChild(el("circle",{cx:CWTCX,cy:cwtTop0-18,r:4.5,fill:"#f2e6cf",stroke:"#7a3608","stroke-width":1.5}));
+scene.appendChild(cwtG);
+/* dead-end shackles on hitch beams + load-split tags */
+[DE1,DE2X].forEach(function(sx){
+ scene.appendChild(el("rect",{x:sx-9,y:388,width:18,height:7,rx:2,fill:"#4c463c",stroke:"#2e2a23","stroke-width":1}));
+ scene.appendChild(el("path",{d:"M "+(sx-5)+" 398 A 6.5 6.5 0 1 0 "+(sx+5)+" 398",fill:"none",stroke:"#4c463c","stroke-width":3.4}));
+ scene.appendChild(el("line",{x1:sx-5,y1:398,x2:sx+5,y2:398,stroke:"#2e2a23","stroke-width":3,"stroke-linecap":"round"}));
+});
+scene.appendChild(txt({x:DE1,y:372,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":11,"font-weight":800,fill:"#a8241c"},"DEAD END — ½ CAR LOAD"));
+scene.appendChild(txt({x:DE1,y:358,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":10,"font-weight":700,fill:"#4a463c"},"TO BLDG — (2) C10×15.3 HITCH BMS"));
+scene.appendChild(txt({x:DE2X+24,y:372,"text-anchor":"start","font-family":"system-ui,Arial","font-size":11,"font-weight":800,fill:"#a8241c",transform:"rotate(90 "+(DE2X+24)+" 372)"},"DEAD END — ½ CWT LOAD — (2) C8×11.5"));
+/* gauge */
+var gg=el("g",{});
+gg.appendChild(el("rect",{x:44,y:330,width:236,height:118,rx:10,fill:"#fbfaf4",stroke:ORANGE,"stroke-width":2,opacity:.97}));
+var gA=txt({x:162,y:360,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":16,"font-weight":800,fill:"#0e7377"},"Car at *1ST — 0.0 ft");
+var gB=txt({x:162,y:385,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":14,"font-weight":700,fill:"#0e7377"},"Rope fed (2:1) 0.0 ft");
+var gC=txt({x:162,y:409,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":13,"font-weight":700,fill:"#4a463c"},"Speed 200 FPM • trip 280 FPM");
+var gD=txt({x:162,y:432,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":12,"font-weight":800,fill:"#0e7377"},"UNDERSLUNG — machine carries 50%");
+gg.appendChild(gA);gg.appendChild(gB);gg.appendChild(gC);gg.appendChild(gD);scene.appendChild(gg);
+/* render */
+var s=0;
+var cwtTravelMax=(F1Y-CWTH-46)-cwtTop0; /* keep cwt inside shaft (schematic) */
+function render(){
+ var off=-TRAVEL*s, woff=cwtTravelMax*s;
+ carG.setAttribute("transform","translate(0,"+off.toFixed(1)+")");
+ cwtG.setAttribute("transform","translate(0,"+woff.toFixed(1)+")");
+ var shY=F1Y+18+off, cwY=cwtTop0-18+woff;
+ red1.setAttribute("y2",shY.toFixed(1));
+ red2.setAttribute("y2",cwY.toFixed(1));
+ rope.setAttribute("d",
+  "M "+DE1+" "+shY.toFixed(1)+
+  " A "+SHR_R+" "+SHR_R+" 0 0 0 "+CSHL+" "+(shY+SHR_R).toFixed(1)+
+  " L "+CSHR+" "+(shY+SHR_R).toFixed(1)+
+  " A "+SHR_R+" "+SHR_R+" 0 0 0 "+(CSHR+SHR_R)+" "+shY.toFixed(1)+
+  " L "+(MCX-MR)+" "+MCY+
+  " A "+MR+" "+MR+" 0 0 1 "+(MCX+MR)+" "+MCY+
+  " L "+(MCX+MR)+" "+cwY.toFixed(1)+
+  " A "+CWTSR+" "+CWTSR+" 0 0 0 "+DE2X+" "+cwY.toFixed(1));
+ var fed=2*53*s, turns=(2*TRAVEL*s)/(2*Math.PI*MR);
+ disc.setAttribute("transform","rotate("+(turns*360).toFixed(1)+" "+MCX+" "+MCY+")");
+ var ft=53*s, fl="*1ST";
+ for(var i=FLOORS.length-1;i>=0;i--){if(ft>=FLOORS[i][1]-0.15){fl=FLOORS[i][0];break;}}
+ gA.textContent="Car at "+fl+" — "+ft.toFixed(1)+" ft";
+ gB.textContent="Rope fed (2:1) "+fed.toFixed(1)+" ft";
+}
+render();
+
+/* ============================================================
+   DRAWING SHEET ILLUSTRATIONS — VT-001 … VT-005 (schematic)
+   ============================================================ */
+var WALL="#aaa18d",INNER="#f6f2e7",LINE="#8a8271",CREAM="#4a463c",AMB="#0e7377";
+function G(id,vb){var s=document.getElementById(id);s.setAttribute("viewBox",vb);s.setAttribute("role","img");return s;}
+function E(s,t,at){var e=el(t,at);s.appendChild(e);return e;}
+function T(s,at,v){var e=txt(at,v);s.appendChild(e);return e;}
+function lab(s,x,y,v,o){o=o||{};var at={x:x,y:y,"text-anchor":o.a||"start","font-family":"system-ui,Arial","font-size":o.s||11,"font-weight":o.w||700,fill:o.f||CREAM};
+ if(o.r)at.transform="rotate("+o.r+" "+x+" "+y+")";T(s,at,v);}
+function dimH(s,x1,x2,y,v){E(s,"line",{x1:x1,y1:y,x2:x2,y2:y,stroke:LINE,"stroke-width":1.4});
+ [x1,x2].forEach(function(x){E(s,"line",{x1:x,y1:y-5,x2:x,y2:y+5,stroke:LINE,"stroke-width":1.4});});
+ lab(s,(x1+x2)/2,y-7,v,{a:"middle",s:12.5,w:800,f:AMB});}
+function dimV(s,x,y1,y2,v){E(s,"line",{x1:x,y1:y1,x2:x,y2:y2,stroke:LINE,"stroke-width":1.4});
+ [y1,y2].forEach(function(y){E(s,"line",{x1:x-5,y1:y,x2:x+5,y2:y,stroke:LINE,"stroke-width":1.4});});
+ lab(s,x-8,(y1+y2)/2,v,{a:"middle",s:12.5,w:800,f:AMB,r:-90});}
+/* shared hoistway plan shell : inner 9'-0" x 7'-6", front at bottom */
+var PX=150,PY=64,IW=396,ID=330,WT=16;
+function shaftShell(s,noDoor){
+ E(s,"rect",{x:PX-WT,y:PY-WT,width:IW+2*WT,height:ID+2*WT,fill:WALL});
+ E(s,"rect",{x:PX,y:PY,width:IW,height:ID,fill:INNER});
+ if(!noDoor){
+  E(s,"rect",{x:PX+IW/2-77,y:PY+ID,width:154,height:WT,fill:INNER});
+  E(s,"rect",{x:PX+IW/2-77,y:PY+ID+WT-4,width:154,height:4,fill:ORANGE});
+  lab(s,PX+IW/2,PY+ID+WT+16,'CLEAR OPENING 3\'-6" × 7\'-0" — FRONT (*1–5, ROOF)',{a:"middle",f:AMB,s:11.5,w:800});
+ } else lab(s,PX+IW/2,PY+ID+WT+16,'FRONT',{a:"middle",f:AMB,s:11.5,w:800});
+ dimH(s,PX,PX+IW,PY-WT-12,'9\'-0"');
+ dimV(s,PX-WT-14,PY,PY+ID,'7\'-6"');
+}
+function carRails(s){
+ [[PX,1],[PX+IW,-1]].forEach(function(r){
+  E(s,"path",{d:"M "+r[0]+" "+(PY+ID/2-14)+" l "+(9*r[1])+" 6 v 16 l "+(-9*r[1])+" 6 z",fill:"#7f7767"});});
+ lab(s,PX+IW/2,PY+ID/2+38,'15 LB/FT CAR RAILS — D.B.G. 7\'-5" • B-B 8\'-0"',{a:"middle",s:10.5,f:LINE});
+}
+function cwtBlock(s){
+ var cx=PX+147;
+ E(s,"rect",{x:cx-85,y:PY+8,width:170,height:34,fill:"#6e675a",stroke:"#46413a","stroke-width":2});
+ for(var i=0;i<4;i++)E(s,"rect",{x:cx-77+i*40,y:PY+13,width:33,height:24,fill:(i%2?"#9a917e":"#8a8270")});
+ [cx-83,cx+83].forEach(function(t){E(s,"rect",{x:t-3,y:PY+1,width:6,height:9,fill:"#7f7767"});});
+ lab(s,cx,PY+58,'CWT — RAIL B-B 3\'-9⅝" • D.B.G. 3\'-4¾" • 8 LB/FT RAILS',{a:"middle",s:10.5,f:LINE});
+}
+function sideNotes(s,items){var y=PY+16;items.forEach(function(v){
+ lab(s,PX+IW+WT+14,y,"• "+v,{s:10.5,f:CREAM});y+=22;});}
+
+/* ---- VT-001 : title sheet ---- */
+(function(){var s=G("vt1","0 0 740 560");
+ E(s,"rect",{x:14,y:14,width:712,height:532,fill:"none",stroke:LINE,"stroke-width":2});
+ E(s,"rect",{x:22,y:22,width:696,height:516,fill:"none",stroke:"#b3aa94","stroke-width":1.2});
+ lab(s,44,84,"LIFTREX",{s:34,w:900,f:"#E4581D"});
+ lab(s,44,106,"PHONE: 877-543-8739",{s:12,f:LINE});
+ E(s,"rect",{x:626,y:44,width:84,height:56,rx:8,fill:"#fff",stroke:LINE,"stroke-width":1.5});
+ lab(s,668,78,"REVEMP",{a:"middle",s:12,w:800,f:"#4a463c"});
+ lab(s,668,124,"41 NORTH ST",{a:"middle",s:10,f:LINE});
+ lab(s,370,190,"CAR PE-1",{a:"middle",s:40,w:900,f:"#23241f"});
+ lab(s,370,224,"PASSENGER • CLASS A • 3,500 LB • 200 FPM",{a:"middle",s:16,w:800,f:AMB});
+ lab(s,370,250,'53\'-0" TRAVEL • *1–5 & ROOF • 2:1 S.W. UNDERSLUNG',{a:"middle",s:14,w:700});
+ lab(s,370,274,"IMPERIAL GEARLESS 478 • ESI VVVF-AC • 208V 3PH 60HZ • FIRE SERVICE PH. 1 & 2",{a:"middle",s:13,w:700,f:LINE});
+ lab(s,370,318,"ALL WORK TO COMPLY WITH ASME A17.1-2013 AS MODIFIED BY CH. K1 OF APPENDIX K",{a:"middle",s:11.5,f:CREAM});
+ lab(s,370,336,"& CH. 30 OF THE 2022 NYC BUILDING CODE — TESTS WITNESSED PER NOTICE 5/28/2025",{a:"middle",s:11.5,f:CREAM});
+ [["0","CONSTRUCTION RELEASE","5/6/26"],["1","LADDER LOCATION / MACHINE BEAM SUPPORT","5/14/26"],["2","CHANGED ELEVATIONS","5/20/26"]].forEach(function(r,i){
+  var y=380+i*22;
+  lab(s,190,y,r[0],{s:11.5,w:800,f:AMB});lab(s,220,y,r[1],{s:11.5});lab(s,560,y,r[2],{s:11.5,f:LINE});});
+ E(s,"line",{x1:30,y1:462,x2:710,y2:462,stroke:LINE,"stroke-width":1.5});
+ lab(s,44,492,"PROJECT: 41 NORTH ST, BRONX NY 10486",{s:13,w:800});
+ lab(s,44,514,"JOB 00-0000 • SCALE N.A.",{s:11.5,f:LINE});
+ lab(s,470,492,"DRAWING TITLE: GENERAL DATA",{s:13,w:800});
+ lab(s,470,514,"VT-001 • SHEET 1",{s:12,w:800,f:AMB});
+ lab(s,620,300,"PRELIMINARY",{a:"middle",s:20,w:900,f:"#c02b23",r:-24});
+})();
+
+/* ---- VT-002 : controller room plan (at roof) ---- */
+(function(){var s=G("vt2","0 0 740 560");
+ var ox=180,oy=70,w=337,h=383,t=14;
+ E(s,"rect",{x:ox-t,y:oy-t,width:w+2*t,height:h+2*t,fill:WALL});
+ E(s,"rect",{x:ox,y:oy,width:w,height:h,fill:INNER});
+ E(s,"rect",{x:ox+w,y:oy+34,width:t,height:120,fill:INNER});
+ E(s,"line",{x1:ox+w,y1:oy+154,x2:ox+w-116,y2:oy+124,stroke:CREAM,"stroke-width":3});
+ E(s,"path",{d:"M "+(ox+w)+" "+(oy+38)+" A 118 118 0 0 1 "+(ox+w-116)+" "+(oy+124),fill:"none",stroke:LINE,"stroke-width":1.2,"stroke-dasharray":"4 5"});
+ lab(s,ox+w+22,oy+66,'CLEAR ACCESS 3\'-0" × 7\'-0"',{s:10.5,f:AMB,w:800});
+ lab(s,ox+w+22,oy+82,"SELF-CLOSING & LOCKING (GC)",{s:10,f:LINE});
+ E(s,"rect",{x:ox+8,y:oy+130,width:28,height:130,fill:NAVY2,stroke:NAVYD,"stroke-width":2});
+ lab(s,ox+22,oy+195,"CONTROLLER (ESI)",{a:"middle",s:10.5,w:800,f:"#fff",r:-90});
+ E(s,"rect",{x:ox+40,y:oy+135,width:140,height:120,fill:"none",stroke:AMB,"stroke-width":1.4,"stroke-dasharray":"6 5"});
+ for(var i=0;i<7;i++)E(s,"line",{x1:ox+44+i*20,y1:oy+251,x2:ox+64+i*20,y2:oy+139,stroke:"#b3aa94","stroke-width":1.2});
+ lab(s,ox+110,oy+205,'3\'-6" MIN.',{a:"middle",s:11,w:800,f:AMB});
+ lab(s,ox+110,oy+220,"CLEAR WORK AREA",{a:"middle",s:9.5,f:LINE});
+ lab(s,ox+168,oy+108,"LIVE LOAD: 125 PSF MIN.",{a:"middle",s:10.5,f:CREAM});
+ var dev=[["LIGHT SW. (GC)",214],["DUPLEX RECEPT. 15A/120V (GC)",248],["FUSED MAINLINE DISCONNECT (GC)",282],["110V AC FUSED DISC. — CAB LTS (GC)",316],["FIRE EXT. (GC)",350]];
+ dev.forEach(function(d){E(s,"rect",{x:ox+w-13,y:oy+d[1]-8,width:12,height:12,fill:ORANGE});
+  lab(s,ox+w+22,oy+d[1]+2,d[0],{s:10,f:CREAM});});
+ E(s,"rect",{x:ox+120,y:oy+h-12,width:96,height:22,fill:"#847c6b",stroke:"#46413a","stroke-width":2});
+ lab(s,ox+168,oy+h+28,"AC UNIT (GC)",{a:"middle",s:10,f:LINE});
+ E(s,"rect",{x:ox+8,y:oy+h-46,width:18,height:18,fill:"none",stroke:AMB,"stroke-width":1.4,"stroke-dasharray":"4 4"});
+ lab(s,ox-24,oy+h+28,'12"×12" WIRING HOLE — FIREPROOF AFTER INSTALL (GC)',{s:9.5,f:LINE});
+ lab(s,ox+168,oy-38,"GOVERNOR ACCESS LADDER BY GC",{a:"middle",s:10.5,f:LINE});
+ dimH(s,ox,ox+w,oy-t-12,'8\'-5"');
+ dimV(s,ox-t-14,oy,oy+h,'9\'-7"');
+ lab(s,370,532,"ECR AT ROOF, ADJACENT TO HOISTWAY • MIN 2-HR FIRE-RATED ENCLOSURE • 65–95°F • LIGHT, SWITCH & GFCI OUTLETS (GC)",{a:"middle",s:10.5,f:AMB});
+})();
+
+/* ---- VT-003 : overhead plan ---- */
+(function(){var s=G("vt3","0 0 740 640");
+ shaftShell(s,true);
+ var b1=PY+70,b2=PY+298;
+ [b1,b2].forEach(function(by){
+  E(s,"rect",{x:PX-WT,y:by,width:IW+2*WT,height:18,fill:"#847c6b"});
+  E(s,"rect",{x:PX-WT,y:by,width:IW+2*WT,height:5,fill:"#6e675a"});});
+ lab(s,PX+IW/2,b2+34,"(2) MC12×31 MACHINE BEAMS — A992",{a:"middle",s:11,w:800,f:CREAM});
+ dimV(s,PX+IW-24,b1+9,b2+9,'5\'-2¼"');
+ [[b1,'1\'-7"×7"'],[b2,'2\'-2"×7"']].forEach(function(p){
+  E(s,"rect",{x:PX-WT-4,y:p[0]-5,width:WT+10,height:28,fill:"none",stroke:AMB,"stroke-width":1.3,"stroke-dasharray":"4 4"});
+  lab(s,PX+8,p[0]-10,p[1]+' POCKET — 1" BRG PL. TYP.',{s:9.5,f:LINE});});
+ [["R3",PX-WT+8,b1+9],["R4",PX+IW+WT-8,b1+9],["R1",PX-WT+8,b2+9],["R2",PX+IW+WT-8,b2+9]].forEach(function(r){
+  E(s,"circle",{cx:r[1],cy:r[2],r:13,fill:"#fbfaf4",stroke:ORANGE,"stroke-width":2});
+  lab(s,r[1],r[2]+4,r[0],{a:"middle",s:10.5,w:800,f:"#23241f"});});
+ E(s,"line",{x1:PX,y1:PY+180,x2:PX+IW,y2:PY+180,stroke:CREAM,"stroke-width":2.5,"stroke-dasharray":"10 7"});
+ lab(s,PX+IW/2,PY+172,'HOIST BM. 3\'-9¾" (ABOVE) — 10K MIN, BY GC',{a:"middle",s:10.5,f:CREAM});
+ E(s,"rect",{x:PX+58,y:b1+26,width:96,height:64,rx:8,fill:NAVY2,stroke:NAVYD,"stroke-width":2.5});
+ E(s,"circle",{cx:PX+106,cy:b1+58,r:22,fill:"#5d564a",stroke:"#3a352c","stroke-width":2.5});
+ E(s,"circle",{cx:PX+106,cy:b1+58,r:8,fill:"#7f7767"});
+ lab(s,PX+106,b1+110,"IMPERIAL 478 GEARLESS",{a:"middle",s:10,w:800,f:AMB});
+ E(s,"circle",{cx:PX+250,cy:PY+40,r:12,fill:"#5d564a",stroke:ORANGE,"stroke-width":2});
+ lab(s,PX+250,PY+22,"HW#207 GOVERNOR",{a:"middle",s:9.5,f:LINE});
+ E(s,"rect",{x:PX+205,y:b1+4,width:56,height:10,fill:"#7f7767"});
+ lab(s,PX+233,b1-8,"CWT HITCH PL. — (2) C8×11.5",{a:"middle",s:9.5,f:LINE});
+ E(s,"rect",{x:PX+290,y:b2+4,width:56,height:10,fill:"#7f7767"});
+ lab(s,PX+318,b2-8,"CAR HITCH PL. — (2) C10×15.3",{a:"middle",s:9.5,f:LINE});
+ E(s,"rect",{x:PX+IW-64,y:PY+206,width:37,height:37,fill:"none",stroke:CREAM,"stroke-width":1.4,"stroke-dasharray":"5 5"});
+ lab(s,PX+IW-46,PY+258,'CAR TOP EXIT 20"×20"',{a:"middle",s:9.5,f:LINE});
+ E(s,"rect",{x:PX-WT,y:PY+120,width:WT,height:44,fill:INNER});
+ lab(s,PX+8,PY+134,'24"×24" GOV ACCESS DOOR — SELF-CLOSING',{s:9.5,f:LINE});
+ lab(s,PX+8,PY+148,"& LOCKING (GC) • AUTO STOP WHEN DOOR OPENS",{s:9,f:LINE});
+ lab(s,PX,PY+ID+70,"MACHINE BEAM REACTIONS (LB):",{s:12,w:800,f:AMB});
+ lab(s,PX,PY+ID+92,"R1 = 20,000   R2 = 6,000   R3 = 11,000   R4 = 12,000   (R5 n/a)",{s:12.5,w:800,f:"#23241f"});
+ lab(s,PX,PY+ID+112,"LOADS DOUBLED FOR IMPACT • MAX DEFLECTION 1/1666 OF SPAN • POCKETS GROUTED BY GC",{s:10,f:LINE});
+})();
+
+/* ---- VT-004 : typical shaft plan ---- */
+(function(){var s=G("vt4","0 0 740 640");
+ shaftShell(s);carRails(s);cwtBlock(s);
+ var pw=312,pd=250,px=PX+(IW-pw)/2,py=PY+ID-13-pd;
+ E(s,"rect",{x:px,y:py,width:pw,height:pd,fill:"none",stroke:"#7f7767","stroke-width":2});
+ var cw=297,cd=213,cx2=PX+(IW-cw)/2,cy2=py+16;
+ E(s,"rect",{x:cx2,y:cy2,width:cw,height:cd,rx:4,fill:"#ddece6",stroke:"#175054","stroke-width":2.5});
+ E(s,"rect",{x:PX+IW/2-77,y:cy2+cd-6,width:154,height:6,fill:ORANGE});
+ lab(s,PX+IW/2,cy2+92,'INSIDE CAB 6\'-9" × 4\'-10"',{a:"middle",s:12.5,w:800,f:"#23241f"});
+ lab(s,PX+IW/2,cy2+112,'PLATFORM 7\'-1" × 5\'-8½"',{a:"middle",s:11,f:AMB});
+ lab(s,PX+IW/2,cy2+132,'SILL 5¼" • SILL TO WALL 7\'-0¾" • 3" DAYLT.',{a:"middle",s:10,f:LINE});
+ E(s,"g",{transform:"rotate(-30 "+(PX+IW/2)+" "+(cy2+42)+")"}).appendChild(el("rect",{x:PX+IW/2-77,y:cy2+22,width:154,height:40,fill:"none",stroke:CREAM,"stroke-width":1.4,"stroke-dasharray":"6 6"}));
+ lab(s,PX+IW/2,cy2+36,'STRETCHER 24"×84"',{a:"middle",s:9.5,f:LINE,r:-30});
+ E(s,"rect",{x:cx2+cw-26,y:cy2+cd-52,width:14,height:30,rx:2,fill:"#2b6f74",stroke:"#175054","stroke-width":1.5});
+ lab(s,cx2+cw-19,cy2+cd-58,"C.O.P.",{a:"middle",s:9,f:LINE});
+ sideNotes(s,["LANDING TAPE & READER TYP.",'RAIL INSERTS 24" — BY GC','WITH SHAFT WALLS (SEE NOTES)',"HALL BUTTON W/ PI — ALL FLOORS","WIRING RISER TYP.","TRAV. CABLES TYP.",'CAR TOP EXIT 20"×20"',"SILL ANGLE BY GC TYP.","SHAFT LIMITS TYP."]);
+ lab(s,PX,PY+ID+70,"RAIL LOADS (LB) — RUNNING: Rx 300 / Ry 600 • LOADING: Rx 315 / Ry 600",{s:11.5,w:800,f:"#23241f"});
+ lab(s,PX,PY+ID+92,"SAFETY APP.: Rx 500 / Ry 1,000 / Rz 23,500",{s:11.5,w:800,f:"#23241f"});
+ lab(s,PX,PY+ID+112,"BRACKET SUPPORTS: MAX DEFL. ⅛\" NON-SEISMIC / ¼\" SEISMIC • Rz = MAX VERTICAL FORCE AT SAFETY APPLICATION",{s:9.5,f:LINE});
+})();
+
+/* ---- VT-005 : pit plan ---- */
+(function(){var s=G("vt5","0 0 740 640");
+ shaftShell(s);carRails(s);
+ E(s,"rect",{x:PX+4,y:PY+4,width:88,height:88,fill:"none",stroke:CREAM,"stroke-width":1.6});
+ for(var i=1;i<8;i++)E(s,"line",{x1:PX+4,y1:PY+4+i*11,x2:PX+4+i*11,y2:PY+4,stroke:"#b3aa94","stroke-width":1.2});
+ lab(s,PX+48,PY+106,'SUMP PIT 24"×24"×24" (GC)',{a:"middle",s:9.5,f:LINE});
+ E(s,"circle",{cx:PX+126,cy:PY+34,r:15,fill:"#5d564a",stroke:ORANGE,"stroke-width":2});
+ lab(s,PX+126,PY+66,"HW#194 GOV. TENSION SHEAVE",{a:"middle",s:9.5,f:LINE});
+ E(s,"rect",{x:PX+90,y:PY+130,width:176,height:88,fill:"none",stroke:AMB,"stroke-width":1.5,"stroke-dasharray":"7 6"});
+ lab(s,PX+178,PY+170,'48" × 24" REFUGE SPACE',{a:"middle",s:10.5,w:800,f:AMB});
+ lab(s,PX+178,PY+186,'(24" HIGH — NO OCCUPIED SPACE UNDER PIT)',{a:"middle",s:9,f:LINE});
+ E(s,"rect",{x:PX+IW/2-14,y:PY+ID-104,width:28,height:28,fill:"#6e675a",stroke:"#46413a","stroke-width":2});
+ E(s,"circle",{cx:PX+IW/2,cy:PY+ID-90,r:8,fill:ORANGE});
+ lab(s,PX+IW/2+22,PY+ID-86,"R1 — CAR BUFFER HW#400-55 / 5\" STK",{s:9.5,f:CREAM});
+ lab(s,PX+IW/2+22,PY+ID-72,"HW#480 SAFETY TYP. • BUF. HT. 3'-1½\"",{s:9,f:LINE});
+ [[PX+92],[PX+202]].forEach(function(b){
+  E(s,"rect",{x:b[0]-12,y:PY+18,width:24,height:24,fill:"#6e675a",stroke:"#46413a","stroke-width":2});
+  E(s,"circle",{cx:b[0],cy:PY+30,r:7,fill:ORANGE});});
+ lab(s,PX+147,PY+62,"R2 — CWT BUFFERS HW#400-55 / 5\" STK • BUF. HT. 1'-11\" • 6\" RUNBY",{a:"middle",s:9,f:LINE});
+ [[PX+14,PY+ID/2],[PX+IW-14,PY+ID/2]].forEach(function(p){
+  E(s,"circle",{cx:p[0],cy:p[1]+44,r:11,fill:"#fbfaf4",stroke:ORANGE,"stroke-width":2});
+  lab(s,p[0],p[1]+48,"R3",{a:"middle",s:9.5,w:800,f:"#23241f"});});
+ var lx=PX+IW-44;
+ [0,1].forEach(function(i){E(s,"line",{x1:lx+i*16,y1:PY+ID-64,x2:lx+i*16,y2:PY+ID,stroke:CREAM,"stroke-width":2.5});});
+ for(var r2=0;r2<4;r2++)E(s,"line",{x1:lx,y1:PY+ID-56+r2*15,x2:lx+16,y2:PY+ID-56+r2*15,stroke:CREAM,"stroke-width":2});
+ lab(s,lx+8,PY+ID-72,"PIT LADDER (GC)",{a:"middle",s:9,f:LINE});
+ sideNotes(s,["PIT STOP SW. & LIGHT SW.","GFCI OUTLET & LIGHT (GC)","PIT DEPTH 6'-2\" — DRY,","REINFORCED (GC)","LADDER TO 48\" ABOVE","LOWEST LANDING SILL"]);
+ lab(s,PX,PY+ID+70,"PIT BUFFER REACTIONS (LB):  R1 = 31,000   R2 = 27,000   R3 = 23,500",{s:12,w:800,f:"#23241f"});
+ lab(s,PX,PY+ID+92,"LOADS DOUBLED FOR IMPACT • RAIL & BUFFER FORCES DO NOT OCCUR SIMULTANEOUSLY",{s:10,f:LINE});
+ lab(s,PX,PY+ID+112,"WEIGHT OF RAIL STACK NOT INCLUDED • SEE PIT PLAN FOR LOCATIONS",{s:10,f:LINE});
+})();
+
+/* controls */
+var playing=false,last=0,dir=1,speed=1;
+var playBtn=document.getElementById("play"),pLabel=document.getElementById("pLabel"),pIcon=document.getElementById("pIcon");
+var spd=document.getElementById("spd"),spdv=document.getElementById("spdv");
+spd.addEventListener("input",function(){speed=+spd.value;spdv.textContent=speed.toFixed(2)+"×";});
+function step(t){if(!playing)return;
+ if(!last)last=t;var dt=(t-last)/1000;last=t;
+ s+=dir*dt*0.06*speed;
+ if(s>=1){s=1;dir=-1;} if(s<=0){s=0;dir=1;}
+ render();requestAnimationFrame(step);}
+playBtn.addEventListener("click",function(){playing=!playing;last=0;
+ pLabel.textContent=playing?"Pause":"Play";
+ pIcon.innerHTML=playing?'<rect x="2" y="1" width="4" height="12" fill="#fff"/><rect x="8" y="1" width="4" height="12" fill="#fff"/>':'<path d="M2 1l11 6L2 13z" fill="#fff"/>';
+ if(playing)requestAnimationFrame(step);});
+document.getElementById("reset").addEventListener("click",function(){s=0;dir=1;render();});
+/* autoplay on load — user can pause */
+playing=true;
+pLabel.textContent="Pause";
+pIcon.innerHTML='<rect x="2" y="1" width="4" height="12" fill="#fff"/><rect x="8" y="1" width="4" height="12" fill="#fff"/>';
+requestAnimationFrame(step);
+})();
+</script>
+</body></html>
