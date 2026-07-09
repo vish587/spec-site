@@ -1,18 +1,878 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Liftrex — Elevator Specifications</title>
-  <style>
-    body { font-family: system-ui, sans-serif; display: grid; place-items: center; min-height: 100vh; margin: 0; background: #f5f6f8; }
-    .card { background: #fff; padding: 2.5rem 3rem; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,.08); text-align: center; }
-  </style>
+<meta charset="utf-8">
+<title>LIFTREX — Procurement / Vendor Leveling</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+:root{
+  /* Enterprise palette */
+  --bg-page:#F4F5F7;
+  --bg-card:#FFFFFF;
+  --bg-soft:#F8F9FB;
+  --bg-softer:#FCFCFD;
+  --text:#0F1419;
+  --text-2:#5C6470;
+  --text-3:#8B95A3;
+  --border:rgba(15,20,25,0.08);
+  --border-2:rgba(15,20,25,0.16);
+  --primary:#1B5BB8;
+  --primary-dark:#0D3F8A;
+  --primary-light:#E8F0FB;
+  --brand:#FD630D;        /* LIFTREX orange */
+  --brand-dark:#D44E04;
+  --rad:6px;
+  --rad-lg:10px;
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --shadow-sm:0 1px 2px rgba(15,20,25,0.05);
+  --shadow-md:0 2px 8px rgba(15,20,25,0.08)
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg-page);font-family:var(--font);font-size:12px;color:var(--text);-webkit-font-smoothing:antialiased}
+
+/* ============ TOP APPLICATION HEADER ============ */
+.app-header{
+  background:#fff;border-bottom:1px solid var(--border);
+  padding:0 18px;height:48px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:30
+}
+.app-brand{display:flex;align-items:center;gap:24px}
+.app-logo{font-size:14px;font-weight:700;letter-spacing:1px;color:var(--brand)}
+.app-crumbs{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-2)}
+.app-crumbs a{color:var(--text-2);text-decoration:none}
+.app-crumbs .ti{font-size:13px;color:var(--text-3)}
+.app-crumbs .current{color:var(--text);font-weight:500}
+.app-actions{display:flex;align-items:center;gap:6px}
+.app-actions .iconbtn-app{width:30px;height:30px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;border:none;background:transparent;color:var(--text-2);cursor:pointer}
+.app-actions .iconbtn-app:hover{background:var(--bg-soft);color:var(--text)}
+.app-actions .iconbtn-app .ti{font-size:16px}
+.app-user{display:flex;align-items:center;gap:8px;padding:4px 8px;border-radius:6px;cursor:pointer}
+.app-user:hover{background:var(--bg-soft)}
+.app-user-avatar{width:26px;height:26px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600}
+.app-user-name{font-size:12px;font-weight:500}
+
+/* ============ MAIN LAYOUT ============ */
+.main{padding:14px 18px;max-width:1600px;margin:0 auto}
+
+.pageheader{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:14px;gap:14px;flex-wrap:wrap}
+.pageheader h1{font-size:20px;font-weight:600;margin:0;letter-spacing:-0.2px}
+.pageheader .ph-sub{font-size:12px;color:var(--text-2);margin-top:2px}
+.pageheader .ph-actions{display:flex;gap:6px}
+.btn{display:inline-flex;align-items:center;gap:5px;height:30px;padding:0 12px;border-radius:6px;border:1px solid var(--border-2);background:#fff;font-size:11.5px;font-family:var(--font);font-weight:500;cursor:pointer;color:var(--text)}
+.btn:hover{background:var(--bg-soft)}
+.btn .ti{font-size:14px}
+.btn-primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+.btn-primary:hover{background:var(--primary-dark);color:#fff}
+.btn-brand{background:var(--brand);color:#fff;border-color:var(--brand)}
+.btn-brand:hover{background:var(--brand-dark);color:#fff}
+
+/* ============ TABS ============ */
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:12px;font-size:12.5px}
+.tab{padding:8px 14px;color:var(--text-2);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;display:inline-flex;align-items:center;gap:5px}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--text);font-weight:600;border-bottom-color:var(--brand)}
+.tab .ti{font-size:14px}
+
+/* ============ FILTER BAR ============ */
+.filterbar{
+  background:#fff;border:1px solid var(--border);border-radius:var(--rad-lg);
+  padding:8px 10px;margin-bottom:12px;
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+  box-shadow:var(--shadow-sm);
+  position:sticky;top:60px;z-index:20
+}
+.filterbar select,.filterbar input{
+  height:28px;padding:0 9px;font-size:11.5px;
+  border:1px solid var(--border-2);border-radius:var(--rad);
+  background:#fff;font-family:var(--font);outline:none;cursor:pointer
+}
+.filterbar select:focus,.filterbar input:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-light)}
+.filterbar input{width:160px;cursor:text}
+.filterbar .sep{width:1px;height:20px;background:var(--border);margin:0 3px}
+.filterbar .switch{display:inline-flex;background:var(--bg-soft);border:1px solid var(--border);border-radius:var(--rad);padding:2px}
+.filterbar .switch button{padding:4px 10px;border:none;background:transparent;font-size:11px;cursor:pointer;border-radius:4px;color:var(--text-2);font-family:var(--font);font-weight:500;display:inline-flex;align-items:center;gap:4px}
+.filterbar .switch button.active{background:#fff;color:var(--text);box-shadow:0 1px 2px rgba(0,0,0,0.06)}
+.filterbar .switch button .ti{font-size:13px}
+.filterbar .clear-btn{height:28px;padding:0 10px;font-size:11px;border:1px solid var(--border-2);background:#fff;border-radius:var(--rad);cursor:pointer;color:var(--text-2);font-family:var(--font)}
+.filterbar .clear-btn:hover{color:var(--text);background:var(--bg-soft)}
+.filterbar .filter-count{margin-left:auto;font-size:11px;color:var(--text-2)}
+.filterbar .filter-count strong{color:var(--text);font-weight:600}
+
+/* ============ APPROVAL CALLOUT ============ */
+.approval-callout{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:10px 14px;background:linear-gradient(to right, #FFF8E8, #FFFCF3);
+  border:1px solid #F0CC7A;border-left:3px solid var(--brand);
+  border-radius:var(--rad-lg);margin-bottom:12px;font-size:12.5px;color:#6B4A0A
+}
+.approval-callout-icon{width:28px;height:28px;border-radius:50%;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.approval-callout-text{flex:1}
+.approval-callout-text strong{color:#3D2A06;font-weight:600}
+.approval-callout-actions{display:flex;gap:6px;flex-shrink:0}
+
+/* ============ PROJECT BLOCK ============ */
+.project-block{
+  background:#fff;border:1px solid var(--border);
+  border-radius:var(--rad-lg);margin-bottom:14px;
+  overflow:hidden;box-shadow:var(--shadow-sm)
+}
+
+/* Project header strip across the top of each block — slim, just address + stats */
+.project-banner{
+  display:flex;align-items:center;justify-content:space-between;gap:18px;
+  padding:9px 16px;background:linear-gradient(to right, #FAFBFD, #fff);
+  border-bottom:1px solid var(--border);
+  border-left:4px solid var(--primary);flex-wrap:wrap
+}
+.project-banner-left{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.project-jobid-chip{
+  font-size:11px;font-weight:700;letter-spacing:0.8px;
+  background:var(--primary);color:#fff;padding:3px 8px;border-radius:4px;
+  font-family:"SF Mono",Menlo,monospace
+}
+.project-name-inline{font-size:13.5px;font-weight:600}
+.project-meta-inline{font-size:11.5px;color:var(--text-2)}
+.project-banner-right{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.proj-stat{display:flex;flex-direction:column;align-items:flex-end;line-height:1.1}
+.proj-stat-num{font-size:15px;font-weight:600;letter-spacing:-0.2px}
+.proj-stat-num.warn{color:#9F5B05}
+.proj-stat-num.good{color:#1A6B30}
+.proj-stat-label{font-size:9.5px;color:var(--text-2);text-transform:uppercase;letter-spacing:0.4px;margin-top:1px;font-weight:500}
+
+/* Address column on the LEFT — address as top line, big and bold */
+.col-address{
+  width:175px;background:#FAFBFD;
+  border-right:1px solid var(--border);
+  vertical-align:top;padding:11px 12px !important
+}
+.addr-top{font-size:13.5px;font-weight:700;letter-spacing:-0.2px;line-height:1.2;margin-bottom:3px;color:var(--text)}
+.addr-city{font-size:11px;color:var(--text-2);line-height:1.25;margin-bottom:6px}
+.addr-divider{height:1px;background:var(--border);margin:6px 0}
+.addr-jobid-small{font-size:10px;font-weight:700;letter-spacing:0.6px;background:var(--primary);color:#fff;padding:2px 6px;border-radius:3px;display:inline-block;font-family:"SF Mono",Menlo,monospace;margin-bottom:4px}
+.addr-pname{font-size:11px;font-weight:600;line-height:1.25;margin-bottom:2px;color:var(--text)}
+.addr-client{font-size:10.5px;color:var(--text-2);line-height:1.25}
+.addr-detail{font-size:10px;color:var(--text-3);line-height:1.3;margin-top:3px}
+
+/* ============ LEVELING TABLE ============ */
+.lvl-table{width:100%;border-collapse:separate;border-spacing:0;table-layout:fixed;font-size:11.5px}
+.lvl-table thead th{
+  background:var(--bg-soft);font-size:9.5px;font-weight:600;color:var(--text-2);
+  text-transform:uppercase;letter-spacing:0.5px;
+  text-align:left;padding:8px 10px;
+  border-bottom:1px solid var(--border);white-space:nowrap
+}
+.lvl-table thead th.center{text-align:center}
+.lvl-table thead th.right{text-align:right}
+.lvl-table td{padding:7px 10px;vertical-align:middle;line-height:1.3}
+.lvl-table tbody tr{transition:background 0.1s}
+
+/* Material column — merged */
+.col-material{
+  width:200px;background:#FAFBFD;
+  border-right:1px solid var(--border);
+  vertical-align:top;padding:11px 12px !important
+}
+.matname{font-size:13px;font-weight:600;line-height:1.25;display:flex;align-items:center;gap:6px;margin-bottom:5px}
+.size-dot{display:inline-block;width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.size-dot.big{background:#6B5DD8}
+.size-dot.small{background:#1A6B30}
+.matmeta{font-size:11px;color:var(--text-2);line-height:1.4}
+.matmeta-row{display:flex;align-items:center;gap:5px;margin-bottom:3px}
+.matmeta-row .ti{font-size:12px;color:var(--text-3)}
+.urgency-tag{padding:1px 6px;border-radius:3px;font-size:10px;font-weight:600;white-space:nowrap;display:inline-block;letter-spacing:0.2px}
+.urgency-tag.crit{background:#FCEBEB;color:#9B1E1E;border:1px solid #F0B5B5}
+.urgency-tag.med{background:#FAEEDA;color:#6F4708;border:1px solid #E8C994}
+.urgency-tag.ok{background:#EAF3DE;color:#1E5A0F;border:1px solid #B5D196}
+.matspread{font-size:10.5px;color:var(--text-3);margin-top:5px;padding-top:5px;border-top:1px solid var(--border)}
+
+.pill{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:10px;font-weight:600;white-space:nowrap;letter-spacing:0.2px}
+.pill .ti{font-size:11px}
+.pill-pending{background:#FAEEDA;color:#6F4708}
+.pill-approved{background:#E3F0E0;color:#1A6B30}
+.pill-waiting{background:#FCE9E9;color:#9B1E1E}
+.pill-neutral{background:var(--bg-soft);color:var(--text-2);border:1px solid var(--border)}
+
+/* Vendor rows */
+.vrow.best td.vendor-cells{background:#F4FAE8}
+.vrow.mid td.vendor-cells{background:#FEF7E7}
+.vrow.worst td.vendor-cells{background:#FDF0F0}
+.vrow.empty td.vendor-cells{background:var(--bg-soft);color:var(--text-3)}
+.vrow.selected td.vendor-cells.first-cell{box-shadow:inset 4px 0 0 var(--primary)}
+.vrow:hover td.vendor-cells{filter:brightness(0.985)}
+
+.vrow td{border-bottom:1px solid var(--border)}
+.vrow.material-end td{border-bottom:2px solid var(--border)}
+.vrow.material-end:last-child td{border-bottom:none}
+
+.col-rank{width:32px;text-align:center;font-weight:700;font-size:13px}
+.col-rank.best{color:#1A6B30}
+.col-rank.mid{color:#6F4708}
+.col-rank.worst{color:#9B1E1E}
+
+.col-vname{width:auto;min-width:160px}
+.vname{font-weight:600;font-size:12.5px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-0.1px}
+.vname.best{color:#1A6B30}
+.vname.mid{color:#6F4708}
+.vname.worst{color:#9B1E1E}
+.vsub{font-size:10px;color:var(--text-2);line-height:1.2;margin-top:2px;font-weight:500}
+
+.col-quality{width:80px;text-align:center}
+.vqual-score{font-weight:700;font-size:14px;line-height:1;letter-spacing:-0.3px}
+.vqual-score.high{color:#1A6B30}
+.vqual-score.med{color:#9F5B05}
+.vqual-score.low{color:#9B1E1E}
+.vqual-events{font-size:9.5px;color:var(--text-2);white-space:nowrap;line-height:1.2;margin-top:2px;font-weight:500}
+.vqual-events .plus{color:#1A6B30}
+.vqual-events .minus{color:#9B1E1E}
+
+.col-lead{width:75px;text-align:center}
+.vlead{font-size:12.5px;font-weight:600;line-height:1.1;color:var(--text-2)}
+.vlead.fastest{color:#1A6B30}
+.vlead-tag{font-size:9px;color:var(--text-3);line-height:1.2;margin-top:2px;font-weight:500;text-transform:uppercase;letter-spacing:0.3px}
+
+.col-ranks{width:75px;text-align:center}
+.dual-rank{display:flex;flex-direction:column;gap:2px;align-items:center}
+.rank-line{display:flex;align-items:center;gap:4px;font-size:9.5px}
+.rank-label{color:var(--text-2);font-weight:600;letter-spacing:0.2px}
+.rank-badge{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;font-size:9.5px;font-weight:700;color:#fff}
+.rank-badge.r1{background:#1A6B30}
+.rank-badge.r2{background:#9F5B05}
+.rank-badge.r3{background:#9B1E1E}
+
+.col-price{width:120px;text-align:right;padding-right:14px !important}
+.vprice{font-size:14px;font-weight:700;line-height:1;letter-spacing:-0.3px;font-variant-numeric:tabular-nums}
+.vprice.best{color:#1A6B30}
+.vprice.mid{color:#6F4708}
+.vprice.worst{color:#9B1E1E}
+.vprice-sub{font-size:10px;color:var(--text-2);line-height:1.2;margin-top:2px;font-variant-numeric:tabular-nums}
+
+.col-actions{width:130px;text-align:right;padding-right:12px !important}
+.vacts{display:inline-flex;gap:4px;align-items:center}
+.iconbtn{width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--border-2);background:#fff;border-radius:5px;cursor:pointer;color:var(--text-2);flex-shrink:0;transition:all 0.1s}
+.iconbtn:hover{background:var(--bg-soft);color:var(--text);border-color:var(--text-3)}
+.iconbtn .ti{font-size:13px}
+.iconbtn.attached{color:#0F6B4D;border-color:#5DCAA5;background:#F0F9F4}
+.confirm-btn{height:26px;padding:0 9px;display:inline-flex;align-items:center;gap:4px;border:1px solid #E8B341;background:#FFF8E8;color:#6F4708;border-radius:5px;cursor:pointer;font-family:var(--font);font-size:10.5px;font-weight:600;white-space:nowrap;transition:all 0.1s}
+.confirm-btn:hover{background:#FAEEDA}
+.confirm-btn.po-open{background:#1A6B30;color:#fff;border-color:#1A6B30}
+.confirm-btn.po-open:hover{background:#155221}
+
+.legend{display:flex;gap:14px;align-items:center;font-size:11px;color:var(--text-2);margin-top:10px;flex-wrap:wrap;padding:0 4px}
+.legend-dot{display:inline-block;width:10px;height:10px;border-radius:3px;vertical-align:-1px;margin-right:5px}
+
+#empty-state{display:none;background:#fff;border:1px dashed var(--border-2);border-radius:var(--rad-lg);padding:40px 20px;text-align:center;color:var(--text-2)}
+
+/* COMPARE VIEW */
+.compare-pickbar{background:#fff;border:1px solid var(--border);border-radius:var(--rad-lg);padding:12px 16px;margin-bottom:12px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;box-shadow:var(--shadow-sm)}
+.compare-pickbar label{font-size:11px;color:var(--text-2);display:flex;align-items:center;gap:6px;font-weight:500}
+.compare-pickbar select{height:30px;padding:0 10px;font-size:12px;border:1px solid var(--border-2);border-radius:var(--rad);background:#fff;font-family:var(--font);min-width:240px;cursor:pointer}
+.compare-vs{font-weight:700;color:var(--text-3);font-size:13px;letter-spacing:1px}
+.compare-modeswitch{margin-left:auto;display:inline-flex;background:var(--bg-soft);border:1px solid var(--border);border-radius:var(--rad);padding:2px}
+.compare-modeswitch button{padding:5px 12px;border:none;background:transparent;font-size:11px;cursor:pointer;border-radius:4px;color:var(--text-2);font-family:var(--font);font-weight:500}
+.compare-modeswitch button.active{background:#fff;color:var(--text);box-shadow:0 1px 2px rgba(0,0,0,0.06)}
+
+.compare-summary{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.compare-summary-card{background:#fff;border:1px solid var(--border);border-radius:var(--rad-lg);padding:12px 14px;box-shadow:var(--shadow-sm)}
+.compare-summary-card h4{margin:0 0 6px;font-size:10px;color:var(--text-2);text-transform:uppercase;letter-spacing:0.4px;font-weight:600}
+.compare-summary-row{display:flex;justify-content:space-between;font-size:11.5px;padding:3px 0}
+.delta-over{color:#9B1E1E}.delta-under{color:#1A6B30}
+.compare-row{background:#fff;border:1px solid var(--border);border-radius:var(--rad-lg);padding:10px 14px;margin-bottom:7px;box-shadow:var(--shadow-sm)}
+.compare-row.no-diff{opacity:0.7}
+.compare-head{display:grid;grid-template-columns:1fr 1fr 220px;gap:12px;align-items:center;padding-bottom:7px;border-bottom:1px solid var(--border);margin-bottom:7px}
+.compare-itemname{font-weight:600;font-size:13px;display:flex;align-items:center;gap:6px}
+.compare-delta-big{text-align:right;font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
+.compare-vendors{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.compare-side{background:var(--bg-soft);border-radius:var(--rad);padding:7px 10px}
+.compare-side-head{font-size:11px;color:var(--text-2);font-weight:600;margin-bottom:5px;display:flex;justify-content:space-between;align-items:center}
+.compare-side-pid{background:var(--primary);color:#fff;padding:2px 6px;border-radius:3px;font-size:10px;font-weight:700;letter-spacing:0.5px}
+.compare-vendor-line{display:grid;grid-template-columns:1fr 75px 60px;gap:6px;padding:3px 0;font-size:11px;border-bottom:1px solid var(--border)}
+.compare-vendor-line:last-child{border-bottom:none}
+.compare-vendor-line.winner{font-weight:600}
+.compare-v-price{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.compare-v-delta{text-align:right;font-size:10px;font-variant-numeric:tabular-nums}
+.compare-v-delta.over{color:#9B1E1E}.compare-v-delta.under{color:#1A6B30}.compare-v-delta.zero{color:var(--text-3)}
+.compare-section-head{font-size:10px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:0.5px;margin:16px 0 7px;padding:0 4px}
+
+.view{display:none}
+.view.active{display:block}
+
+/* Responsive */
+@media (max-width: 1280px){
+  .col-material{width:170px}
+}
+@media (max-width: 1100px){
+  .col-material{width:150px}
+  .col-quality,.col-ranks{display:none}
+  .project-banner{grid-template-columns:1fr;gap:10px}
+  .project-banner-right{justify-content:flex-start}
+  .compare-summary{grid-template-columns:1fr}
+  .compare-vendors{grid-template-columns:1fr}
+}
+@media (max-width: 760px){
+  .main{padding:10px}
+  .col-material{width:120px}
+  .col-lead{display:none}
+  .project-banner{padding:11px 14px}
+  .project-name{font-size:15px}
+  .project-addr{font-size:12.5px}
+}
+</style>
 </head>
 <body>
-  <div class="card">
-    <h1>Elevator Specifications</h1>
-    <p>PLACEHOLDER — replace this file with your own HTML file, renamed to <strong>index.html</strong>.</p>
+
+<!-- APP TOP BAR -->
+<header class="app-header">
+  <div class="app-brand">
+    <div class="app-logo">LIFTREX</div>
+    <nav class="app-crumbs">
+      <a href="#">Procurement</a>
+      <i class="ti ti-chevron-right"></i>
+      <span class="current">Vendor Leveling</span>
+    </nav>
   </div>
+  <div class="app-actions">
+    <button class="iconbtn-app" title="Notifications"><i class="ti ti-bell"></i></button>
+    <button class="iconbtn-app" title="Help"><i class="ti ti-help"></i></button>
+    <div class="app-user">
+      <div class="app-user-avatar">SK</div>
+      <span class="app-user-name">Shlome K.</span>
+      <i class="ti ti-chevron-down" style="font-size:12px;color:var(--text-3)"></i>
+    </div>
+  </div>
+</header>
+
+<div class="main">
+
+  <div class="pageheader">
+    <div>
+      <h1>Vendor Leveling</h1>
+      <div class="ph-sub">Compare quotes side-by-side · Manager confirms · Purchaser opens PO</div>
+    </div>
+    <div class="ph-actions">
+      <button class="btn"><i class="ti ti-download"></i>Export</button>
+      <button class="btn"><i class="ti ti-mail"></i>Send RFQs</button>
+      <button class="btn btn-brand"><i class="ti ti-plus"></i>New Item</button>
+    </div>
+  </div>
+
+  <!-- SUB TABS -->
+  <div class="tabs">
+    <div class="tab"><i class="ti ti-list-check"></i>Signed jobs</div>
+    <div class="tab"><i class="ti ti-shopping-cart"></i>Procurement</div>
+    <div class="tab"><i class="ti ti-file-invoice"></i>View orders</div>
+    <div class="tab active"><i class="ti ti-arrows-sort"></i>Leveling</div>
+    <div class="tab"><i class="ti ti-building"></i>Office orders</div>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filterbar">
+    <div class="switch" id="viewswitch">
+      <button class="active" data-view="all"><i class="ti ti-list"></i>All items</button>
+      <button data-view="compare"><i class="ti ti-arrows-left-right"></i>Compare projects</button>
+    </div>
+    <div class="sep"></div>
+    <div class="switch" id="matswitch">
+      <button class="active" data-mat="">All</button>
+      <button data-mat="big">Big</button>
+      <button data-mat="small">Small</button>
+    </div>
+    <div class="sep"></div>
+    <select id="f-material"><option value="">All materials</option></select>
+    <select id="f-vendor"><option value="">All vendors</option></select>
+    <select id="f-project"><option value="">All projects</option></select>
+    <select id="f-status">
+      <option value="">All statuses</option>
+      <option value="pending">Pending confirm</option>
+      <option value="po-issued">PO open</option>
+      <option value="waiting">Waiting on quotes</option>
+      <option value="ready">Ready to pick</option>
+    </select>
+    <select id="f-urgency">
+      <option value="">All urgencies</option>
+      <option value="crit">≤4 wk · urgent</option>
+      <option value="med">5-8 wk · tight</option>
+      <option value="ok">9+ wk · standard</option>
+    </select>
+    <input type="text" id="f-search" placeholder="Search…" />
+    <button class="clear-btn" onclick="clearAllFilters()"><i class="ti ti-filter-off" style="font-size:12px;vertical-align:-2px"></i> Clear</button>
+    <div class="filter-count" id="filter-count"></div>
+  </div>
+
+  <!-- MAIN VIEW -->
+  <div class="view active" id="view-all">
+
+    <div class="approval-callout">
+      <div class="approval-callout-icon"><i class="ti ti-shield-check" style="font-size:15px"></i></div>
+      <div class="approval-callout-text" id="pending-summary"></div>
+      <div class="approval-callout-actions">
+        <button class="btn">Review individually</button>
+        <button class="btn btn-primary">Confirm all → release</button>
+      </div>
+    </div>
+
+    <div id="projects-body"></div>
+
+    <div id="empty-state">
+      <i class="ti ti-filter-off" style="font-size:36px;color:var(--text-3)"></i>
+      <div style="font-size:14px;font-weight:600;color:var(--text);margin-top:10px">No items match the filters</div>
+      <button class="btn" onclick="clearAllFilters()" style="margin-top:14px"><i class="ti ti-filter-off"></i>Clear all filters</button>
+    </div>
+  </div>
+
+  <!-- COMPARE -->
+  <div class="view" id="view-compare">
+    <div class="compare-pickbar">
+      <label>Project A: <select id="compare-a"></select></label>
+      <span class="compare-vs">VS</span>
+      <label>Project B: <select id="compare-b"></select></label>
+      <div class="compare-modeswitch" id="compare-modeswitch">
+        <button class="active" data-mode="item">Match by item</button>
+        <button data-mode="vendor-item">Vendor + item</button>
+      </div>
+    </div>
+    <div id="compare-output"></div>
+  </div>
+
+  <div class="legend">
+    <span><span class="legend-dot" style="background:#97C459"></span>Cheapest</span>
+    <span><span class="legend-dot" style="background:#EF9F27"></span>Mid</span>
+    <span><span class="legend-dot" style="background:#F09595"></span>Highest</span>
+    <span><span class="legend-dot" style="background:var(--primary);border-radius:2px"></span>Selected · pending confirm</span>
+    <span><span class="legend-dot" style="background:#6B5DD8"></span>Big mat.</span>
+    <span><span class="legend-dot" style="background:#1A6B30"></span>Small mat.</span>
+    <span style="margin-left:auto;color:var(--text-3)">Manager confirms → purchaser opens the PO</span>
+  </div>
+</div>
+
+<script>
+// ============ DATA (same generators) ============
+const VENDORS={
+  'icabs':{name:'Icabs and Doors',score:92,events:{plus:3,minus:2}},
+  'fundamental':{name:'Fundamental',score:68,events:{plus:5,minus:12}},
+  'anatomyx':{name:'Anatomyx',score:98,events:{plus:1,minus:0}},
+  'ksperlen':{name:'KS Perlen Steel',score:95,events:{plus:4,minus:1}},
+  'hollister':{name:'Hollister Whitney',score:87,events:{plus:2,minus:4}},
+  'imperial':{name:'Imperial',score:91,events:{plus:3,minus:3}},
+  'gal':{name:'GAL Manufacturing',score:89,events:{plus:2,minus:3}},
+  'wittur':{name:'Wittur',score:94,events:{plus:5,minus:2}},
+  'fermator':{name:'Fermator',score:82,events:{plus:1,minus:5}},
+  'monteferro':{name:'Monteferro',score:90,events:{plus:3,minus:3}},
+  'savera':{name:'Savera',score:86,events:{plus:2,minus:5}},
+  'oleo':{name:'Oleo Buffers',score:93,events:{plus:2,minus:1}},
+  'hxbs':{name:'Hxbs Fasteners',score:85,events:{plus:1,minus:2}},
+  'gdf':{name:'Gdf',score:72,events:{plus:0,minus:3}},
+};
+const PROJECTS=[
+  {id:'LT26035',name:'Gerry St Conversion',addr:'21 Gerry St',city:'Brooklyn, NY 11206',client:'test kjns',elevators:3,started:'Mar 12, 2026'},
+  {id:'SE25006',name:'Putnam Modernization',addr:'28 Putnam Ave',city:'Brooklyn, NY 11238',client:'Watermark Capital',elevators:1,started:'Apr 02, 2026'},
+  {id:'LT26012',name:'Domino Tower',addr:'440 Kent Ave',city:'Brooklyn, NY 11249',client:'Domino Holdings',elevators:6,started:'Feb 18, 2026'},
+  {id:'LT26041',name:'Bronx Residence',addr:'852 East 176th',city:'Bronx, NY 10460',client:'Bronx Realty',elevators:2,started:'Apr 22, 2026'},
+  {id:'SE25018',name:'Valentine Walk-up',addr:'3059 Valentine Ave',city:'Bronx, NY 10458',client:'Valentine Co-op',elevators:1,started:'Mar 04, 2026'},
+  {id:'LT26050',name:'North St Industrial',addr:'41 North St',city:'Newark, NJ 07105',client:'North Industrial',elevators:4,started:'May 01, 2026'},
+];
+const MATERIALS=[
+  {key:'cab',name:'Cab',size:'big',vendors:['icabs','fundamental','anatomyx']},
+  {key:'machine',name:'Machine',size:'big',vendors:['imperial','hollister','fundamental','monteferro']},
+  {key:'rails',name:'Rails & brackets',size:'big',vendors:['ksperlen','fundamental','hollister','savera']},
+  {key:'door-op',name:'Door operator',size:'big',vendors:['gal','wittur','fermator']},
+  {key:'buffers',name:'Buffers & pit ch.',size:'big',vendors:['oleo','hollister','fundamental']},
+  {key:'inserts',name:'Inserts',size:'big',vendors:['fundamental','imperial','hxbs']},
+  {key:'steel-pkg',name:'Steel package',size:'big',vendors:['ksperlen','fundamental','monteferro']},
+  {key:'hoistway',name:'Hoistway brackets',size:'big',vendors:['fundamental','ksperlen','savera']},
+  {key:'bolts',name:'Countersink bolts 5/8x3',size:'small',vendors:['hxbs','gdf']},
+  {key:'fasteners',name:'Anchor fasteners',size:'small',vendors:['hxbs','gdf','fundamental']},
+];
+const PRICE_BASE={cab:18000,machine:5500,rails:32000,'door-op':3800,buffers:480,inserts:290,'steel-pkg':5200,hoistway:1850,bolts:24,fasteners:145};
+const LEAD_BASE={cab:7,machine:6,rails:5,'door-op':4,buffers:3,inserts:3,'steel-pkg':5,hoistway:4,bolts:1,fasteners:2};
+function mulberry32(seed){return function(){let t=seed+=0x6D2B79F5;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296}}
+const rnd=mulberry32(7);
+function buildItems(){
+  const items=[];
+  PROJECTS.forEach((proj,projIdx)=>{
+    const skip=new Set();
+    if(proj.elevators===1){skip.add('hoistway');skip.add('fasteners')}
+    if(projIdx===2)skip.add('inserts');
+    if(projIdx===5){skip.add('bolts');skip.add('inserts')}
+    MATERIALS.forEach(mat=>{
+      if(skip.has(mat.key))return;
+      const pool=[...mat.vendors];
+      let numQuotes=3;
+      if(rnd()<0.15)numQuotes=2;
+      if(mat.key==='buffers'&&proj.id==='LT26035')numQuotes=1;
+      const picked=[];
+      while(picked.length<numQuotes&&pool.length){const i=Math.floor(rnd()*pool.length);picked.push(pool.splice(i,1)[0])}
+      const projScale=0.90+(projIdx*0.05);
+      const basePrice=PRICE_BASE[mat.key]*projScale*(mat.key==='cab'?proj.elevators/3:1);
+      const quotes=picked.map(vkey=>{
+        const variance=0.85+rnd()*0.40;
+        const price=Math.round(basePrice*variance/5)*5;
+        const leadWeeks=Math.max(1,LEAD_BASE[mat.key]+Math.floor(rnd()*4-1));
+        return{vendor:vkey,price,leadWeeks}
+      });
+      quotes.sort((a,b)=>a.price-b.price);
+      const r=rnd();
+      let status='ready';
+      if(quotes.length<3)status='waiting';
+      else if(r<0.15)status='pending';
+      else if(r<0.30)status='po-issued';
+      const today=new Date('2026-06-03');
+      const weeksAway=2+Math.floor(rnd()*14);
+      const needed=new Date(today);
+      needed.setDate(needed.getDate()+weeksAway*7);
+      items.push({id:`${proj.id}-${mat.key}`,projectId:proj.id,materialKey:mat.key,materialName:mat.name,size:mat.size,quotes,status,neededDate:needed,weeksAway,selectedIdx:0});
+    });
+  });
+  return items;
+}
+const ITEMS=buildItems();
+
+const state={material:'',vendor:'',project:'',size:'',status:'',urgency:'',view:'all',search:'',compareA:'LT26035',compareB:'LT26012',compareMode:'item'};
+
+function populateDropdowns(){
+  const matSel=document.getElementById('f-material');
+  MATERIALS.forEach(m=>{const o=document.createElement('option');o.value=m.key;o.textContent=m.name;matSel.appendChild(o)});
+  const venSel=document.getElementById('f-vendor');
+  Object.entries(VENDORS).forEach(([k,v])=>{const o=document.createElement('option');o.value=k;o.textContent=v.name;venSel.appendChild(o)});
+  const projSel=document.getElementById('f-project');
+  PROJECTS.forEach(p=>{const o=document.createElement('option');o.value=p.id;o.textContent=`${p.id} · ${p.addr}`;projSel.appendChild(o)});
+  const cA=document.getElementById('compare-a'),cB=document.getElementById('compare-b');
+  PROJECTS.forEach(p=>{const oA=document.createElement('option');oA.value=p.id;oA.textContent=`${p.id} · ${p.addr}`;cA.appendChild(oA);const oB=oA.cloneNode(true);cB.appendChild(oB)});
+  cA.value=state.compareA;cB.value=state.compareB;
+}
+function fmtMoney(n){return'$'+n.toLocaleString('en-US')}
+function fmtDate(d){const m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()];return`${m} ${d.getDate()}`}
+function urgencyTier(weeks){if(weeks<=4)return'crit';if(weeks<=8)return'med';return'ok'}
+function scoreClass(s){if(s>=85)return'high';if(s>=70)return'med';return'low'}
+
+function renderVendorCells(item,idx,isFirstOfMaterial){
+  const q=item.quotes[idx];
+  const baseCellClass='vendor-cells'+(isFirstOfMaterial?' first-cell':'');
+  if(!q){
+    return`
+      <td class="col-rank ${baseCellClass}">${idx+1}</td>
+      <td class="col-vname ${baseCellClass}"><span style="font-style:italic;font-size:11px;color:var(--text-3)">— Awaiting quote —</span></td>
+      <td class="col-quality ${baseCellClass}"></td>
+      <td class="col-lead ${baseCellClass}"></td>
+      <td class="col-ranks ${baseCellClass}"></td>
+      <td class="col-price ${baseCellClass}"><span style="color:var(--text-3);font-size:11px">No price</span></td>
+      <td class="col-actions ${baseCellClass}"><div class="vacts"><button class="iconbtn" title="Send RFQ"><i class="ti ti-send"></i></button></div></td>
+    `;
+  }
+  const rank=idx===0?'best':(idx===1?'mid':'worst');
+  const vendor=VENDORS[q.vendor];
+  const minLead=Math.min(...item.quotes.filter(qq=>qq).map(qq=>qq.leadWeeks));
+  const isFastest=q.leadWeeks===minLead;
+  const isSelected=idx===item.selectedIdx&&(item.status==='pending'||item.status==='po-issued');
+  const pctOver=idx===0?'Cheapest':`+${Math.round((q.price/item.quotes[0].price-1)*100)}% vs cheapest`;
+  const leadTag=isFastest?'FASTEST':`+${Math.round((q.leadWeeks/minLead-1)*100)}% slow`;
+  const priceDelta=idx===0?'lowest':`+${fmtMoney(q.price-item.quotes[0].price)}`;
+  let action='';
+  if(item.status==='pending'&&isSelected){
+    action=`<button class="confirm-btn" title="Confirm"><i class="ti ti-shield-check"></i>Confirm</button>`;
+  } else if(item.status==='po-issued'&&isSelected){
+    const poNum=4500+(item.id.charCodeAt(item.id.length-1)*7)%200;
+    action=`<button class="confirm-btn po-open" title="View PO"><i class="ti ti-file-invoice"></i>#${poNum}</button>`;
+  } else {
+    action=`<button class="iconbtn" title="Select"><i class="ti ti-circle-check"></i></button>`;
+  }
+  return`
+    <td class="col-rank ${rank} ${baseCellClass}" data-vendor-row="${q.vendor}">${idx+1}</td>
+    <td class="col-vname ${baseCellClass}" data-vendor-row="${q.vendor}">
+      <div class="vname ${rank}">${vendor.name}</div>
+      <div class="vsub">${pctOver}</div>
+    </td>
+    <td class="col-quality ${baseCellClass}" data-vendor-row="${q.vendor}">
+      <div class="vqual-score ${scoreClass(vendor.score)}">${vendor.score}</div>
+      <div class="vqual-events"><span class="plus">+${vendor.events.plus}</span> · <span class="minus">−${vendor.events.minus}</span></div>
+    </td>
+    <td class="col-lead ${baseCellClass}" data-vendor-row="${q.vendor}">
+      <div class="vlead ${isFastest?'fastest':''}">${q.leadWeeks} wk</div>
+      <div class="vlead-tag">${leadTag}</div>
+    </td>
+    <td class="col-ranks ${baseCellClass}" data-vendor-row="${q.vendor}">
+      <div class="dual-rank">
+        <div class="rank-line"><span class="rank-label">P</span><span class="rank-badge r${idx+1}">${idx+1}</span></div>
+        <div class="rank-line"><span class="rank-label">S</span><span class="rank-badge r${idx+1}">${idx+1}</span></div>
+      </div>
+    </td>
+    <td class="col-price ${baseCellClass}" data-vendor-row="${q.vendor}">
+      <div class="vprice ${rank}">${fmtMoney(q.price)}</div>
+      <div class="vprice-sub">${priceDelta}</div>
+    </td>
+    <td class="col-actions ${baseCellClass}" data-vendor-row="${q.vendor}">
+      <div class="vacts">
+        <button class="iconbtn attached" title="Quote PDF"><i class="ti ti-paperclip"></i></button>
+        ${action}
+      </div>
+    </td>
+  `;
+}
+
+function renderProjectBlock(proj){
+  const projItems=ITEMS.filter(it=>it.projectId===proj.id);
+  if(projItems.length===0)return'';
+
+  const total=projItems.reduce((s,it)=>s+(it.quotes[it.selectedIdx]?.price||0),0);
+  const pending=projItems.filter(it=>it.status==='pending').length;
+  let leveledSum=0,highestSum=0;
+  projItems.forEach(it=>{if(it.quotes.length>=2){leveledSum+=it.quotes[0].price;highestSum+=it.quotes[it.quotes.length-1].price}});
+  const savedPct=highestSum>0?Math.round((highestSum-leveledSum)/highestSum*100):0;
+
+  let rowsHtml='';
+  const totalRows=projItems.length*3;
+  projItems.forEach((item,itemIdx)=>{
+    const tier=urgencyTier(item.weeksAway);
+    let statusHtml='';
+    if(item.status==='pending')statusHtml=`<span class="pill pill-pending"><i class="ti ti-clock"></i>Pending</span>`;
+    else if(item.status==='po-issued')statusHtml=`<span class="pill pill-approved"><i class="ti ti-file-invoice"></i>PO open</span>`;
+    else if(item.status==='waiting')statusHtml=`<span class="pill pill-waiting"><i class="ti ti-hourglass"></i>${item.quotes.length}/3</span>`;
+    else statusHtml=`<span class="pill pill-neutral">Ready</span>`;
+    const spreadPct=item.quotes.length>1?Math.round((item.quotes[item.quotes.length-1].price/item.quotes[0].price-1)*100):0;
+
+    for(let vIdx=0;vIdx<3;vIdx++){
+      const q=item.quotes[vIdx];
+      const rank=vIdx===0?'best':(vIdx===1?'mid':'worst');
+      const empty=!q;
+      const isSelected=q&&vIdx===item.selectedIdx&&(item.status==='pending'||item.status==='po-issued');
+      const isFirstOfMaterial=(vIdx===0);
+      const isLastOfMaterial=(vIdx===2);
+      const isFirstRowOfProject=(itemIdx===0&&vIdx===0);
+
+      let rowClasses=`vrow ${empty?'empty':rank}`;
+      if(isSelected)rowClasses+=' selected';
+      if(isLastOfMaterial)rowClasses+=' material-end';
+
+      rowsHtml+=`<tr class="${rowClasses}" data-project="${proj.id}" data-material="${item.materialKey}" data-size="${item.size}" data-vendors="${item.quotes.map(qq=>qq.vendor).join(',')}" data-status="${item.status}" data-urgency="${tier}" data-search="${(item.materialName+' '+item.quotes.map(qq=>VENDORS[qq.vendor].name).join(' ')+' '+proj.addr).toLowerCase()}" data-vendor="${q?q.vendor:''}">`;
+
+      // Address column — merged across ALL rows of this project
+      if(isFirstRowOfProject){
+        rowsHtml+=`<td class="col-address" rowspan="${totalRows}">
+          <div class="addr-top">${proj.addr}</div>
+          <div class="addr-city">${proj.city}</div>
+          <div class="addr-divider"></div>
+          <div class="addr-jobid-small">${proj.id}</div>
+          <div class="addr-pname">${proj.name}</div>
+          <div class="addr-client">${proj.client}</div>
+          <div class="addr-detail">${proj.elevators} elevator${proj.elevators>1?'s':''}<br>started ${proj.started}</div>
+        </td>`;
+      }
+
+      if(isFirstOfMaterial){
+        rowsHtml+=`<td class="col-material" rowspan="3">
+          <div class="matname"><span class="size-dot ${item.size}"></span>${item.materialName}</div>
+          <div class="matmeta">
+            <div class="matmeta-row"><i class="ti ti-calendar"></i> ${fmtDate(item.neededDate)}</div>
+            <div class="matmeta-row"><span class="urgency-tag ${tier}">${item.weeksAway}wk${tier==='crit'?' URGENT':(tier==='med'?' tight':' OK')}</span></div>
+            <div class="matmeta-row">${statusHtml}</div>
+          </div>
+          <div class="matspread">${item.quotes.length} quotes · ${spreadPct}% spread</div>
+        </td>`;
+      }
+      rowsHtml+=renderVendorCells(item,vIdx,isFirstOfMaterial);
+      rowsHtml+=`</tr>`;
+    }
+  });
+
+  return`
+    <div class="project-block" data-project-block="${proj.id}">
+      <div class="project-banner">
+        <div class="project-banner-left">
+          <span class="project-jobid-chip">${proj.id}</span>
+          <span class="project-name-inline">${proj.name}</span>
+          <span class="project-meta-inline">· ${proj.elevators} elevator${proj.elevators>1?'s':''} · started ${proj.started}</span>
+        </div>
+        <div class="project-banner-right">
+          <div class="proj-stat"><span class="proj-stat-num">${projItems.length}</span><span class="proj-stat-label">Items</span></div>
+          <div class="proj-stat"><span class="proj-stat-num">${fmtMoney(total)}</span><span class="proj-stat-label">Total</span></div>
+          <div class="proj-stat"><span class="proj-stat-num warn">${pending}</span><span class="proj-stat-label">Pending</span></div>
+          <div class="proj-stat"><span class="proj-stat-num good">${savedPct}%</span><span class="proj-stat-label">Saved</span></div>
+        </div>
+      </div>
+      <table class="lvl-table">
+        <thead>
+          <tr>
+            <th>Address</th>
+            <th>Material · needed · status</th>
+            <th class="center">#</th>
+            <th>Vendor</th>
+            <th class="center">Score</th>
+            <th class="center">Lead</th>
+            <th class="center">Rank P/S</th>
+            <th class="right">Price</th>
+            <th class="right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>${rowsHtml}</tbody>
+      </table>
+    </div>
+  `;
+}
+
+function renderAll(){
+  document.getElementById('projects-body').innerHTML=PROJECTS.map(renderProjectBlock).join('');
+  const pending=ITEMS.filter(it=>it.status==='pending');
+  const pendingValue=pending.reduce((s,it)=>s+(it.quotes[it.selectedIdx]?.price||0),0);
+  const pendingProjects=new Set(pending.map(it=>it.projectId)).size;
+  document.getElementById('pending-summary').innerHTML=`<strong>${pending.length} picks awaiting manager confirmation</strong> · ${fmtMoney(pendingValue)} across ${pendingProjects} projects`;
+  applyFilters();
+}
+
+function applyFilters(){
+  const rows=document.querySelectorAll('tbody tr.vrow');
+  const materialGroups={};
+  rows.forEach(row=>{
+    const key=row.dataset.project+'__'+row.dataset.material;
+    materialGroups[key]=materialGroups[key]||[];
+    materialGroups[key].push(row);
+  });
+  let visibleCount=0;
+  const projectVisible={};
+  Object.values(materialGroups).forEach(group=>{
+    const sample=group[0];
+    const m=sample.dataset.material,v=(sample.dataset.vendors||'').split(','),s=sample.dataset.size;
+    const st=sample.dataset.status,u=sample.dataset.urgency,p=sample.dataset.project;
+    let show=true;
+    if(state.material&&m!==state.material)show=false;
+    if(state.vendor&&!v.includes(state.vendor))show=false;
+    if(state.project&&p!==state.project)show=false;
+    if(state.size&&s!==state.size)show=false;
+    if(state.status&&st!==state.status)show=false;
+    if(state.urgency&&u!==state.urgency)show=false;
+    if(state.search){const hay=sample.dataset.search||'';if(!hay.includes(state.search.toLowerCase()))show=false}
+    group.forEach(row=>{
+      row.style.display=show?'':'none';
+      if(show&&state.vendor){
+        row.querySelectorAll('[data-vendor-row]').forEach(cell=>{cell.style.opacity=cell.dataset.vendorRow===state.vendor?'':'0.3'});
+      }else{
+        row.querySelectorAll('[data-vendor-row]').forEach(cell=>{cell.style.opacity=''});
+      }
+    });
+    if(show){visibleCount+=group.length;projectVisible[p]=true}
+  });
+  document.querySelectorAll('[data-project-block]').forEach(block=>{block.style.display=projectVisible[block.dataset.projectBlock]?'':'none'});
+  document.getElementById('empty-state').style.display=visibleCount===0?'':'none';
+  document.getElementById('filter-count').innerHTML=visibleCount>0?`<strong>${Math.round(visibleCount/3)}</strong> items visible`:'';
+}
+
+function clearAllFilters(){
+  state.material=state.vendor=state.project=state.size=state.status=state.urgency=state.search='';
+  ['f-material','f-vendor','f-project','f-status','f-urgency','f-search'].forEach(id=>document.getElementById(id).value='');
+  document.querySelectorAll('#matswitch button').forEach((b,i)=>b.classList.toggle('active',i===0));
+  applyFilters();
+}
+
+function renderCompare(){
+  const projA=PROJECTS.find(p=>p.id===state.compareA);
+  const projB=PROJECTS.find(p=>p.id===state.compareB);
+  const itemsA=ITEMS.filter(it=>it.projectId===state.compareA);
+  const itemsB=ITEMS.filter(it=>it.projectId===state.compareB);
+  const matMap={};
+  itemsA.forEach(it=>{matMap[it.materialKey]=matMap[it.materialKey]||{};matMap[it.materialKey].A=it});
+  itemsB.forEach(it=>{matMap[it.materialKey]=matMap[it.materialKey]||{};matMap[it.materialKey].B=it});
+  const rows=[];
+  Object.entries(matMap).forEach(([matKey,pair])=>{
+    if(!pair.A||!pair.B)return;
+    const mat=MATERIALS.find(m=>m.key===matKey);
+    const cheapestA=pair.A.quotes[0],cheapestB=pair.B.quotes[0];
+    const itemDelta=(cheapestA?.price||0)-(cheapestB?.price||0);
+    const allVendors=new Set([...pair.A.quotes.map(q=>q.vendor),...pair.B.quotes.map(q=>q.vendor)]);
+    const vendorRows=[];
+    allVendors.forEach(vkey=>{
+      const qA=pair.A.quotes.find(q=>q.vendor===vkey);
+      const qB=pair.B.quotes.find(q=>q.vendor===vkey);
+      vendorRows.push({vendorName:VENDORS[vkey].name,priceA:qA?.price||null,priceB:qB?.price||null,delta:(qA&&qB)?(qA.price-qB.price):null,winnerA:pair.A.quotes[0]?.vendor===vkey,winnerB:pair.B.quotes[0]?.vendor===vkey});
+    });
+    rows.push({materialName:mat.name,size:mat.size,itemA:pair.A,itemB:pair.B,itemDelta,vendorRows});
+  });
+  const filtered=state.compareMode==='vendor-item'?rows.filter(r=>r.vendorRows.some(v=>v.priceA!=null&&v.priceB!=null)):rows;
+  const withDiff=filtered.filter(r=>Math.abs(r.itemDelta)>0);
+  const noDiff=filtered.filter(r=>r.itemDelta===0);
+  withDiff.sort((a,b)=>Math.abs(b.itemDelta)-Math.abs(a.itemDelta));
+  const totalA=filtered.reduce((s,r)=>s+(r.itemA.quotes[0]?.price||0),0);
+  const totalB=filtered.reduce((s,r)=>s+(r.itemB.quotes[0]?.price||0),0);
+  const totalDelta=totalA-totalB;
+  let html=`<div class="compare-summary">
+    <div class="compare-summary-card"><h4>${projA.id} — ${projA.addr}</h4>
+      <div class="compare-summary-row"><span>Matched items</span><span>${filtered.length}</span></div>
+      <div class="compare-summary-row"><span>Total</span><span style="font-weight:600">${fmtMoney(totalA)}</span></div>
+      <div class="compare-summary-row"><span>Elevators · client</span><span>${projA.elevators} · ${projA.client}</span></div>
+    </div>
+    <div class="compare-summary-card"><h4>${projB.id} — ${projB.addr}</h4>
+      <div class="compare-summary-row"><span>Matched items</span><span>${filtered.length}</span></div>
+      <div class="compare-summary-row"><span>Total</span><span style="font-weight:600">${fmtMoney(totalB)}</span></div>
+      <div class="compare-summary-row"><span>Elevators · client</span><span>${projB.elevators} · ${projB.client}</span></div>
+    </div>
+  </div>
+  <div style="background:${totalDelta>0?'#FCEBEB':(totalDelta<0?'#EAF3DE':'var(--bg-soft)')};border:1px solid ${totalDelta>0?'#F0B5B5':(totalDelta<0?'#B5D196':'var(--border)')};border-radius:var(--rad-lg);padding:11px 14px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;font-size:13px">
+    <div><strong>${projA.id}</strong> total is <strong style="color:${totalDelta>0?'#9B1E1E':(totalDelta<0?'#1A6B30':'var(--text)')}">${totalDelta===0?'identical':(totalDelta>0?fmtMoney(totalDelta)+' more':fmtMoney(Math.abs(totalDelta))+' less')}</strong> than ${projB.id}</div>
+    <div style="font-size:11px;color:var(--text-2)">${filtered.length} matched items</div>
+  </div>`;
+  if(withDiff.length>0){html+=`<div class="compare-section-head">— Items with price differences (largest first)</div>`;html+=withDiff.map(r=>renderCompareRow(r,projA,projB)).join('')}
+  if(noDiff.length>0){html+=`<div class="compare-section-head">Identical prices · ${noDiff.length}</div>`;html+=noDiff.map(r=>renderCompareRow(r,projA,projB,true)).join('')}
+  document.getElementById('compare-output').innerHTML=html;
+}
+function renderCompareRow(r,projA,projB,noDiff=false){
+  const deltaClass=r.itemDelta>0?'delta-over':(r.itemDelta<0?'delta-under':'');
+  const deltaIcon=r.itemDelta>0?'ti-arrow-up-right':(r.itemDelta<0?'ti-arrow-down-right':'ti-equal');
+  const deltaText=r.itemDelta===0?'Same':(r.itemDelta>0?`+${fmtMoney(r.itemDelta)} at ${projA.id}`:`${fmtMoney(r.itemDelta)} at ${projA.id}`);
+  const pctText=r.itemDelta!==0&&r.itemB.quotes[0]?.price?` (${r.itemDelta>0?'+':''}${Math.round(r.itemDelta/r.itemB.quotes[0].price*100)}%)`:'';
+  return`<div class="compare-row ${noDiff?'no-diff':''}">
+    <div class="compare-head">
+      <div class="compare-itemname"><span class="size-dot ${r.size}"></span>${r.materialName}</div><div></div>
+      <div class="compare-delta-big ${deltaClass}"><i class="ti ${deltaIcon}"></i> ${deltaText}${pctText}</div>
+    </div>
+    <div class="compare-vendors">
+      <div class="compare-side"><div class="compare-side-head"><span><span class="compare-side-pid">${projA.id}</span> ${projA.addr}</span><span style="color:var(--text-3)">${fmtMoney(r.itemA.quotes[0]?.price||0)}</span></div>${renderVendorBreakdown(r.vendorRows,'A')}</div>
+      <div class="compare-side"><div class="compare-side-head"><span><span class="compare-side-pid">${projB.id}</span> ${projB.addr}</span><span style="color:var(--text-3)">${fmtMoney(r.itemB.quotes[0]?.price||0)}</span></div>${renderVendorBreakdown(r.vendorRows,'B')}</div>
+    </div></div>`;
+}
+function renderVendorBreakdown(vendorRows,side){
+  return vendorRows.map(vr=>{
+    const price=side==='A'?vr.priceA:vr.priceB;
+    const isWinner=side==='A'?vr.winnerA:vr.winnerB;
+    if(price==null)return`<div class="compare-vendor-line" style="opacity:0.4"><div>${vr.vendorName}</div><div class="compare-v-price">—</div><div class="compare-v-delta zero">—</div></div>`;
+    let deltaCell=`<div class="compare-v-delta zero">—</div>`;
+    if(vr.delta!=null){
+      if(side==='A'){const cls=vr.delta>0?'over':(vr.delta<0?'under':'zero');const sign=vr.delta>0?'+':'';deltaCell=`<div class="compare-v-delta ${cls}">${sign}${fmtMoney(vr.delta)}</div>`}
+      else{const cls=vr.delta<0?'over':(vr.delta>0?'under':'zero');const flipped=-vr.delta;const sign=flipped>0?'+':'';deltaCell=`<div class="compare-v-delta ${cls}">${sign}${fmtMoney(flipped)}</div>`}
+    }
+    return`<div class="compare-vendor-line ${isWinner?'winner':''}"><div>${isWinner?'✓ ':''}${vr.vendorName}</div><div class="compare-v-price">${fmtMoney(price)}</div>${deltaCell}</div>`;
+  }).join('');
+}
+
+function wireUp(){
+  document.getElementById('f-material').addEventListener('change',e=>{state.material=e.target.value;applyFilters()});
+  document.getElementById('f-vendor').addEventListener('change',e=>{state.vendor=e.target.value;applyFilters()});
+  document.getElementById('f-project').addEventListener('change',e=>{state.project=e.target.value;applyFilters()});
+  document.getElementById('f-status').addEventListener('change',e=>{state.status=e.target.value;applyFilters()});
+  document.getElementById('f-urgency').addEventListener('change',e=>{state.urgency=e.target.value;applyFilters()});
+  document.getElementById('f-search').addEventListener('input',e=>{state.search=e.target.value;applyFilters()});
+  document.querySelectorAll('#viewswitch button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('#viewswitch button').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');state.view=btn.dataset.view;
+      document.getElementById('view-all').classList.toggle('active',state.view!=='compare');
+      document.getElementById('view-compare').classList.toggle('active',state.view==='compare');
+      if(state.view==='compare')renderCompare();
+    });
+  });
+  document.querySelectorAll('#matswitch button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('#matswitch button').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');state.size=btn.dataset.mat;applyFilters();
+    });
+  });
+  document.getElementById('compare-a').addEventListener('change',e=>{state.compareA=e.target.value;renderCompare()});
+  document.getElementById('compare-b').addEventListener('change',e=>{state.compareB=e.target.value;renderCompare()});
+  document.querySelectorAll('#compare-modeswitch button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('#compare-modeswitch button').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');state.compareMode=btn.dataset.mode;renderCompare();
+    });
+  });
+}
+populateDropdowns();renderAll();wireUp();renderCompare();
+</script>
 </body>
 </html>
