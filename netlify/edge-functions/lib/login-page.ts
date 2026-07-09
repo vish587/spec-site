@@ -10,7 +10,7 @@ export function loginPage({ error = false } = {}): string {
 <style>
   :root {
     --bg: #3B2FD0;
-    --orange: #F4581F;
+    --orange: #E4581D; /* sampled from the LIFTREX brand logo */
     --field: #D9DBE0;
     --ink: #1C1C1E;
   }
@@ -34,13 +34,16 @@ export function loginPage({ error = false } = {}): string {
   }
   .logo { width: 86px; height: auto; }
   .wordmark {
-    margin-top: 8px;
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
     color: var(--orange);
-    font-size: 15px;
+    font-size: 26px;
     font-weight: 800;
-    letter-spacing: .45em;
-    padding-left: .45em; /* visually recenters letter-spaced text */
+    letter-spacing: .04em;
+    line-height: 1;
   }
+  .wordmark svg { height: 19px; width: auto; margin-left: 1px; }
   h1 {
     margin: 26px 0 0;
     font-size: 34px;
@@ -103,11 +106,14 @@ export function loginPage({ error = false } = {}): string {
 </head>
 <body>
 <main>
-  <svg class="logo" viewBox="0 0 120 90" fill="#F4581F" aria-hidden="true">
+  <svg class="logo" viewBox="0 0 120 90" fill="#E4581D" aria-hidden="true">
     <polygon points="0,0 30,0 75,45 30,90 0,90 45,45"/>
     <polygon points="120,0 90,0 45,45 90,90 120,90 75,45"/>
   </svg>
-  <div class="wordmark">LIFTREX</div>
+  <div class="wordmark" role="img" aria-label="LIFTREX">LIFTRE<svg viewBox="0 0 120 90" fill="currentColor" aria-hidden="true">
+    <polygon points="0,0 30,0 75,45 30,90 0,90 45,45"/>
+    <polygon points="120,0 90,0 45,45 90,90 120,90 75,45"/>
+  </svg></div>
   <h1>LOGIN</h1>
 
   <form method="POST" action="/login" novalidate>
