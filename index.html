@@ -19,6 +19,7 @@ body{font-family:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-
 .drawingsbtn,.logoutbtn{text-decoration:none}
 .logo-mark{display:inline-flex;align-items:center;color:#E4581D;font-weight:800;font-size:27px;letter-spacing:.04em;line-height:1;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
 .logo-mark svg{height:20px;width:auto;margin-left:2px}
+.liftrex-logo{height:30px;width:auto;display:block}
 .logo2 b{font:700 14px/1 system-ui,-apple-system,"Segoe UI",sans-serif;color:#4a463c;letter-spacing:1px}
 .controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px 16px;margin:0 0 12px;box-shadow:0 1px 3px rgba(80,70,45,.07)}
 .btn{font-weight:600;font-size:13px;cursor:pointer;border:none;border-radius:4px;padding:9px 18px;color:#fdfcf7;background:var(--acc);display:inline-flex;align-items:center;gap:8px;letter-spacing:.3px;transition:filter .15s}
@@ -49,7 +50,7 @@ footer code{background:#fff;border:1px solid var(--line);padding:2px 7px;border-
 .reduced{display:none;color:var(--acc2);font-size:12px}
 @media (prefers-reduced-motion:reduce){.reduced{display:inline}}
 </style></head><body><div class="wrap">
-<div class="brandbar"><span class="logo-mark" role="img" aria-label="LIFTREX">LIFTRE<svg viewBox="0 0 120 90" fill="currentColor" aria-hidden="true"><polygon points="0,0 30,0 75,45 30,90 0,90 45,45"/><polygon points="120,0 90,0 45,45 90,90 120,90 75,45"/></svg></span><span class="logo2"><b>REVEMP</b></span><div class="tag">Roping ratios &amp; drive systems — traction 1:1 / 2:1 and hydraulic 1:1 / 1:2</div><a class="btn viewproj" href="project.html" target="_blank" rel="noopener">View project</a><a class="btn ghost drawingsbtn" href="/drawings/41-north-st-rev2-05.20.26.pdf" target="_blank" rel="noopener">Drawings (PDF)</a><a class="btn ghost logoutbtn" href="/logout">Logout</a></div>
+<div class="brandbar"><img class="liftrex-logo" src="liftrex-logo.png" alt="LIFTREX"><span class="logo2"><img src="revemp.jpeg" alt="REVEMP"></span><div class="tag">Roping ratios &amp; drive systems — traction 1:1 / 2:1 and hydraulic 1:1 / 1:2</div><a class="btn viewproj" href="project.html" target="_blank" rel="noopener">View project</a><a class="btn ghost drawingsbtn" href="/drawings/41-north-st-rev2-05.20.26.pdf" target="_blank" rel="noopener">Drawings (PDF)</a><a class="btn ghost logoutbtn" href="/logout">Logout</a></div>
 <div class="controls">
 <button id="play" class="btn"><svg id="pIcon" width="14" height="14" viewBox="0 0 14 14"><path d="M2 1l11 6L2 13z" fill="#fff"/></svg><span id="pLabel">Play</span></button>
 <button id="reset" class="btn ghost">Reset</button>
@@ -1905,11 +1906,12 @@ grouped(function(){buildDetails(5500);});
 grouped(function(){buildBrackets(6000);});
 grouped(function(){buildHydroPlan(6500);});
 grouped(function(){buildHydroPlanHoleless(7000);});
-var brandTxt=txt({x:2966,y:1664,"text-anchor":"end","font-family":"system-ui,Arial","font-size":42,"font-weight":900,fill:ORANGE,"letter-spacing":"2"},"LIFTREX");
+var BRANDW=360,BRANDH=54;
+var brandTxt=el("image",{href:"liftrex-logo.png",x:2966-BRANDW,y:1664-BRANDH+6,width:BRANDW,height:BRANDH,preserveAspectRatio:"xMaxYMax meet"});
 scene.appendChild(brandTxt);
-var revTxt=txt({x:34,y:1664,"text-anchor":"start","font-family":"system-ui,Arial","font-size":42,"font-weight":900,fill:"#93a7bc","letter-spacing":"2"},"REVEMP");
+var revTxt=el("image",{href:"revemp.jpeg",x:34,y:1664-BRANDH+2,width:47,height:BRANDH,preserveAspectRatio:"xMinYMax meet"});
 scene.appendChild(revTxt);
-scene.appendChild(el("rect",{x:36,y:1672,width:170,height:5,rx:2.5,fill:ORANGE}));
+scene.appendChild(el("rect",{x:34,y:1676,width:47,height:5,rx:2.5,fill:ORANGE}));
 
 /* ---------- column filter ---------- */
 var worldG=el("g",{id:"worldG"});
@@ -1938,7 +1940,7 @@ function applyFilter(){
  fitW=Math.min(2060,Math.max(360,Math.round(baseW*vh/1700)));
  zsw=Math.min((window.innerWidth||2100)-60,2600); zsh=vh;
  resetZoom();
- brandTxt.setAttribute("x",Math.max(1,count)*500-34);
+ brandTxt.setAttribute("x",Math.max(1,count)*500-34-BRANDW);
  stageDiv.style.margin="0 auto";
  chips.forEach(function(ch){var v=ch.getAttribute("data-i");
   if(v==="all"){ch.classList.toggle("on",count===15);}

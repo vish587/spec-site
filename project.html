@@ -15,6 +15,8 @@ body{font-family:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-
 .brandbar .lx{display:flex;align-items:center;gap:12px}
 .logo-mark{display:inline-flex;align-items:center;color:#E4581D;font-weight:800;font-size:27px;letter-spacing:.04em;line-height:1;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
 .logo-mark svg{height:20px;width:auto;margin-left:2px}
+.liftrex-logo{height:30px;width:auto;display:block}
+.revemp-logo{height:36px;width:auto;display:block;border-radius:4px}
 .clientmark b{font:700 14px/1 system-ui,-apple-system,"Segoe UI",sans-serif;color:#4a463c;letter-spacing:1px}
 .brandbar .tag{flex:1;min-width:280px}
 .brandbar .tag h1{margin:0;font-family:Georgia,"Times New Roman",serif;font-size:23px;font-weight:700;color:var(--ink);letter-spacing:.2px}
@@ -87,7 +89,7 @@ footer code{background:#fff;border:1px solid var(--line);padding:2px 7px;border-
 <!-- ================= BRAND BAR : LIFTREX (ours) + CLIENT "R" MARK (theirs) ================= -->
 <div class="brandbar">
  <div class="lx" title="LIFTREX">
-  <span class="logo-mark" role="img" aria-label="LIFTREX">LIFTRE<svg viewBox="0 0 120 90" fill="currentColor" aria-hidden="true"><polygon points="0,0 30,0 75,45 30,90 0,90 45,45"/><polygon points="120,0 90,0 45,45 90,90 120,90 75,45"/></svg></span>
+  <img class="liftrex-logo" src="liftrex-logo.png" alt="LIFTREX">
 
  </div>
  <div class="tag">
@@ -95,7 +97,7 @@ footer code{background:#fff;border:1px solid var(--line);padding:2px 7px;border-
   <p>41 North St, Bronx NY 10486 &bull; Passenger &bull; ASME A17.1‑2013 (Appendix K Ch. K1) &amp; 2022 NYC BC Ch. 30 &bull; Rev 2 — 5/20/26</p>
  </div>
  <div class="clientmark" title="Client logo">
-  <b>REVEMP</b>
+  <img class="revemp-logo" src="revemp.jpeg" alt="REVEMP">
   <span>41 NORTH ST</span>
  </div>
 </div>
@@ -499,10 +501,9 @@ function sideNotes(s,items){var y=PY+16;items.forEach(function(v){
 (function(){var s=G("vt1","0 0 740 560");
  E(s,"rect",{x:14,y:14,width:712,height:532,fill:"none",stroke:LINE,"stroke-width":2});
  E(s,"rect",{x:22,y:22,width:696,height:516,fill:"none",stroke:"#b3aa94","stroke-width":1.2});
- lab(s,44,84,"LIFTREX",{s:34,w:900,f:"#E4581D"});
- lab(s,44,106,"PHONE: 877-543-8739",{s:12,f:LINE});
- E(s,"rect",{x:626,y:44,width:84,height:56,rx:8,fill:"#fff",stroke:LINE,"stroke-width":1.5});
- lab(s,668,78,"REVEMP",{a:"middle",s:12,w:800,f:"#4a463c"});
+ E(s,"image",{href:"liftrex-logo.png",x:44,y:52,width:250,height:38,preserveAspectRatio:"xMinYMid meet"});
+ lab(s,44,112,"PHONE: 877-543-8739",{s:12,f:LINE});
+ E(s,"image",{href:"revemp.jpeg",x:640,y:38,width:60,height:70,preserveAspectRatio:"xMidYMid meet"});
  lab(s,668,124,"41 NORTH ST",{a:"middle",s:10,f:LINE});
  lab(s,370,190,"CAR PE-1",{a:"middle",s:40,w:900,f:"#23241f"});
  lab(s,370,224,"PASSENGER • CLASS A • 3,500 LB • 200 FPM",{a:"middle",s:16,w:800,f:AMB});
