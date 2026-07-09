@@ -1,0 +1,8 @@
+# Local credentials — never commit
+.env
+
+# macOS
+.DS_Store
+
+# Local Netlify folder
+.netlify
