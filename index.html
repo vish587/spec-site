@@ -1,45 +1,59 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LIFTREX — Roping Ratios &amp; Drive Systems</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;background:#55524a}
-body{font-family:system-ui,Arial,sans-serif;padding:14px}
+:root{
+ --bg:#edeadf;--panel:#fbf9f3;--panel2:#f4f0e5;--ink:#26251f;--mut:#6d6656;--faint:#98907d;
+ --line:#ddd6c5;--line2:#e7e1d2;--acc:#0e7377;--acc2:#FD630D;--red:#b3261e;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:radial-gradient(1000px 420px at 78% -10%,rgba(14,115,119,.07),transparent 60%),var(--bg)}
+body{font-family:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;padding:32px 26px 46px;color:var(--ink);-webkit-font-smoothing:antialiased}
 .wrap{max-width:2060px;margin:0 auto}
-.brandbar{display:flex;align-items:center;gap:14px;margin:0 0 10px;color:#e8e4da}
-.brandbar .logo{font-weight:900;font-size:22px;letter-spacing:2px;color:#FD630D}
-.brandbar .logo span{color:#e8e4da}
-.brandbar .tag{font-size:13px;color:#c9c4b8}
-.controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:rgba(31,56,100,.96);border-radius:14px;padding:11px 14px;margin:0 0 10px}
-.btn{font-weight:600;font-size:14px;cursor:pointer;border:none;border-radius:9px;padding:9px 16px;color:#fff;background:#FD630D;display:inline-flex;align-items:center;gap:8px}
-.btn.ghost{background:rgba(255,255,255,.14)}
-.modebtn{font-size:12.5px;font-weight:600;padding:7px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.25);background:transparent;color:#cfd6e2;cursor:pointer}
-.modebtn.on{background:#FD630D;color:#fff;border-color:#FD630D}
-.sg{display:flex;align-items:center;gap:8px;color:#dfe4ee;font-size:12.5px;background:rgba(255,255,255,.07);padding:6px 12px;border-radius:9px}
-input[type=range]{width:150px;accent-color:#FD630D}
-.sval{font-weight:700;color:#FF9a3b;min-width:44px;font-size:13px}
+::selection{background:rgba(14,115,119,.22)}
+.brandbar{display:flex;align-items:center;gap:18px;padding:2px 2px 20px;margin:0 0 22px;border-bottom:2px solid var(--ink);flex-wrap:wrap;color:var(--ink)}
+.brandbar .logo{height:30px;display:block}
+.brandbar .tag{flex:1;min-width:260px;font-size:13px;color:var(--mut);letter-spacing:.3px}
+.logo2{margin-left:2px;display:inline-flex;align-items:center;background:#fff;border:1px solid var(--line);border-radius:10px;padding:7px 12px;box-shadow:0 2px 6px rgba(80,70,45,.08)}
+.logo2 img{height:26px;display:block}
+.viewproj{margin-left:auto;text-decoration:none}
+.drawingsbtn,.logoutbtn{text-decoration:none}
+.logo-mark{display:inline-flex;align-items:center;color:#E4581D;font-weight:800;font-size:27px;letter-spacing:.04em;line-height:1;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+.logo-mark svg{height:20px;width:auto;margin-left:2px}
+.logo2 b{font:700 14px/1 system-ui,-apple-system,"Segoe UI",sans-serif;color:#4a463c;letter-spacing:1px}
+.controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px 16px;margin:0 0 12px;box-shadow:0 1px 3px rgba(80,70,45,.07)}
+.btn{font-weight:600;font-size:13px;cursor:pointer;border:none;border-radius:4px;padding:9px 18px;color:#fdfcf7;background:var(--acc);display:inline-flex;align-items:center;gap:8px;letter-spacing:.3px;transition:filter .15s}
+.btn:hover{filter:brightness(1.12)}
+.btn.ghost{background:#8a8271}
+.modebtn{font-size:12.5px;font-weight:600;padding:7px 12px;border-radius:4px;border:1px solid var(--line);background:var(--panel2);color:var(--mut);cursor:pointer;transition:all .15s}
+.modebtn:hover{border-color:var(--acc);color:var(--acc)}
+.modebtn.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.sg{display:flex;align-items:center;gap:9px;color:var(--mut);font-size:12px;background:var(--panel2);border:1px solid var(--line);padding:6px 13px;border-radius:4px}
+.sg b{color:var(--ink);font-weight:600}
+input[type=range]{width:150px;accent-color:var(--acc)}
+.sval{font-weight:700;color:var(--acc);min-width:44px;font-size:12.5px}
 .spacer{flex:1}
-.legend{display:flex;gap:14px;color:#cfd6e2;font-size:11.5px;align-items:center;flex-wrap:wrap;margin:-2px 0 10px;padding-left:4px}
+.legend{display:flex;gap:14px;color:var(--mut);font-size:11.5px;align-items:center;flex-wrap:wrap;margin:-2px 0 12px;padding-left:4px}
 .legend i{width:16px;height:5px;border-radius:2px;display:inline-block;margin-right:5px;vertical-align:middle}
-.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:-2px 0 10px;padding-left:4px}
-.flabel{color:#cfd6e2;font-size:12px;font-weight:700}
-.fchip{font-size:12px;font-weight:600;padding:6px 12px;border-radius:16px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.06);color:#cfd6e2;cursor:pointer}
-.fchip.on{background:#FD630D;border-color:#FD630D;color:#fff}
-.fhint{color:#9aa4b4;font-size:11px;margin-left:4px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:-2px 0 14px;padding-left:2px}
+.flabel{color:var(--faint);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-right:4px}
+.fchip{font-size:11.5px;font-weight:600;padding:6px 14px;border-radius:3px;border:1px solid var(--line);background:var(--panel);color:var(--mut);cursor:pointer;letter-spacing:.3px;transition:all .15s}
+.fchip:hover{border-color:var(--acc);color:var(--acc)}
+.fchip.on{background:var(--acc);border-color:var(--acc);color:#fdfcf7}
+.fhint{color:var(--faint);font-size:10.5px;margin-left:6px}
 .zoomui{position:absolute;top:10px;right:10px;display:flex;gap:6px;z-index:5}
-.zoomui button{width:36px;height:36px;border-radius:10px;border:1px solid rgba(255,255,255,.3);background:rgba(15,20,28,.75);color:#fff;font-size:19px;font-weight:800;cursor:pointer;line-height:1}
-.stage{position:relative;border-radius:12px;overflow:hidden;box-shadow:0 16px 50px #0007;background:#000}
-svg{display:block;width:100%;height:auto}
-footer{color:#d9d4c8;font-size:12.5px;margin-top:10px;text-align:center}
-footer code{background:#ffffff1a;padding:2px 6px;border-radius:5px}
-.reduced{display:none;color:#ffd9bf;font-size:12px}
+.zoomui button{width:36px;height:36px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font-size:19px;font-weight:800;cursor:pointer;line-height:1;box-shadow:0 1px 3px rgba(80,70,45,.12)}
+.stage{position:relative;border:1px solid var(--line);border-radius:6px;overflow:hidden;box-shadow:0 10px 30px rgba(80,70,45,.12);background:#e9e4d8}
+.stage svg{display:block;width:100%;height:auto}
+footer{color:var(--faint);font-size:11.5px;margin-top:20px;padding-top:16px;border-top:2px solid var(--ink);text-align:center;line-height:1.9}
+footer code{background:#fff;border:1px solid var(--line);padding:2px 7px;border-radius:4px;color:var(--mut)}
+.reduced{display:none;color:var(--acc2);font-size:12px}
 @media (prefers-reduced-motion:reduce){.reduced{display:inline}}
-.brandbar .logout{margin-left:auto;display:inline-flex;align-items:center;gap:7px;color:#e8e4da;font-size:12.5px;font-weight:600;text-decoration:none;border:1px solid rgba(255,255,255,.28);padding:7px 14px;border-radius:9px}
-.brandbar .logout:hover{background:#FD630D;border-color:#FD630D;color:#fff}
 </style></head><body><div class="wrap">
-<div class="brandbar"><div class="logo">LIFT<span>REX</span></div><div class="tag">Roping ratios &amp; drive systems — traction 1:1 / 2:1 and hydraulic 1:1 / 1:2</div><a class="logout" href="/logout"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Logout</a></div>
+<div class="brandbar"><span class="logo-mark" role="img" aria-label="LIFTREX">LIFTRE<svg viewBox="0 0 120 90" fill="currentColor" aria-hidden="true"><polygon points="0,0 30,0 75,45 30,90 0,90 45,45"/><polygon points="120,0 90,0 45,45 90,90 120,90 75,45"/></svg></span><span class="logo2"><b>REVEMP</b></span><div class="tag">Roping ratios &amp; drive systems — traction 1:1 / 2:1 and hydraulic 1:1 / 1:2</div><a class="btn viewproj" href="project.html" target="_blank" rel="noopener">View project</a><a class="btn ghost drawingsbtn" href="/drawings/41-north-st-rev2-05.20.26.pdf" target="_blank" rel="noopener">Drawings (PDF)</a><a class="btn ghost logoutbtn" href="/logout">Logout</a></div>
 <div class="controls">
 <button id="play" class="btn"><svg id="pIcon" width="14" height="14" viewBox="0 0 14 14"><path d="M2 1l11 6L2 13z" fill="#fff"/></svg><span id="pLabel">Play</span></button>
 <button id="reset" class="btn ghost">Reset</button>
-<span style="color:#cfd6e2;font-size:12px;margin-left:6px">Speed mode:</span>
+<span style="color:#6d6656;font-size:12px;margin-left:6px;font-weight:600">Speed mode:</span>
 <button id="modeCar" class="modebtn on">Match car speed</button>
 <button id="modeMachine" class="modebtn">Match machine speed</button>
 <button id="yToggle" class="modebtn on">Yellow: fed rope</button>
@@ -67,10 +81,12 @@ footer code{background:#ffffff1a;padding:2px 6px;border-radius:5px}
 <button class="fchip on" data-i="10">Shaft Plan</button>
 <button class="fchip on" data-i="11">Builder Details</button>
 <button class="fchip on" data-i="12">Brackets &amp; Spans</button>
+<button class="fchip on" data-i="13">Hydro Plan</button>
+<button class="fchip on" data-i="14">Holeless Plan</button>
 <span class="fhint">tap one to isolate &middot; tap more to compare &middot; pinch / scroll to zoom, drag to pan</span>
 </div>
 <div class="stage">
-<div class="zoomui"><button id="zin">+</button><button id="zout">&minus;</button><button id="zfit" title="reset view">&#8634;</button></div><svg id="scene" viewBox="0 0 6500 1700" role="img" aria-label="LIFTREX roping and drive systems"></svg></div>
+<div class="zoomui"><button id="zin">+</button><button id="zout">&minus;</button><button id="zfit" title="reset view">&#8634;</button></div><svg id="scene" viewBox="0 0 7000 1700" role="img" aria-label="LIFTREX roping and drive systems"></svg></div>
 <footer>Traction: 2:1 feeds double the rope. Hydraulic: direct piston is 1:1, roped hydro is 1:2. &bull; <code>liftrex_roping_ratio_animation.html</code></footer>
 </div>
 <script>
@@ -105,17 +121,22 @@ defs.appendChild(rodg);
 scene.appendChild(defs);
 
 /* ---------- wall / panels ---------- */
-scene.appendChild(el("rect",{x:0,y:0,width:6500,height:1700,fill:"url(#wall)"}));
-scene.appendChild(el("rect",{x:0,y:868,width:6500,height:832,fill:"#000",opacity:0.05}));
-scene.appendChild(el("rect",{x:0,y:866,width:6500,height:2,fill:"#000",opacity:0.10}));
-for(var dv=0;dv<=6500;dv+=500){scene.appendChild(el("rect",{x:Math.min(6498,Math.max(0,dv-1)),y:0,width:2,height:1700,fill:"#000",opacity:0.18}));}
-scene.appendChild(el("rect",{x:0,y:0,width:6500,height:3,fill:"#fff",opacity:0.12}));
+scene.appendChild(el("rect",{x:0,y:0,width:7000,height:1700,fill:"url(#wall)"}));
+scene.appendChild(el("rect",{x:0,y:868,width:7000,height:832,fill:"#000",opacity:0.05}));
+scene.appendChild(el("rect",{x:0,y:866,width:7000,height:2,fill:"#000",opacity:0.10}));
+for(var dv=0;dv<=7000;dv+=500){scene.appendChild(el("rect",{x:Math.min(6998,Math.max(0,dv-1)),y:0,width:2,height:1700,fill:"#000",opacity:0.18}));}
+scene.appendChild(el("rect",{x:0,y:0,width:7000,height:3,fill:"#fff",opacity:0.12}));
 
 /* ---------- shared drawing helpers ---------- */
 function title(cx,big,sub,l1,l2){
  var g=el("g",{});
- g.appendChild(txt({x:cx+3,y:238,"text-anchor":"middle","font-family":"Georgia,serif","font-size":84,"font-weight":900,fill:"#ddd8cb","letter-spacing":"2"},big));
- g.appendChild(txt({x:cx,y:235,"text-anchor":"middle","font-family":"Georgia,serif","font-size":84,"font-weight":900,fill:"#4a453c","letter-spacing":"2"},big));
+ var parts=String(big).split(" "),lines=(parts.length>1)?parts:[big];
+ var longest=lines.reduce(function(a,b){return b.length>a.length?b:a;},"");
+ var fs=Math.min(84,Math.floor(452/Math.max(1,longest.length*0.62))),lh=fs+2,b0=235-(lines.length-1)*lh;
+ lines.forEach(function(ln,i){var by=b0+i*lh;
+  g.appendChild(txt({x:cx+3,y:by+3,"text-anchor":"middle","font-family":"Georgia,serif","font-size":fs,"font-weight":900,fill:"#ddd8cb","letter-spacing":"2"},ln));
+  g.appendChild(txt({x:cx,y:by,"text-anchor":"middle","font-family":"Georgia,serif","font-size":fs,"font-weight":900,fill:"#4a453c","letter-spacing":"2"},ln));
+ });
  g.appendChild(txt({x:cx,y:280,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":17,"font-weight":800,fill:"#3a352e"},sub));
  g.appendChild(txt({x:cx,y:303,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":13,"font-weight":600,fill:"#5a554c"},l1));
  g.appendChild(txt({x:cx,y:322,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":13,"font-weight":600,fill:"#5a554c"},l2));
@@ -167,8 +188,8 @@ function wheelSheave(cx,cy,r){var g=el("g",{});
  scene.appendChild(g);return g;}
 function machine525(cx){ /* Imperial 525LS: 25" sheave, dual brakes, table-top bed */
  var st=el("g",{});
- st.appendChild(el("rect",{x:cx-110,y:590,width:220,height:12,rx:3,fill:"#2b3340"}));
- for(var bx=cx-96;bx<=cx+96;bx+=48){st.appendChild(el("circle",{cx:bx,cy:596,r:2.4,fill:"#5b6673"}));}
+ st.appendChild(el("rect",{x:cx-110,y:592,width:220,height:12,rx:3,fill:"#2b3340"}));
+ for(var bx=cx-96;bx<=cx+96;bx+=48){st.appendChild(el("circle",{cx:bx,cy:598,r:2.4,fill:"#5b6673"}));}
  st.appendChild(el("rect",{x:cx-78,y:548,width:156,height:50,rx:10,fill:NAVY2,stroke:NAVYD,"stroke-width":3}));
  [[-72,0],[42,1]].forEach(function(o){
   st.appendChild(el("rect",{x:cx+o[0],y:504,width:30,height:46,rx:5,fill:STEEL2,stroke:STEELD,"stroke-width":2}));
@@ -239,9 +260,9 @@ function gaugeBox(cx,y){var g=el("g",{});
  var b=txt({x:cx,y:y+41,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":15,"font-weight":600,fill:"#fff"},"");
  g.appendChild(a);g.appendChild(b);scene.appendChild(g);return {a:a,b:b};}
 function machineBadge(cx){var g=el("g",{});
- g.appendChild(el("rect",{x:cx-98,y:380,width:196,height:52,rx:9,fill:"#10243f",opacity:0.97,stroke:ORANGE,"stroke-width":2}));
- var a=txt({x:cx,y:400,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":14,"font-weight":700,fill:"#FFD24D"},"Rope fed 0.0 ft");
- var b=txt({x:cx,y:421,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":14,"font-weight":700,fill:"#9fd0ff"},"Turns +0.00");
+ g.appendChild(el("rect",{x:cx-98,y:348,width:196,height:52,rx:9,fill:"#10243f",opacity:0.97,stroke:ORANGE,"stroke-width":2}));
+ var a=txt({x:cx,y:368,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":14,"font-weight":700,fill:"#FFD24D"},"Rope fed 0.0 ft");
+ var b=txt({x:cx,y:389,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":14,"font-weight":700,fill:"#9fd0ff"},"Turns +0.00");
  g.appendChild(a);g.appendChild(b);scene.appendChild(g);return {a:a,b:b};}
 function powerUnit(x,y){var g=el("g",{});
  g.appendChild(el("rect",{x:x,y:y+22,width:66,height:52,rx:5,fill:STEEL2,stroke:"#2b323a","stroke-width":2}));
@@ -249,6 +270,34 @@ function powerUnit(x,y){var g=el("g",{});
  g.appendChild(el("rect",{x:x+36,y:y+4,width:24,height:18,rx:3,fill:"#556069",stroke:"#2b323a","stroke-width":2}));
  g.appendChild(txt({x:x+33,y:y+54,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":11,"font-weight":800,fill:"#fff"},"OIL"));
  scene.appendChild(g);return g;}
+function machRoom(x0,floorTop,hbCx,cabX){ /* enclosed machine room: ceiling, hoist beam, door, controller */
+ scene.appendChild(el("rect",{x:x0+16,y:422,width:468,height:floorTop-422,fill:"#cdc7ba"}));
+ scene.appendChild(el("rect",{x:x0+16,y:422,width:468,height:3,fill:"#000",opacity:0.06}));
+ scene.appendChild(el("rect",{x:x0+10,y:410,width:480,height:12,fill:"#a49e91",stroke:"#8a8478","stroke-width":2}));
+ scene.appendChild(el("rect",{x:x0+10,y:422,width:6,height:floorTop-422,fill:"#8a8478"}));
+ scene.appendChild(el("rect",{x:x0+484,y:422,width:6,height:floorTop-422,fill:"#8a8478"}));
+ /* hoist beam hung under the ceiling, running the entire length of the room */
+ scene.appendChild(el("rect",{x:x0+16,y:422,width:468,height:5.5,fill:"#39424c"}));
+ scene.appendChild(el("rect",{x:x0+16,y:427.5,width:468,height:11,fill:"#545f6a"}));
+ scene.appendChild(el("rect",{x:x0+16,y:438.5,width:468,height:5.5,fill:"#39424c"}));
+ for(var hb=x0+30;hb<=x0+470;hb+=26){scene.appendChild(el("circle",{cx:hb,cy:433,r:2.2,fill:"#2b323a"}));}
+ /* access door */
+ scene.appendChild(el("rect",{x:x0+22,y:floorTop-108,width:48,height:108,fill:"#6e6a5f"}));
+ scene.appendChild(el("rect",{x:x0+26,y:floorTop-104,width:40,height:104,rx:2,fill:"#9b9584",stroke:"#6e6a5f","stroke-width":1.5}));
+ scene.appendChild(el("circle",{cx:x0+58,cy:floorTop-52,r:2.8,fill:"#3a3530"}));
+ for(var lv=0;lv<3;lv++){scene.appendChild(el("line",{x1:x0+32,y1:floorTop-26+lv*6,x2:x0+60,y2:floorTop-26+lv*6,stroke:"#6e6a5f","stroke-width":2}));}
+ /* controller cabinet standing on the floor */
+ scene.appendChild(el("rect",{x:cabX,y:floorTop-96,width:36,height:96,rx:3,fill:NAVY2,stroke:NAVYD,"stroke-width":2.5}));
+ scene.appendChild(el("line",{x1:cabX+22,y1:floorTop-90,x2:cabX+22,y2:floorTop-8,stroke:NAVYD,"stroke-width":1.5}));
+ scene.appendChild(el("circle",{cx:cabX+8,cy:floorTop-84,r:2.6,fill:"#3fae57"}));
+ scene.appendChild(el("circle",{cx:cabX+8,cy:floorTop-74,r:2.6,fill:"#e0a800"}));
+ scene.appendChild(el("rect",{x:cabX+4,y:floorTop-30,width:28,height:11,rx:2,fill:ORANGE}));
+ scene.appendChild(txt({x:cabX+18,y:floorTop-21.5,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":8,"font-weight":900,fill:"#fff"},"CTRL"));
+ pill(x0+90,470,"machine room");
+ pill(hbCx>x0+300? x0+120 : x0+398,414,"hoist beam");
+ pill(cabX+18,486,"controller");
+ pill(x0+46,floorTop-22,"access door");
+}
 
 /* ---------- columns ---------- */
 var COLS=[],YELS=[];
@@ -272,7 +321,64 @@ function buildTraction(x0,kind){
  else if(under) title(x0+250,"2:1","Machine carries only 50% of the load","sheaves UNDER the car (underslung)","2 ft of rope = 1 ft of car travel");
  else title(x0+250,"2:1","Machine carries only 50% of the load","sheaves on TOP of the car (overslung)","2 ft of rope = 1 ft of car travel");
  rails(carCX,CABW/2+16);
- beam(x0+10,x0+490);
+ if(under) beam(x0+10,x0+490);
+ /* ---- overhead construction per type ---- */
+ if(is11){
+  machRoom(x0,604,mcx,x0+424);
+  /* hoistway walls below the slab (bigger slab overhangs them) */
+  [[x0+40],[x0+430]].forEach(function(wx){scene.appendChild(el("rect",{x:wx[0]-3,y:640,width:6,height:58,fill:"#8a8478",opacity:0.55}));});
+  /* machine-room slab poured flush with the machine beams: beam tops at floor level */
+  [[x0+10,x0+184],[x0+200,x0+300],[x0+316,x0+446],[x0+462,x0+490]].forEach(function(sg){
+   scene.appendChild(el("rect",{x:sg[0],y:604,width:sg[1]-sg[0],height:36,fill:"#a49e91",stroke:"#8a8478","stroke-width":2}));
+   for(var hx=sg[0]+8;hx<sg[1]-8;hx+=24){scene.appendChild(el("line",{x1:hx,y1:610,x2:hx+12,y2:634,stroke:"#948e81","stroke-width":2,opacity:0.8}));}
+   scene.appendChild(el("rect",{x:sg[0],y:604,width:sg[1]-sg[0],height:7,fill:"#39424c"}));
+   scene.appendChild(el("rect",{x:sg[0],y:611,width:sg[1]-sg[0],height:2,fill:"#6d7984",opacity:0.7}));
+   scene.appendChild(el("line",{x1:sg[0]+4,y1:634,x2:sg[1]-4,y2:634,stroke:"#2b323a","stroke-width":5,"stroke-dasharray":"9 7",opacity:0.5}));
+  });
+  [[x0+184,x0+200],[x0+300,x0+316],[x0+446,x0+462]].forEach(function(op){
+   scene.appendChild(el("rect",{x:op[0]-2.5,y:604,width:2.5,height:36,fill:"#5d574a"}));
+   scene.appendChild(el("rect",{x:op[1],y:604,width:2.5,height:36,fill:"#5d574a"}));
+  });
+  /* slab overhang past the hoistway wall */
+  scene.appendChild(el("path",{d:"M "+(x0+430)+" 652 L "+(x0+490)+" 652 M "+(x0+430)+" 646 L "+(x0+430)+" 658 M "+(x0+490)+" 646 L "+(x0+490)+" 658",stroke:"#5a554c","stroke-width":2,fill:"none"}));
+  scene.appendChild(txt({x:x0+460,y:672,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":10.5,"font-weight":700,fill:"#5a554c"},"2'-6\u2033"));
+  scene.appendChild(el("line",{x1:x0+454,y1:604,x2:x0+454,y2:686,stroke:"#6b7280","stroke-width":3,"stroke-dasharray":"4 6"}));
+
+ }
+ if(over){
+  machRoom(x0,593,mcx,x0+438);
+  beam(x0+10,x0+490);
+  /* thin concrete topping poured over the machine beams (machine stays on the beams) */
+  [[x0+10,x0+262],[x0+438,x0+464],[x0+476,x0+490]].forEach(function(sg){
+   scene.appendChild(el("rect",{x:sg[0],y:593,width:sg[1]-sg[0],height:11,fill:"#a49e91",stroke:"#8a8478","stroke-width":1.5}));
+   for(var hx2=sg[0]+7;hx2<sg[1]-7;hx2+=22){scene.appendChild(el("line",{x1:hx2,y1:595,x2:hx2+8,y2:602,stroke:"#948e81","stroke-width":1.6,opacity:0.8}));}
+  });
+  [[x0+464,x0+476]].forEach(function(op){
+   scene.appendChild(el("rect",{x:op[0]-2.5,y:593,width:2.5,height:11,fill:"#5d574a"}));
+   scene.appendChild(el("rect",{x:op[1],y:593,width:2.5,height:11,fill:"#5d574a"}));
+  });
+  scene.appendChild(el("line",{x1:x0+470,y1:593,x2:x0+470,y2:676,stroke:"#6b7280","stroke-width":3,"stroke-dasharray":"4 6"}));
+
+ }
+ if(under){
+  scene.appendChild(el("rect",{x:x0+6,y:420,width:30,height:220,fill:"#a49e91",stroke:"#8a8478","stroke-width":2}));
+  for(var dy=436;dy<630;dy+=34){scene.appendChild(el("line",{x1:x0+10,y1:dy,x2:x0+30,y2:dy+10,stroke:"#948e81","stroke-width":2,opacity:0.7}));}
+  scene.appendChild(el("rect",{x:x0+8,y:470,width:26,height:50,fill:"#1c1f24"}));
+  scene.appendChild(el("rect",{x:x0+8,y:470,width:22,height:50,rx:2,fill:"#8d8779",stroke:"#6e6a5f","stroke-width":1.5,transform:"rotate(-26 "+(x0+8)+" 495)"}));
+  /* low overhead: roof slab + hoist beam \u2014 lower + lighter than a machine room (no walk-in space) */
+  scene.appendChild(el("rect",{x:x0+36,y:436,width:454,height:12,fill:"#a49e91",stroke:"#8a8478","stroke-width":2}));
+  scene.appendChild(el("rect",{x:x0+42,y:448,width:442,height:4.5,fill:"#39424c"}));
+  scene.appendChild(el("rect",{x:x0+42,y:452.5,width:442,height:7.5,fill:"#545f6a"}));
+  scene.appendChild(el("rect",{x:x0+42,y:460,width:442,height:4.5,fill:"#39424c"}));
+  for(var hb2=x0+56;hb2<=x0+470;hb2+=26){scene.appendChild(el("circle",{cx:hb2,cy:456,r:1.8,fill:"#2b323a"}));}
+  scene.appendChild(el("rect",{x:x0+86,y:560,width:36,height:BEAM_T-560,fill:"#4a5560",stroke:STEELD,"stroke-width":2}));
+  var gvw=wheelSheave(x0+104,548,20);
+  scene.appendChild(el("line",{x1:x0+104,y1:568,x2:x0+104,y2:730,stroke:"#6b7280","stroke-width":3,"stroke-dasharray":"4 10",opacity:0.7}));
+  pill(x0+134,506,"governor");
+  pill(x0+118,424,"24\u2033\u00d724\u2033 access door");
+  pill(x0+404,456,"hoist beam \u2014 low");
+  pill(x0+250,724,"open overhead \u2014 machine beams exposed");
+ }
  scene.appendChild(el("rect",{x:x0+14,y:FLOOR+56,width:472,height:8,fill:"#6e6a5f",opacity:0.55}));
  (is11? machine525 : machine478)(mcx);
  var red1,red1T,red2,red2T,yOver=null;
@@ -304,12 +410,14 @@ function buildTraction(x0,kind){
   pill(cwtStat-72,684,"dead end \u2014 \u00bd cwt wt");
   badge(statL,under?940:780,26,"50%");
  } else {
-  badge(x0+120,470,30,"100%");
+  badge(x0+104,516,30,"100%");
   pill(x0+120,724,"full car weight");
   pill(x0+372,724,"full cwt weight");
  }
  var mb=machineBadge(mcx);
- pill(mcx,452, is11? "Imperial 525LS \u2014 \u00d825\u2033 gearless PM":"Imperial 478 \u2014 gearless PM, sub-base");
+ pill(over? x0+175 : mcx, is11? 478 : (over? 500 : 424), is11? "Imperial 525LS \u2014 \u00d825\u2033 gearless PM":(over? "Imperial 478 \u2014 gearless PM":"Imperial 478 \u2014 gearless PM, sub-base"));
+ if(is11){pill(x0+250,700,"slab flush with machine beams \u2014 cutouts for ropes & wiring");}
+ if(over){pill(x0+250,662,"thin concrete topping over the machine beams");}
  var ga=gaugeBox(carCX,990);
  function ropePath(off,woff){
   if(is11){
@@ -560,43 +668,76 @@ function buildHydroRoped(x0){
 function buildSafety(x0){
  var cx=x0+250, carX=cx-CABW/2;
  var LOOP=9, CUT=2.5, TRIP=3.1, STOP=3.7, RESET=6.5, REUP=7.4;
- var Y0=480, YCUT=680, YTRIP=827, DELTA=123, YSTOP=YTRIP+DELTA;
+ var Y0=700, YCUT=900, YTRIP=1047, DELTA=123, YSTOP=YTRIP+DELTA;
  title(cx,"SAFETY","Governor & car safety","overspeed trips the governor \u2014 rope grips","safety jaws clamp the rails \u2014 car stops");
  rails(cx,CABW/2+16);
  beam(x0+10,x0+490);
- shackle(cx,BEAM_B);
+ /* regular 1:1 arrangement: machine on the beams, rope over the sheave, cwt on the far side */
+ var mcx=cx+58, mrx=cx+116;
+ machine525(mcx);
+ var disc=machineDisc(mcx,58);
+ scene.appendChild(el("path",{d:"M "+cx+" "+MCY+" A 58 58 0 0 1 "+mrx+" "+MCY,fill:"none",stroke:ROPE,"stroke-width":7,"stroke-linecap":"round"}));
+ var cwT0=1150;
+ var cwRope=el("line",{x1:mrx,y1:MCY,x2:mrx,y2:cwT0-2,stroke:ROPE,"stroke-width":7,"stroke-linecap":"round"});
+ scene.appendChild(cwRope);
+ var cwG=el("g",{});
+ cwG.appendChild(el("rect",{x:mrx-6,y:cwT0-12,width:12,height:14,rx:2,fill:STEEL,stroke:STEELD,"stroke-width":2}));
+ cwG.appendChild(el("rect",{x:mrx-18,y:cwT0,width:36,height:10,rx:2,fill:STEEL,stroke:STEELD,"stroke-width":2}));
+ cwG.appendChild(el("rect",{x:mrx-18,y:cwT0+110,width:36,height:10,rx:2,fill:STEEL,stroke:STEELD,"stroke-width":2}));
+ cwG.appendChild(el("rect",{x:mrx-18,y:cwT0,width:5,height:120,fill:STEEL}));
+ cwG.appendChild(el("rect",{x:mrx+13,y:cwT0,width:5,height:120,fill:STEEL}));
+ for(var cwi=0;cwi<3;cwi++){cwG.appendChild(el("rect",{x:mrx-11,y:cwT0+14+cwi*32,width:22,height:26,rx:2,fill:(cwi%2?"#79808c":"#6d7480"),stroke:"#59606c","stroke-width":1.5}));}
+ scene.appendChild(cwG);
+ cwG.appendChild(pill(mrx+62,1160,"cwt"));
  scene.appendChild(el("rect",{x:x0+14,y:FLOOR+56,width:472,height:8,fill:"#6e6a5f",opacity:0.55}));
- var gx=x0+64, GR=24, gTop=548, tY=1556;
+ var gx=x0+64, GR=46, RR=40, TR=34, gTop=548, tY=1556;
+ var R_RIM2=40, R_RING2=37, R_TIP2=25;
  // governor stand on the beam
- scene.appendChild(el("rect",{x:gx-26,y:gTop+12,width:52,height:BEAM_T-(gTop+12),fill:"#4a5560",stroke:STEELD,"stroke-width":2}));
- // governor rope loop (endless): over governor, under pit tension sheave
- var gd="M "+(gx-GR)+" "+gTop+" A "+GR+" "+GR+" 0 0 1 "+(gx+GR)+" "+gTop+" L "+(gx+GR)+" "+tY+" A "+GR+" "+GR+" 0 0 0 "+(gx-GR)+" "+tY+" Z";
+ scene.appendChild(el("rect",{x:gx-16,y:gTop,width:32,height:BEAM_T-gTop,fill:"#4a5560",stroke:STEELD,"stroke-width":2}));
+ // governor rope loop (endless): over the sheave, down to the pit tension sheave
+ var gd="M "+(gx-RR)+" "+gTop+" A "+RR+" "+RR+" 0 0 1 "+(gx+RR)+" "+gTop+" L "+(gx+RR)+" "+tY+" A "+RR+" "+RR+" 0 0 0 "+(gx-RR)+" "+tY+" Z";
  scene.appendChild(el("path",{d:gd,fill:"none",stroke:"#6b7280","stroke-width":3.5}));
  var gTick=el("path",{d:gd,fill:"none",stroke:"#c9d0d8","stroke-width":2,"stroke-dasharray":"4 12"});
  scene.appendChild(gTick);
- // governor wheel + flyweights + trip jaw
- var govW=wheelSheave(gx,gTop,GR);
- var fly=[];[-1,1].forEach(function(sd){
+ // governor sheave: red rim (spins) + stationary yellow toothed catch ring
+ var govW=el("g",{});
+ govW.appendChild(el("circle",{cx:gx,cy:gTop,r:GR,fill:"#cf6350",stroke:"#7a2c1e","stroke-width":3}));
+ for(var pk6=0;pk6<8;pk6++){govW.appendChild(el("rect",{x:gx-3,y:gTop-(GR-6),width:6,height:5,rx:1,fill:"#5a2114",transform:"rotate("+(pk6*45)+" "+gx+" "+gTop+")"}));}
+ govW.appendChild(el("circle",{cx:gx,cy:gTop,r:R_RIM2,fill:"#b8503f",stroke:"#7a2c1e","stroke-width":1.5}));
+ scene.appendChild(govW);
+ var ring2=el("g",{});
+ ring2.appendChild(el("circle",{cx:gx,cy:gTop,r:R_RING2,fill:"#a83e2e"}));
+ for(var tt2=0;tt2<10;tt2++){ring2.appendChild(el("rect",{x:gx-4,y:gTop-R_RING2,width:8,height:R_RING2-R_TIP2+1,rx:1,fill:"#E0A800",stroke:"#8a6a00","stroke-width":1,transform:"rotate("+(tt2*36)+" "+gx+" "+gTop+")"}));}
+ ring2.appendChild(el("circle",{cx:gx,cy:gTop,r:R_TIP2-2,fill:"#a83e2e",stroke:"#7a2c1e","stroke-width":1}));
+ scene.appendChild(ring2);
+ // collinear flyweight linkage — spins with the sheave; weights slide out on overspeed
+ var mech2=el("g",{}), fly=[];
+ [-1,1].forEach(function(sd){
   var f=el("g",{});
-  f.appendChild(el("line",{x1:gx,y1:gTop,x2:gx+sd*15,y2:gTop-13,stroke:"#5b2a05","stroke-width":4,"stroke-linecap":"round"}));
-  f.appendChild(el("circle",{cx:gx+sd*15,cy:gTop-13,r:5,fill:"#8a3d08",stroke:"#5b2a05","stroke-width":1.5}));
-  scene.appendChild(f);fly.push({g:f,sd:sd});
+  f.appendChild(el("line",{x1:gx-sd*4,y1:gTop,x2:gx+sd*13,y2:gTop,stroke:"#b7c0ca","stroke-width":6,"stroke-linecap":"round"}));
+  f.appendChild(el("circle",{cx:gx+sd*13,cy:gTop,r:7,fill:"#aeb7c1",stroke:"#59606c","stroke-width":2}));
+  f.appendChild(el("path",{d:"M "+(gx+sd*19)+" "+(gTop-4)+" l "+(sd*7)+" 2 l "+(-sd*2)+" 7 l "+(-sd*6)+" -2 z",fill:"#7a828c",stroke:"#3a4048","stroke-width":1}));
+  mech2.appendChild(f);fly.push({g:f,sd:sd});
  });
- var pawl=el("path",{d:"M "+(gx+GR+10)+" "+(gTop-16)+" l 10 -6 l 2 12 z",fill:"#B33",stroke:"#701818","stroke-width":1.5});
- scene.appendChild(pawl);
- var ospill=pill(gx+96,gTop-28,"governor");
+ mech2.appendChild(el("circle",{cx:gx,cy:gTop,r:8,fill:"#8b97a4",stroke:"#39424d","stroke-width":2}));
+ mech2.appendChild(el("circle",{cx:gx,cy:gTop,r:2.5,fill:"#c2570a"}));
+ scene.appendChild(mech2);
+ var gGrip=el("g",{opacity:0});
+ [-1,1].forEach(function(sd){[-1,0,1].forEach(function(kk){gGrip.appendChild(el("line",{x1:gx+sd*R_TIP2,y1:gTop,x2:gx+sd*(R_TIP2+9),y2:gTop+kk*7,stroke:"#FFD24D","stroke-width":2,"stroke-linecap":"round"}));});});
+ scene.appendChild(gGrip);
+ pill(gx+96,gTop-40,"governor");
  // pit tension sheave + weight
- scene.appendChild(el("rect",{x:gx-16,y:tY+GR+2,width:32,height:34,rx:3,fill:"#4a5560",stroke:STEELD,"stroke-width":2}));
- var tenW=wheelSheave(gx,tY,20);
+ scene.appendChild(el("rect",{x:gx-16,y:tY+TR+2,width:32,height:30,rx:3,fill:"#4a5560",stroke:STEELD,"stroke-width":2}));
+ var tenW=wheelSheave(gx,tY,TR);
  pill(gx+108,tY+30,"tension sheave");
  // hoist rope (gets cut)
- var hoistUp=el("line",{x1:cx,y1:DEADY,x2:cx,y2:Y0+2,stroke:ROPE,"stroke-width":7,"stroke-linecap":"round"});
+ var hoistUp=el("line",{x1:cx,y1:MCY,x2:cx,y2:Y0+2,stroke:ROPE,"stroke-width":7,"stroke-linecap":"round"});
  var hoistStub=el("line",{x1:cx,y1:Y0+2,x2:cx,y2:Y0-30,stroke:ROPE,"stroke-width":7,"stroke-linecap":"round"});hoistStub.style.display="none";
  scene.appendChild(hoistUp);scene.appendChild(hoistStub);
  var flash=el("g",{opacity:0});
  for(var fa=0;fa<6;fa++){var an=fa*Math.PI/3;
-  flash.appendChild(el("line",{x1:cx,y1:690,x2:cx+Math.cos(an)*22,y2:690+Math.sin(an)*22,stroke:"#FFD24D","stroke-width":4,"stroke-linecap":"round"}));}
- flash.appendChild(el("circle",{cx:cx,cy:690,r:7,fill:"#fff"}));
+  flash.appendChild(el("line",{x1:cx,y1:810,x2:cx+Math.cos(an)*22,y2:810+Math.sin(an)*22,stroke:"#FFD24D","stroke-width":4,"stroke-linecap":"round"}));}
+ flash.appendChild(el("circle",{cx:cx,cy:810,r:7,fill:"#fff"}));
  scene.appendChild(flash);
  // car + linkage + jaws
  var carG=cab(carX,Y0,{gate:false});
@@ -604,39 +745,131 @@ function buildSafety(x0){
  carG.appendChild(el("rect",{x:gx+GR-3,y:levY-4,width:(carX+10)-(gx+GR-3),height:8,rx:2,fill:STEEL,stroke:STEELD,"stroke-width":1.2}));
  carG.appendChild(el("circle",{cx:carX+8,cy:levY,r:4,fill:"#8b97a4",stroke:STEELD,"stroke-width":1.5}));
  carG.appendChild(el("circle",{cx:gx+GR,cy:levY,r:3,fill:"#2f3740"}));
- var jawParts=[];
- (function(){var railOff=CABW/2+16;
-  [-1,1].forEach(function(sd){var rx=cx+sd*railOff;
-   var armX=(sd<0)? rx : carX+CABW-8;
-   var armW=(sd<0)? (carX+8-rx) : (rx-(carX+CABW-8));
-   carG.appendChild(el("rect",{x:armX,y:Y0+CABH-17,width:armW,height:9,fill:STEEL,stroke:STEELD,"stroke-width":1.2}));
-   carG.appendChild(el("rect",{x:rx-9,y:Y0+CABH-24,width:18,height:19,rx:2,fill:"#2f3740",stroke:"#1c2228","stroke-width":1.5}));
-   carG.appendChild(el("rect",{x:rx-3,y:Y0+CABH-24,width:6,height:19,fill:"#1c2228"}));
-   var trig=el("circle",{cx:rx,cy:Y0+CABH-28,r:2.5,fill:ORANGE});
-   carG.appendChild(trig);jawParts.push({trig:trig,rx:rx});
-  });})();
- // rail bite marks + sparks
- var bites=el("g",{opacity:0});
- jawParts.forEach(function(j){
-  bites.appendChild(el("rect",{x:j.rx-5,y:YSTOP+CABH-64,width:10,height:64,fill:"#3a3025",opacity:0.9}));});
- scene.appendChild(bites);
- var grip=el("g",{opacity:0});
- jawParts.forEach(function(j){
-  grip.appendChild(el("rect",{x:j.rx-5,y:YSTOP+CABH-70,width:10,height:80,fill:"#e33"}));
-  grip.appendChild(el("circle",{cx:j.rx,cy:YSTOP+CABH-24,r:32,fill:"none",stroke:ORANGE,"stroke-width":4.5}));
+ // twin wedge-type car safeties — one per guide rail, mounted on the car sling
+ var safeHous=el("g",{}), safeWed=el("g",{}), safeFx=el("g",{}), glow6=[], sparks6=[];
+ var sBase=Y0+CABH;
+ [-1,1].forEach(function(sd){
+  var rx=cx+sd*(CABW/2+16);
+  var armX=(sd<0? rx : carX+CABW-6), armW=(sd<0? (carX+6-rx) : (rx-(carX+CABW-6)));
+  safeHous.appendChild(el("rect",{x:armX,y:sBase-46,width:armW,height:9,fill:STEEL,stroke:STEELD,"stroke-width":1.2}));
+  safeHous.appendChild(el("rect",{x:rx-20,y:sBase-64,width:40,height:74,rx:5,fill:"#cdc4b4",stroke:"#a89e8c","stroke-width":2}));
+  safeHous.appendChild(el("rect",{x:rx-20,y:sBase-64,width:40,height:6,rx:2,fill:"#e2dbcc"}));
  });
- scene.appendChild(grip);
- var sparks=el("g",{opacity:0});
- jawParts.forEach(function(j){[-1,0,1].forEach(function(k){
-  sparks.appendChild(el("line",{x1:j.rx,y1:0,x2:j.rx+k*9-5,y2:30,stroke:"#FF9a3b","stroke-width":3.6,"stroke-linecap":"round"}));});});
- scene.appendChild(sparks);
+ scene.appendChild(safeHous);
+ [-1,1].forEach(function(sd){
+  var rx=cx+sd*(CABW/2+16);
+  var wg=el("g",{});
+  wg.appendChild(el("path",{d:"M "+(rx-sd*4)+" "+(sBase-56)+" L "+(rx-sd*16)+" "+(sBase-56)+" L "+(rx-sd*12)+" "+(sBase-6)+" L "+(rx-sd*4)+" "+(sBase-6)+" Z",fill:"#E9C21A",stroke:"#9c7d00","stroke-width":2}));
+  wg.appendChild(el("line",{x1:rx-sd*8,y1:sBase-52,x2:rx-sd*8,y2:sBase-10,stroke:"#fff0a8","stroke-width":2,"stroke-linecap":"round",opacity:0.8}));
+  safeWed.appendChild(wg);
+ });
+ scene.appendChild(safeWed);
+ [-1,1].forEach(function(sd){
+  var rx=cx+sd*(CABW/2+16);
+  var gl=el("rect",{x:rx-3,y:sBase-56,width:6,height:52,fill:"#e33",opacity:0});
+  safeFx.appendChild(gl);glow6.push(gl);
+  var sp=el("g",{opacity:0});
+  [-1,0,1].forEach(function(k){sp.appendChild(el("line",{x1:rx,y1:sBase-30,x2:rx-sd*(8+k*3),y2:sBase-30+k*10,stroke:"#FF9a3b","stroke-width":3,"stroke-linecap":"round"}));});
+  safeFx.appendChild(sp);sparks6.push(sp);
+ });
+ scene.appendChild(safeFx);
+ // operating linkage: the governor rope is clamped to a cross-bar that lifts BOTH wedges
+ var xbar=el("g",{});
+ xbar.appendChild(el("rect",{x:cx-(CABW/2+18),y:sBase-62,width:2*(CABW/2+18),height:8,rx:2,fill:STEEL,stroke:STEELD,"stroke-width":1.5}));
+ [-1,1].forEach(function(sd){xbar.appendChild(el("rect",{x:cx+sd*(CABW/2+16)-3,y:sBase-58,width:6,height:8,fill:STEEL}));});
+ safeWed.appendChild(xbar);
+ var clampX=gx+RR;
+ var liftRod=el("line",{x1:clampX,y1:722,x2:clampX,y2:sBase-58,stroke:"url(#rodMetal)","stroke-width":7});
+ scene.appendChild(liftRod);
+ var ropeClamp=el("g",{});
+ ropeClamp.appendChild(el("rect",{x:clampX-11,y:700,width:22,height:22,rx:3,fill:"#4a5560",stroke:STEELD,"stroke-width":2}));
+ ropeClamp.appendChild(el("circle",{cx:clampX,cy:711,r:3.5,fill:ORANGE}));
+ scene.appendChild(ropeClamp);
+ pill(clampX+66,690,"governor rope clamped to the safety");
+ pill(cx,sBase+72,"rope held → the clamp pulls the wedges UP");
  // status banner + gauge
  var st=el("g",{});
- var stBox=el("rect",{x:cx-150,y:940,width:300,height:40,rx:10,fill:NAVY,opacity:0.96});
- var stTxt=txt({x:cx,y:966,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":16,"font-weight":800,fill:"#fff"},"NORMAL RUN");
+ var stBox=el("rect",{x:cx-150,y:352,width:300,height:40,rx:10,fill:NAVY,opacity:0.96});
+ var stTxt=txt({x:cx,y:378,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":16,"font-weight":800,fill:"#fff"},"NORMAL RUN");
  st.appendChild(stBox);st.appendChild(stTxt);scene.appendChild(st);
- var ga=gaugeBox(cx,1010);
- pill(cx+118,Y0+CABH-40+6,"safety jaws");
+ var ga=gaugeBox(cx,398);
+ carG.appendChild(pill(cx+118,Y0+CABH-40+6,"wedge safeties"));
+ /* ---- pop-up zoom lenses: governor + safety close-ups at the right moments ---- */
+ function mkLens(LX,LY,LR,idk){
+  var lg=el("g",{opacity:0});
+  var cp=el("clipPath",{id:"lens"+x0+idk});
+  cp.appendChild(el("circle",{cx:LX,cy:LY,r:LR-3}));
+  defs.appendChild(cp);
+  lg.appendChild(el("circle",{cx:LX,cy:LY,r:LR,fill:"#f2efe6",stroke:"#3a352e","stroke-width":2}));
+  var inner=el("g",{"clip-path":"url(#lens"+x0+idk+")"});
+  lg.appendChild(inner);
+  lg.appendChild(el("circle",{cx:LX,cy:LY,r:LR,fill:"none",stroke:ORANGE,"stroke-width":5}));
+  scene.appendChild(lg);
+  return {g:lg,inner:inner};
+ }
+ function leaders(sx,sy,sr,LX,LY,LR){
+  var g=el("g",{opacity:0});
+  g.appendChild(el("circle",{cx:sx,cy:sy,r:sr,fill:"none",stroke:ORANGE,"stroke-width":2.5,"stroke-dasharray":"6 6"}));
+  var dx=LX-sx,dy=LY-sy,dd=Math.sqrt(dx*dx+dy*dy),px=-dy/dd,py=dx/dd;
+  g.appendChild(el("line",{x1:sx+px*sr,y1:sy+py*sr,x2:LX+px*LR,y2:LY+py*LR,stroke:ORANGE,"stroke-width":2.5,opacity:0.8}));
+  g.appendChild(el("line",{x1:sx-px*sr,y1:sy-py*sr,x2:LX-px*LR,y2:LY-py*LR,stroke:ORANGE,"stroke-width":2.5,opacity:0.8}));
+  scene.appendChild(g);return g;
+ }
+ /* governor lens */
+ var GLX=x0+118, GLY=780, GLR=78;
+ var gvLed=leaders(gx,gTop,32,GLX,GLY,GLR);
+ var gvL=mkLens(GLX,GLY,GLR,"g");
+ var GR3=50, ropeL2=GLX-GR3-6, ropeR2=GLX+GR3+6;
+ var gvd2="M "+ropeL2+" "+GLY+" A "+(GR3+6)+" "+(GR3+6)+" 0 0 1 "+ropeR2+" "+GLY+" M "+ropeL2+" "+GLY+" L "+ropeL2+" "+(GLY+90)+" M "+ropeR2+" "+GLY+" L "+ropeR2+" "+(GLY+90);
+ gvL.inner.appendChild(el("path",{d:gvd2,fill:"none",stroke:"#6b7280","stroke-width":4}));
+ var gvT2=el("path",{d:gvd2,fill:"none",stroke:"#c9d0d8","stroke-width":2.5,"stroke-dasharray":"5 12"});
+ gvL.inner.appendChild(gvT2);
+ var LG_OUT=54, LG_RIM=47, LG_RING=44, LG_TIP=30;
+ var lwheel=el("g",{});
+ lwheel.appendChild(el("circle",{cx:GLX,cy:GLY,r:LG_OUT,fill:"#cf6350",stroke:"#7a2c1e","stroke-width":3}));
+ for(var lpk=0;lpk<8;lpk++){lwheel.appendChild(el("rect",{x:GLX-3,y:GLY-(LG_OUT-5),width:6,height:5,rx:1,fill:"#5a2114",transform:"rotate("+(lpk*45)+" "+GLX+" "+GLY+")"}));}
+ lwheel.appendChild(el("circle",{cx:GLX,cy:GLY,r:LG_RIM,fill:"#b8503f",stroke:"#7a2c1e","stroke-width":1.5}));
+ gvL.inner.appendChild(lwheel);
+ var lring=el("g",{});
+ lring.appendChild(el("circle",{cx:GLX,cy:GLY,r:LG_RING,fill:"#a83e2e"}));
+ for(var ltt=0;ltt<10;ltt++){lring.appendChild(el("rect",{x:GLX-4,y:GLY-LG_RING,width:8,height:LG_RING-LG_TIP+1,rx:1,fill:"#E0A800",stroke:"#8a6a00","stroke-width":1,transform:"rotate("+(ltt*36)+" "+GLX+" "+GLY+")"}));}
+ lring.appendChild(el("circle",{cx:GLX,cy:GLY,r:LG_TIP-2,fill:"#a83e2e",stroke:"#7a2c1e","stroke-width":1}));
+ gvL.inner.appendChild(lring);
+ var lmech=el("g",{}), lfly=[];
+ [-1,1].forEach(function(sd){
+  var f=el("g",{});
+  f.appendChild(el("line",{x1:GLX-sd*5,y1:GLY,x2:GLX+sd*16,y2:GLY,stroke:"#b7c0ca","stroke-width":7,"stroke-linecap":"round"}));
+  f.appendChild(el("circle",{cx:GLX+sd*16,cy:GLY,r:8,fill:"#aeb7c1",stroke:"#59606c","stroke-width":2}));
+  f.appendChild(el("path",{d:"M "+(GLX+sd*23)+" "+(GLY-5)+" l "+(sd*8)+" 2 l "+(-sd*2)+" 8 l "+(-sd*7)+" -2 z",fill:"#7a828c",stroke:"#3a4048","stroke-width":1}));
+  lmech.appendChild(f);lfly.push({g:f,sd:sd});
+ });
+ lmech.appendChild(el("circle",{cx:GLX,cy:GLY,r:9,fill:"#8b97a4",stroke:"#39424d","stroke-width":2}));
+ lmech.appendChild(el("circle",{cx:GLX,cy:GLY,r:3,fill:"#c2570a"}));
+ gvL.inner.appendChild(lmech);
+ var gripFx2=el("g",{opacity:0});
+ [-1,1].forEach(function(sd){[-1,0,1].forEach(function(kk){gripFx2.appendChild(el("line",{x1:GLX+sd*LG_TIP,y1:GLY,x2:GLX+sd*(LG_TIP+11),y2:GLY+kk*8,stroke:"#FFD24D","stroke-width":2.4,"stroke-linecap":"round"}));});});
+ gvL.inner.appendChild(gripFx2);
+ gvL.g.appendChild(txt({x:GLX,y:GLY+GLR+22,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":11.5,"font-weight":800,fill:"#3a352e"},"flyweights out \u2014 rope gripped"));
+ /* safety wedge lens */
+ var JLX=x0+425, JLY=1340, JLR=64;
+ var jwLed=leaders(cx+151,YSTOP+CABH-24,30,JLX,JLY,JLR);
+ var jwL=mkLens(JLX,JLY,JLR,"j");
+ jwL.inner.appendChild(el("rect",{x:JLX-9,y:JLY-60,width:18,height:120,fill:"#31363c",stroke:"#1b1f24","stroke-width":2}));
+ jwL.inner.appendChild(el("rect",{x:JLX-2,y:JLY-60,width:4,height:120,fill:"#454c54"}));
+ var lwedges=[], lglow=[];
+ [-1,1].forEach(function(sd){
+  jwL.inner.appendChild(el("rect",{x:(sd<0?JLX-40:JLX+18),y:JLY-40,width:22,height:80,rx:4,fill:"#cdc4b4",stroke:"#a89e8c","stroke-width":2}));
+  var wg=el("g",{});
+  wg.appendChild(el("path",{d:"M "+(JLX+sd*10)+" "+(JLY-34)+" L "+(JLX+sd*22)+" "+(JLY-34)+" L "+(JLX+sd*18)+" "+(JLY+30)+" L "+(JLX+sd*10)+" "+(JLY+30)+" Z",fill:"#E9C21A",stroke:"#9c7d00","stroke-width":2}));
+  jwL.inner.appendChild(wg);lwedges.push({g:wg,sd:sd});
+  var gl=el("rect",{x:(sd<0?JLX-11:JLX+8),y:JLY-34,width:3,height:64,fill:"#e33",opacity:0});
+  jwL.inner.appendChild(gl);lglow.push(gl);
+ });
+ jwL.inner.appendChild(el("line",{x1:JLX,y1:JLY-118,x2:JLX,y2:JLY-40,stroke:"url(#rodMetal)","stroke-width":6}));
+ var clampFx2=el("g",{opacity:0});
+ [-1,1].forEach(function(sd){[-1,0,1].forEach(function(kk){clampFx2.appendChild(el("line",{x1:JLX+sd*9,y1:JLY,x2:JLX+sd*22,y2:JLY+kk*12,stroke:"#FF9a3b","stroke-width":2.6,"stroke-linecap":"round"}));});});
+ jwL.inner.appendChild(clampFx2);
+ jwL.g.appendChild(txt({x:JLX-14,y:JLY-JLR-12,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":11.5,"font-weight":800,fill:"#3a352e"},"wedge clamps the rail"));
  function carY(tl){
   if(tl<CUT) return Y0+80*tl;
   if(tl<TRIP){var u=tl-CUT;return YCUT+80*u+275*u*u;}
@@ -656,35 +889,63 @@ function buildSafety(x0){
   var y=carY(tl), off=y-Y0, v=carV(tl);
   var tripped=(tl>=TRIP&&tl<RESET), cut=(tl>=CUT&&tl<RESET+0.15);
   carG.setAttribute("transform","translate(0,"+off.toFixed(1)+")");
+  var rotBase=Math.min(y,YCUT)-Y0;
+  disc.setAttribute("transform","rotate("+((rotBase)/(2*Math.PI*58)*360).toFixed(1)+" "+mcx+" "+MCY+")");
+  cwG.setAttribute("transform","translate(0,"+(-rotBase).toFixed(1)+")");
+  cwRope.setAttribute("y2",(cwT0-2-rotBase).toFixed(1));
   // hoist rope
   if(!cut){hoistUp.setAttribute("y2",(y+2).toFixed(1));hoistUp.style.display="";hoistStub.style.display="none";}
   else{
    var sway=Math.sin(tl*6)*6;
-   hoistUp.setAttribute("y2","700");hoistUp.setAttribute("x2",(cx+sway).toFixed(1));
+   hoistUp.setAttribute("y2","812");hoistUp.setAttribute("x2",(cx+sway).toFixed(1));
    hoistStub.style.display="";
    hoistStub.setAttribute("y1",(y+2).toFixed(1));hoistStub.setAttribute("y2",(y-32).toFixed(1));
    hoistStub.setAttribute("x2",(cx-sway*0.7).toFixed(1));
   }
   if(!cut){hoistUp.setAttribute("x2",cx);}
   flash.setAttribute("opacity", (tl>=CUT&&tl<CUT+0.3)? (1-(tl-CUT)/0.3).toFixed(2) : 0);
-  // governor: spins with car travel until trip, then frozen
-  var travel=(tripped||tl>=RESET&&tl<REUP&&tl>=RESET)?(tl>=RESET? (y-Y0):(YTRIP-Y0)):(y-Y0);
+  // governor: sheave + collinear linkage spin with car travel until trip, then frozen
   var frozen=tripped? (YTRIP-Y0) : (y-Y0);
-  var rot=(frozen)/(2*Math.PI*GR)*360;
+  var rot=(frozen)/(2*Math.PI*RR)*360;
   govW.setAttribute("transform","rotate("+rot.toFixed(1)+" "+gx+" "+gTop+")");
+  mech2.setAttribute("transform","rotate("+rot.toFixed(1)+" "+gx+" "+gTop+")");
   tenW.setAttribute("transform","rotate("+rot.toFixed(1)+" "+gx+" "+tY+")");
   gTick.setAttribute("stroke-dashoffset",(-frozen).toFixed(1));
-  var flyA=tripped? 34 : Math.max(0,Math.min(34,(v-90)/320*34));
-  fly.forEach(function(f){f.g.setAttribute("transform","rotate("+(f.sd*flyA*-1).toFixed(1)+" "+gx+" "+gTop+")");});
-  pawl.setAttribute("transform",tripped? "rotate(24 "+(gx+GR+10)+" "+(gTop-16)+")":"");
-  pawl.setAttribute("fill",tripped? "#e33":"#B33");
-  // jaws + effects
-  jawParts.forEach(function(j){j.trig.setAttribute("fill",tripped?"#e33":ORANGE);j.trig.setAttribute("r",tripped?3.4:2.5);});
-  bites.setAttribute("opacity",(tl>=TRIP&&tl<REUP)? 0.9:0);
-  grip.setAttribute("opacity",(tl>=TRIP&&tl<RESET)? (0.5+0.4*Math.sin(tl*8)).toFixed(2):0);
+  var engageG=tripped? 1 : Math.max(0,Math.min(1,(v-90)/320));
+  var extG=8*engageG;
+  fly.forEach(function(f){f.g.setAttribute("transform","translate("+(f.sd*extG).toFixed(1)+",0)");});
+  gGrip.setAttribute("opacity",(tl>=TRIP&&tl<TRIP+0.4)? (1-(tl-TRIP)/0.4).toFixed(2):0);
+  // twin wedge safeties: the held rope (frozen) lags the falling car -> wedges pulled up
+  var pull6=Math.max(0,off-frozen), wUp6=Math.min(pull6,30);
+  safeHous.setAttribute("transform","translate(0,"+off.toFixed(1)+")");
+  safeWed.setAttribute("transform","translate(0,"+(off-wUp6).toFixed(1)+")");
+  safeFx.setAttribute("transform","translate(0,"+off.toFixed(1)+")");
+  ropeClamp.setAttribute("transform","translate(0,"+frozen.toFixed(1)+")");
+  ropeClamp.childNodes[0].setAttribute("fill",tripped?"#B33":"#4a5560");
+  liftRod.setAttribute("y1",(722+frozen).toFixed(1));
+  liftRod.setAttribute("y2",(sBase-58+off-wUp6).toFixed(1));
+  glow6.forEach(function(g){g.setAttribute("opacity",(tl>=STOP&&tl<RESET)?0.75:(tripped?0.4:0));});
   var sk=(tl>=TRIP&&tl<STOP)? (1-(tl-TRIP)/(STOP-TRIP)):0;
-  sparks.setAttribute("opacity",sk.toFixed(2));
-  sparks.setAttribute("transform","translate(0,"+(off+CABH-8).toFixed(1)+")");
+  sparks6.forEach(function(s){s.setAttribute("opacity",sk.toFixed(2));});
+  // zoom lenses pop at the right moments
+  var gvOn=(tl>2.6&&tl<6.5)? Math.min(1,(tl-2.6)/0.25)*((tl>6.2)?Math.max(0,(6.5-tl)/0.3):1) : 0;
+  var jwOn=(tl>3.05&&tl<6.5)? Math.min(1,(tl-3.05)/0.25)*((tl>6.2)?Math.max(0,(6.5-tl)/0.3):1) : 0;
+  var gs=0.75+0.25*gvOn, js=0.75+0.25*jwOn;
+  gvL.g.setAttribute("opacity",gvOn.toFixed(2));gvLed.setAttribute("opacity",(gvOn*0.9).toFixed(2));
+  jwL.g.setAttribute("opacity",jwOn.toFixed(2));jwLed.setAttribute("opacity",(jwOn*0.9).toFixed(2));
+  gvL.g.setAttribute("transform","translate("+(GLX*(1-gs)).toFixed(1)+","+(GLY*(1-gs)).toFixed(1)+") scale("+gs.toFixed(3)+")");
+  jwL.g.setAttribute("transform","translate("+(JLX*(1-js)).toFixed(1)+","+(JLY*(1-js)).toFixed(1)+") scale("+js.toFixed(3)+")");
+  lwheel.setAttribute("transform","rotate("+rot.toFixed(1)+" "+GLX+" "+GLY+")");
+  lmech.setAttribute("transform","rotate("+rot.toFixed(1)+" "+GLX+" "+GLY+")");
+  gvT2.setAttribute("stroke-dashoffset",(-frozen).toFixed(1));
+  var extL=10*engageG;
+  lfly.forEach(function(f){f.g.setAttribute("transform","translate("+(f.sd*extL).toFixed(1)+",0)");});
+  gripFx2.setAttribute("opacity",(tl>=TRIP&&tl<TRIP+0.6)? (1-(tl-TRIP)/0.6).toFixed(2):0);
+  var wprog=(tl<TRIP)?0:(tl<STOP? (tl-TRIP)/(STOP-TRIP):(tl<RESET?1:0));
+  lwedges.forEach(function(w){w.g.setAttribute("transform","translate("+(-w.sd*wprog*8).toFixed(1)+","+(-wprog*20).toFixed(1)+")");});
+  var gl=(tl>=STOP&&tl<RESET)? (0.5+0.35*Math.sin(tl*8)) : (tripped?0.4:0);
+  lglow.forEach(function(g){g.setAttribute("opacity",gl.toFixed(2));});
+  clampFx2.setAttribute("opacity",(tl>=STOP-0.15&&tl<STOP+0.5)? 0.9:0);
   // status
   var msg,col;
   if(tl<CUT){msg="NORMAL RUN";col=NAVY;}
@@ -705,93 +966,125 @@ function buildSafetyCloseup(x0){
  var cx=x0+250;
  var LOOP=9, CUT=2.5, TRIP=3.1, STOP=3.7, RESET=6.5, REUP=7.4;
  var Y0=480, YCUT=680, YTRIP=827, DELTA=123, YSTOP=YTRIP+DELTA;
- title(cx,"CLOSE-UP","Inside the governor & the safety","flyweights swing out \u2192 jaw grips the rope","pull-rod lifts the wedge \u2192 rail gets clamped");
- /* ---- top card: governor ---- */
- var gy=632, GR2=104;
+ title(cx,"CLOSE-UP","Inside the governor & the safety","flyweights fling out \u2192 pawls latch the ridges","rods lift the twin wedges \u2192 both grip the rail");
+ /* ---- top card: governor (centrifugal flyweight type) ---- */
+ var gy=630, R_OUT=120, R_RIM=100, R_RING=92, R_TIP=68;
  scene.appendChild(el("rect",{x:x0+26,y:372,width:448,height:534,rx:14,fill:"#00000012",stroke:"#00000022","stroke-width":1}));
  scene.appendChild(txt({x:cx,y:404,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":15,"font-weight":800,fill:"#3a352e"},"GOVERNOR \u2014 how it trips"));
- var ropeL=cx-GR2-6, ropeR=cx+GR2+6;
- var gvd="M "+ropeL+" "+gy+" A "+(GR2+6)+" "+(GR2+6)+" 0 0 1 "+ropeR+" "+gy+" M "+ropeR+" "+gy+" L "+ropeR+" 894 M "+ropeL+" "+gy+" L "+ropeL+" 894";
+ /* governor rope rides the rim groove, down both sides to the pit tension sheave */
+ var ropeL=cx-R_OUT-8, ropeR=cx+R_OUT+8;
+ var gvd="M "+ropeL+" "+gy+" A "+(R_OUT+8)+" "+(R_OUT+8)+" 0 0 1 "+ropeR+" "+gy+" M "+ropeR+" "+gy+" L "+ropeR+" 900 M "+ropeL+" "+gy+" L "+ropeL+" 900";
  scene.appendChild(el("path",{d:gvd,fill:"none",stroke:"#6b7280","stroke-width":5}));
  var gvT=el("path",{d:gvd,fill:"none",stroke:"#c9d0d8","stroke-width":3,"stroke-dasharray":"6 16"});
  scene.appendChild(gvT);
- var shoe=el("rect",{x:ropeR-16,y:gy+6,width:10,height:30,rx:2,fill:"#2f3740"});
- scene.appendChild(shoe);
- var wheel=el("g",{});
- wheel.appendChild(el("circle",{cx:cx,cy:gy,r:GR2,fill:"url(#discMetal)",stroke:"#1a2027","stroke-width":4}));
- wheel.appendChild(el("circle",{cx:cx,cy:gy,r:GR2-10,fill:"none",stroke:"#11161c","stroke-width":3,opacity:0.7}));
- for(var k=0;k<2;k++){var a=k*Math.PI/2+Math.PI/4;
-  wheel.appendChild(el("line",{x1:cx+Math.cos(a)*(GR2-14),y1:gy+Math.sin(a)*(GR2-14),x2:cx-Math.cos(a)*(GR2-14),y2:gy-Math.sin(a)*(GR2-14),stroke:"#141a20","stroke-width":10,opacity:0.9}));}
- wheel.appendChild(el("circle",{cx:cx,cy:gy,r:22,fill:"#8b97a4",stroke:"#39424d","stroke-width":3}));
- var flyG=[];
+ /* red sheave rim \u2014 spins to convey speed */
+ var rim=el("g",{});
+ rim.appendChild(el("circle",{cx:cx,cy:gy,r:R_OUT,fill:"#cf6350",stroke:"#7a2c1e","stroke-width":5}));
+ rim.appendChild(el("circle",{cx:cx,cy:gy,r:R_OUT-4,fill:"none",stroke:"#e79684","stroke-width":1.5,opacity:0.7}));
+ for(var pk=0;pk<12;pk++){rim.appendChild(el("rect",{x:cx-7,y:gy-(R_OUT-16),width:14,height:9,rx:2,fill:"#5a2114",transform:"rotate("+(pk*30)+" "+cx+" "+gy+")"}));}
+ rim.appendChild(el("circle",{cx:cx,cy:gy,r:R_RIM,fill:"#b8503f",stroke:"#7a2c1e","stroke-width":2}));
+ scene.appendChild(rim);
+ /* yellow toothed catch ring \u2014 the "side ridges" the pawls bite */
+ var ring=el("g",{});
+ ring.appendChild(el("circle",{cx:cx,cy:gy,r:R_RING,fill:"#a83e2e"}));
+ var NT=16;
+ for(var tt=0;tt<NT;tt++){ring.appendChild(el("rect",{x:cx-7,y:gy-R_RING,width:14,height:R_RING-R_TIP+2,rx:1.5,fill:"#E0A800",stroke:"#8a6a00","stroke-width":1.4,transform:"rotate("+(tt*360/NT)+" "+cx+" "+gy+")"}));}
+ ring.appendChild(el("circle",{cx:cx,cy:gy,r:R_TIP-2,fill:"#a83e2e",stroke:"#7a2c1e","stroke-width":1.5}));
+ scene.appendChild(ring);
+ /* central flyweight linkage \u2014 collinear arms on a hub; spins WITH the sheave,
+    the two weights slide straight out along the bar only as speed builds */
+ var mech=el("g",{}), flyG=[];
  [-1,1].forEach(function(sd){
   var f=el("g",{});
-  f.appendChild(el("line",{x1:cx+sd*38,y1:gy,x2:cx+sd*84,y2:gy,stroke:"#c2570a","stroke-width":9,"stroke-linecap":"round"}));
-  f.appendChild(el("circle",{cx:cx+sd*84,cy:gy,r:14,fill:"#E06A17",stroke:"#7a3608","stroke-width":3}));
-  f.appendChild(el("circle",{cx:cx+sd*38,cy:gy,r:5,fill:"#2f3740"}));
-  wheel.appendChild(f);flyG.push({g:f,sd:sd});
+  f.appendChild(el("line",{x1:cx-sd*6,y1:gy,x2:cx+sd*30,y2:gy,stroke:"#b7c0ca","stroke-width":11,"stroke-linecap":"round"}));
+  f.appendChild(el("line",{x1:cx+sd*2,y1:gy,x2:cx+sd*26,y2:gy,stroke:"#e7ecf0","stroke-width":3,"stroke-linecap":"round",opacity:0.7}));
+  f.appendChild(el("circle",{cx:cx+sd*30,cy:gy,r:15,fill:"#aeb7c1",stroke:"#59606c","stroke-width":3}));
+  f.appendChild(el("circle",{cx:cx+sd*30,cy:gy,r:5,fill:"#59606c"}));
+  f.appendChild(el("path",{d:"M "+(cx+sd*44)+" "+(gy-7)+" l "+(sd*14)+" 3 l "+(-sd*4)+" 12 l "+(-sd*11)+" -4 z",fill:"#7a828c",stroke:"#3a4048","stroke-width":1.5}));
+  mech.appendChild(f);flyG.push({g:f,sd:sd});
  });
- scene.appendChild(wheel);
+ mech.appendChild(el("circle",{cx:cx,cy:gy,r:16,fill:"#8b97a4",stroke:"#39424d","stroke-width":3}));
+ mech.appendChild(el("circle",{cx:cx,cy:gy,r:5,fill:"#c2570a"}));
+ scene.appendChild(mech);
+ /* rope-grip jaw on the right strand \u2014 clamps on trip */
  var jaw=el("g",{});
- jaw.appendChild(el("rect",{x:ropeR+26,y:gy-4,width:14,height:46,rx:3,fill:"#4a5560",stroke:STEELD,"stroke-width":2}));
- jaw.appendChild(el("path",{d:"M "+(ropeR+26)+" "+(gy+4)+" l -18 5 l 0 18 l 18 5 z",fill:"#B33",stroke:"#701818","stroke-width":2}));
+ jaw.appendChild(el("rect",{x:ropeR+8,y:gy+168,width:16,height:48,rx:3,fill:"#4a5560",stroke:STEELD,"stroke-width":2}));
+ jaw.appendChild(el("path",{d:"M "+(ropeR+8)+" "+(gy+178)+" l -20 6 l 0 18 l 20 6 z",fill:"#B33",stroke:"#701818","stroke-width":2}));
  scene.appendChild(jaw);
+ /* latch flash where the pawls bite the ridges */
  var gripFx=el("g",{opacity:0});
- [-1,0,1].forEach(function(kk){gripFx.appendChild(el("line",{x1:ropeR,y1:gy+16,x2:ropeR+kk*10-6,y2:gy-6,stroke:"#FFD24D","stroke-width":3,"stroke-linecap":"round"}));});
+ [-1,1].forEach(function(sd){[-1,0,1].forEach(function(kk){gripFx.appendChild(el("line",{x1:cx+sd*R_TIP,y1:gy,x2:cx+sd*(R_TIP+18),y2:gy+kk*15,stroke:"#FFD24D","stroke-width":3.2,"stroke-linecap":"round"}));});});
  scene.appendChild(gripFx);
+ /* overspeed switch */
  var sw=el("g",{});
- sw.appendChild(el("rect",{x:x0+52,y:gy-110,width:56,height:34,rx:5,fill:NAVY2,stroke:NAVYD,"stroke-width":2}));
- var led=el("circle",{cx:x0+66,cy:gy-93,r:5,fill:"#3fae57"});
+ sw.appendChild(el("rect",{x:x0+40,y:414,width:58,height:32,rx:5,fill:NAVY2,stroke:NAVYD,"stroke-width":2}));
+ var led=el("circle",{cx:x0+54,cy:430,r:5,fill:"#3fae57"});
  sw.appendChild(led);
- sw.appendChild(txt({x:x0+88,y:gy-88,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":10,"font-weight":800,fill:"#fff"},"PWR"));
+ sw.appendChild(txt({x:x0+78,y:434,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":10,"font-weight":800,fill:"#fff"},"PWR"));
  scene.appendChild(sw);
- pill(x0+124,gy+130,"flyweights swing out with speed");
- pill(ropeR-58,gy+68,"\u2460 jaw grips \u2014 governor rope STOPS");
- pill(x0+128,gy-134,"overspeed switch cuts power first");
- /* ---- bottom card: safety wedge (camera riding the car) ---- */
+ pill(cx+44,432,"overspeed switch cuts power first");
+ pill(cx,784,"\u2460 flyweights fling out with speed");
+ pill(cx,824,"\u2461 pawls latch the ridges \u2192 car stops");
+ /* ---- bottom card: twin-wedge car safety (camera rides the car) ---- */
  var by0=942;
  scene.appendChild(el("rect",{x:x0+26,y:by0,width:448,height:716,rx:14,fill:"#00000012",stroke:"#00000022","stroke-width":1}));
- scene.appendChild(txt({x:cx,y:by0+30,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":15,"font-weight":800,fill:"#3a352e"},"CAR SAFETY \u2014 what the trip does"));
- var rlx=x0+150, railW=30, rTop=by0+52, rBot=by0+664;
- scene.appendChild(el("rect",{x:rlx-railW/2,y:rTop,width:railW,height:rBot-rTop,fill:"#8f897c",stroke:"#6e6a5f","stroke-width":2}));
- scene.appendChild(el("rect",{x:rlx-2,y:rTop,width:4,height:rBot-rTop,fill:"#6e6a5f"}));
+ scene.appendChild(txt({x:cx,y:by0+30,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":15,"font-weight":800,fill:"#3a352e"},"CAR SAFETY \u2014 twin wedges grip the rail"));
+ var rTop=by0+58, rBot=by0+692, railHalf=17;
+ /* guide rail (centre) */
+ scene.appendChild(el("rect",{x:cx-railHalf,y:rTop,width:2*railHalf,height:rBot-rTop,fill:"#31363c",stroke:"#1b1f24","stroke-width":2}));
+ scene.appendChild(el("rect",{x:cx-4,y:rTop,width:8,height:rBot-rTop,fill:"#454c54"}));
  var clip=el("clipPath",{id:"railClip"+x0});
- clip.appendChild(el("rect",{x:rlx-railW/2+3,y:rTop+3,width:railW-6,height:rBot-rTop-6}));
+ clip.appendChild(el("rect",{x:cx-railHalf+2,y:rTop+2,width:2*railHalf-4,height:rBot-rTop-4}));
  defs.appendChild(clip);
  var railTicks=el("g",{"clip-path":"url(#railClip"+x0+")"});
- var rtLine=el("path",{d:"",stroke:"#7a7568","stroke-width":3,fill:"none"});
- var rd="";for(var ty=rTop-200;ty<rBot+200;ty+=40){rd+="M "+(rlx-railW/2+5)+" "+ty+" L "+(rlx+railW/2-5)+" "+(ty+10)+" ";}
+ var rtLine=el("path",{d:"",stroke:"#565c63","stroke-width":3,fill:"none"});
+ var rd="";for(var ty=rTop-200;ty<rBot+200;ty+=40){rd+="M "+(cx-railHalf+4)+" "+ty+" L "+(cx+railHalf-4)+" "+(ty+10)+" ";}
  rtLine.setAttribute("d",rd);
  railTicks.appendChild(rtLine);scene.appendChild(railTicks);
- var hx=rlx+railW/2;
- scene.appendChild(el("rect",{x:hx+46,y:by0+236,width:200,height:210,rx:8,fill:"#39424c",stroke:STEELD,"stroke-width":3}));
- scene.appendChild(el("path",{d:"M "+(hx+46)+" "+(by0+236)+" l 30 210 l 34 0 l 0 -210 z",fill:"#2b323a"}));
- scene.appendChild(txt({x:hx+168,y:by0+334,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":12,"font-weight":700,fill:"#cfd6dd"},"housing on"));
- scene.appendChild(txt({x:hx+168,y:by0+352,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":12,"font-weight":700,fill:"#cfd6dd"},"car sling"));
- scene.appendChild(el("rect",{x:rlx-railW/2-26,y:by0+286,width:26+railW+50,height:12,rx:3,fill:"#2f3740",stroke:"#1c2228","stroke-width":1.5}));
- scene.appendChild(el("rect",{x:rlx-railW/2-26,y:by0+452,width:26+railW+50,height:12,rx:3,fill:"#2f3740",stroke:"#1c2228","stroke-width":1.5}));
- scene.appendChild(el("rect",{x:rlx-railW/2-26,y:by0+292,width:24,height:172,rx:3,fill:"#39424c",stroke:"#1c2228","stroke-width":2}));
- var gibEdge=el("line",{x1:rlx-railW/2-2,y1:by0+300,x2:rlx-railW/2-2,y2:by0+456,stroke:"#d7dde3","stroke-width":3.5,"stroke-linecap":"round"});
- scene.appendChild(gibEdge);
- var wedge=el("path",{d:"M "+(hx+4)+" "+(by0+372)+" l 44 -14 l 24 96 l -68 16 z",fill:"#aab3bd",stroke:"#59606c","stroke-width":3});
- scene.appendChild(wedge);
- var wedgeEdge=el("line",{x1:hx+5,y1:by0+375,x2:hx+5,y2:by0+467,stroke:"#d7dde3","stroke-width":3.5,"stroke-linecap":"round"});
- scene.appendChild(wedgeEdge);
- var rod=el("line",{x1:hx+24,y1:by0+118,x2:hx+24,y2:by0+366,stroke:"url(#rodMetal)","stroke-width":9});
- scene.appendChild(rod);
- var ropeC=el("line",{x1:hx+24,y1:by0+42,x2:hx+24,y2:by0+114,stroke:"#6b7280","stroke-width":4});
- var ropeCT=el("line",{x1:hx+24,y1:by0+42,x2:hx+24,y2:by0+114,stroke:"#c9d0d8","stroke-width":2.5,"stroke-dasharray":"5 12"});
+ /* governor rope + lift lever + pull rods \u2014 all rise together on a trip */
+ var ropeC=el("line",{x1:cx,y1:by0+6,x2:cx,y2:by0+120,stroke:"#6b7280","stroke-width":4});
+ var ropeCT=el("line",{x1:cx,y1:by0+6,x2:cx,y2:by0+120,stroke:"#c9d0d8","stroke-width":2.5,"stroke-dasharray":"5 12"});
  scene.appendChild(ropeC);scene.appendChild(ropeCT);
- var sock=el("rect",{x:hx+17,y:by0+108,width:14,height:14,rx:3,fill:"#2f3740",stroke:"#1c2228","stroke-width":1.5});
- scene.appendChild(sock);
- pill(hx+178,by0+70,"\u2461 gripped governor rope pulls the rod UP");
- pill(rlx+6,rBot+22,"guide rail (car sliding past)");
- pill(hx+150,by0+506,"\u2462 wedge + gib wrap the rail \u2014 grip BOTH faces");
- var clampFx=el("g",{opacity:0});
- [-1,0,1].forEach(function(kk){clampFx.appendChild(el("line",{x1:rlx+railW/2,y1:by0+392,x2:rlx+railW/2+16,y2:by0+392+kk*16-8,stroke:"#FF9a3b","stroke-width":3.5,"stroke-linecap":"round"}));});
- scene.appendChild(clampFx);
- var clampGlow=el("rect",{x:rlx+railW/2-3,y:by0+352,width:6,height:104,fill:"#e33",opacity:0});
- scene.appendChild(clampGlow);
+ /* governor grip on the rope — closes & holds the rope on a trip */
+ var ropeGrip=el("g",{});
+ ropeGrip.appendChild(el("rect",{x:cx-16,y:by0+2,width:11,height:24,rx:2,fill:"#4a5560",stroke:STEELD,"stroke-width":1.5}));
+ ropeGrip.appendChild(el("rect",{x:cx+5,y:by0+2,width:11,height:24,rx:2,fill:"#4a5560",stroke:STEELD,"stroke-width":1.5}));
+ scene.appendChild(ropeGrip);
+ var lift=el("g",{});
+ lift.appendChild(el("rect",{x:cx-8,y:by0+108,width:16,height:16,rx:3,fill:"#2f3740",stroke:"#1c2228","stroke-width":1.5}));
+ lift.appendChild(el("rect",{x:cx-58,y:by0+120,width:116,height:13,rx:3,fill:"#8b97a4",stroke:"#39424d","stroke-width":2}));
+ [-1,1].forEach(function(sd){lift.appendChild(el("rect",{x:cx+sd*38-4,y:by0+132,width:8,height:182,fill:"url(#rodMetal)",stroke:"#7c848d","stroke-width":1.5}));});
+ scene.appendChild(lift);
+ /* two red motion arrows: rope held (UP) vs car falling (DOWN) */
+ var arrows=el("g",{});
+ arrows.appendChild(el("path",{d:"M "+(cx-170)+" "+(by0+156)+" L "+(cx-170)+" "+(by0+108)+" M "+(cx-179)+" "+(by0+122)+" L "+(cx-170)+" "+(by0+108)+" L "+(cx-161)+" "+(by0+122),fill:"none",stroke:"#e33","stroke-width":5,"stroke-linecap":"round","stroke-linejoin":"round"}));
+ arrows.appendChild(el("path",{d:"M "+(cx-138)+" "+(by0+108)+" L "+(cx-138)+" "+(by0+156)+" M "+(cx-147)+" "+(by0+142)+" L "+(cx-138)+" "+(by0+156)+" L "+(cx-129)+" "+(by0+142),fill:"none",stroke:"#e33","stroke-width":5,"stroke-linecap":"round","stroke-linejoin":"round"}));
+ scene.appendChild(arrows);
+ /* per-side safety unit: fixed housing + rising yellow wedge + green guide roller */
+ var wedges=[], glows=[], sparks=[];
+ [-1,1].forEach(function(sd){
+  var railFace=cx+sd*railHalf, hInner=cx+sd*46, hOuter=cx+sd*128;
+  scene.appendChild(el("rect",{x:Math.min(hInner,hOuter),y:by0+250,width:Math.abs(hOuter-hInner),height:222,rx:6,fill:"#cdc4b4",stroke:"#a89e8c","stroke-width":2.5}));
+  scene.appendChild(el("rect",{x:Math.min(hInner,hOuter),y:by0+250,width:Math.abs(hOuter-hInner),height:8,rx:3,fill:"#e2dbcc"}));
+  scene.appendChild(el("path",{d:"M "+(cx+sd*44)+" "+(by0+282)+" L "+(cx+sd*60)+" "+(by0+282)+" L "+(cx+sd*74)+" "+(by0+452)+" L "+(cx+sd*44)+" "+(by0+452)+" Z",fill:"#b3aa99",stroke:"#8f8676","stroke-width":1.5}));
+  scene.appendChild(el("rect",{x:cx+sd*34-5,y:by0+472,width:10,height:66,fill:"#8f8676"}));
+  scene.appendChild(el("circle",{cx:cx+sd*40,cy:by0+558,r:24,fill:"#3f7d3f",stroke:"#255025","stroke-width":3}));
+  scene.appendChild(el("circle",{cx:cx+sd*40,cy:by0+558,r:8,fill:"#cdd6c9",stroke:"#255025","stroke-width":2}));
+  scene.appendChild(el("circle",{cx:cx+sd*40,cy:by0+558,r:2.6,fill:"#255025"}));
+  var wg=el("g",{});
+  wg.appendChild(el("path",{d:"M "+(cx+sd*26)+" "+(by0+300)+" L "+(cx+sd*44)+" "+(by0+300)+" L "+(cx+sd*56)+" "+(by0+448)+" L "+(cx+sd*26)+" "+(by0+448)+" Z",fill:"#E9C21A",stroke:"#9c7d00","stroke-width":2.5}));
+  wg.appendChild(el("line",{x1:cx+sd*30,y1:by0+306,x2:cx+sd*30,y2:by0+442,stroke:"#fff0a8","stroke-width":3,"stroke-linecap":"round",opacity:0.8}));
+  scene.appendChild(wg);wedges.push({g:wg,sd:sd});
+  var gl=el("rect",{x:sd<0? railFace-3:railFace,y:by0+300,width:3,height:150,fill:"#e33",opacity:0});
+  scene.appendChild(gl);glows.push(gl);
+  var sp=el("g",{opacity:0});
+  [-1,0,1].forEach(function(kk){sp.appendChild(el("line",{x1:railFace,y1:by0+374,x2:railFace+sd*16,y2:by0+374+kk*15,stroke:"#FF9a3b","stroke-width":3.2,"stroke-linecap":"round"}));});
+  scene.appendChild(sp);sparks.push(sp);
+ });
+ pill(cx+126,by0+30,"governor grips \u2192 rope HELD");
+ pill(cx,by0+608,"\u2460 rope held while the car keeps dropping");
+ pill(cx,by0+646,"\u2461 the pull rods lift BOTH yellow wedges");
+ pill(cx,by0+684,"\u2462 wedges jam the taper \u2192 car STOPS");
  function carY(tl){
   if(tl<CUT) return Y0+80*tl;
   if(tl<TRIP){var u=tl-CUT;return YCUT+80*u+275*u*u;}
@@ -812,25 +1105,31 @@ function buildSafetyCloseup(x0){
   var tripped=(tl>=TRIP&&tl<RESET);
   var over=(v>300)||tripped;
   var travel=tripped? (YTRIP-Y0) : (y-Y0);
-  wheel.setAttribute("transform","rotate("+((travel)/(2*Math.PI*(GR2+6))*360).toFixed(1)+" "+cx+" "+gy+")");
+  var spin=(travel)/(2*Math.PI*R_OUT)*360;
+  rim.setAttribute("transform","rotate("+spin.toFixed(1)+" "+cx+" "+gy+")");
+  mech.setAttribute("transform","rotate("+spin.toFixed(1)+" "+cx+" "+gy+")");
   gvT.setAttribute("stroke-dashoffset",(-travel).toFixed(1));
-  var flyA=tripped? 42 : Math.max(0,Math.min(42,(v-90)/320*42));
-  flyG.forEach(function(f){f.g.setAttribute("transform","rotate("+(-f.sd*flyA).toFixed(1)+" "+(cx+f.sd*38)+" "+gy+")");});
-  jaw.setAttribute("transform",tripped? "translate(-14,0)":"");
-  gripFx.setAttribute("opacity",(tl>=TRIP&&tl<TRIP+0.35)? (1-(tl-TRIP)/0.35).toFixed(2):0);
+  var engage=tripped? 1 : Math.max(0,Math.min(1,(v-90)/320));
+  var ext=22*engage;
+  flyG.forEach(function(f){f.g.setAttribute("transform","translate("+(f.sd*ext).toFixed(1)+",0)");});
+  jaw.setAttribute("transform",tripped? "translate(-16,0)":"");
+  gripFx.setAttribute("opacity",(tl>=TRIP&&tl<TRIP+0.4)? (1-(tl-TRIP)/0.4).toFixed(2):0);
   led.setAttribute("fill", over? "#e33":"#3fae57");
   rtLine.setAttribute("transform","translate(0,"+(-((y-Y0)%40)).toFixed(1)+")");
   var wUp = tripped? 46 : (tl>=RESET&&tl<REUP? Math.max(0,46*(1-(tl-RESET)/0.5)) : 0);
-  var wT="translate("+(-0.12*wUp).toFixed(1)+","+(-wUp).toFixed(1)+")";
-  wedge.setAttribute("transform",wT);rod.setAttribute("transform",wT);sock.setAttribute("transform",wT);
-  wedgeEdge.setAttribute("transform",wT);
-  wedgeEdge.setAttribute("stroke",tripped?"#e33":"#d7dde3");
-  gibEdge.setAttribute("stroke",tripped?"#e33":"#d7dde3");
-  ropeC.setAttribute("y2",(by0+114-wUp).toFixed(1));ropeCT.setAttribute("y2",(by0+114-wUp).toFixed(1));
-  ropeCT.setAttribute("stroke-dashoffset",tripped? (y-YTRIP).toFixed(1) : (tl>=RESET? "0":"0"));
+  var wHor = wUp*0.2;
+  lift.setAttribute("transform","translate(0,"+(-wUp).toFixed(1)+")");
+  var gp=tripped?1:0;
+  ropeGrip.childNodes[0].setAttribute("transform","translate("+(3*gp)+",0)");
+  ropeGrip.childNodes[1].setAttribute("transform","translate("+(-3*gp)+",0)");
+  ropeGrip.childNodes[0].setAttribute("fill",tripped?"#B33":"#4a5560");
+  ropeGrip.childNodes[1].setAttribute("fill",tripped?"#B33":"#4a5560");
+  wedges.forEach(function(w){w.g.setAttribute("transform","translate("+(-w.sd*wHor).toFixed(1)+","+(-wUp).toFixed(1)+")");});
+  ropeC.setAttribute("y2",(by0+120-wUp).toFixed(1));ropeCT.setAttribute("y2",(by0+120-wUp).toFixed(1));
+  ropeCT.setAttribute("stroke-dashoffset",tripped? (y-YTRIP).toFixed(1) : "0");
   var sk=(tl>=TRIP&&tl<STOP)? (1-(tl-TRIP)/(STOP-TRIP)):0;
-  clampFx.setAttribute("opacity",sk.toFixed(2));
-  clampGlow.setAttribute("opacity",(tl>=STOP&&tl<RESET)?0.55:(tripped?0.3:0));
+  sparks.forEach(function(s){s.setAttribute("opacity",sk.toFixed(2));});
+  glows.forEach(function(g){g.setAttribute("opacity",(tl>=STOP&&tl<RESET)?0.75:(tripped?0.4:0));});
  }});
 }
 
@@ -1268,47 +1567,49 @@ function buildDetails(x0){
 /* ===== brackets & spans ===== */
 function buildBrackets(x0){
  var cx=x0+250;
- title(cx,"BRACKETS","Insert-to-rail \u00b7 welded \u00b7 long spans","the bracket lives between insert and rail","steel gets welds \u2014 tall floors get one more");
+ title(cx,"BRACKETS","One bracket \u2014 bolted or welded","insert or steel \u2192 BRACKET \u2192 rail \u2014 no steel between","tall floors get an extra one");
  function ez(u){u=Math.max(0,Math.min(1,u));return u*u*(3-2*u);}
  function card(y,h,cap){
   scene.appendChild(el("rect",{x:x0+26,y:y,width:448,height:h,rx:14,fill:"#00000012",stroke:"#00000022","stroke-width":1}));
   scene.appendChild(txt({x:cx,y:y+30,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":15,"font-weight":800,fill:"#3a352e"},cap));
  }
- /* ---- A: adjustable bracket between insert & rail ---- */
- card(372,424,"THE BRACKET \u2014 between insert and rail");
+ function bracketRailSet(mountX,cy){ /* returns groups: bracket (mount plate + rail plate, joined direct), rail (true T), clips */
+  var brk=el("g",{});
+  brk.appendChild(el("rect",{x:mountX,y:cy-35,width:16,height:70,fill:"#4a5560",stroke:STEELD,"stroke-width":2}));
+  brk.appendChild(el("rect",{x:mountX+16,y:cy-40,width:12,height:80,fill:"#39424c",stroke:"#1c2228","stroke-width":2}));
+  var rail=el("g",{});
+  rail.appendChild(el("rect",{x:mountX+28,y:cy-45,width:10,height:90,fill:"#8f897c",stroke:"#6e6a5f","stroke-width":2}));
+  rail.appendChild(el("rect",{x:mountX+38,y:cy-8,width:32,height:16,fill:"#8f897c",stroke:"#6e6a5f","stroke-width":2}));
+  var clips=el("g",{});
+  [cy-42,cy+31].forEach(function(cyy){
+   clips.appendChild(el("rect",{x:mountX+12,y:cyy,width:30,height:10,rx:3,fill:"#c2570a",stroke:"#7a3608","stroke-width":1.5}));
+   clips.appendChild(el("circle",{cx:mountX+20,cy:cyy+5,r:2.4,fill:"#7a3608"}));});
+  return {brk:brk,rail:rail,clips:clips};
+ }
+ /* ---- A: bolted to the insert ---- */
+ card(372,424,"CONCRETE \u2014 bracket bolts to the insert");
  scene.appendChild(el("rect",{x:x0+46,y:440,width:72,height:316,fill:"#a49e91",stroke:"#8a8478","stroke-width":2}));
  for(var sy=458;sy<744;sy+=34){scene.appendChild(el("line",{x1:x0+54,y1:sy,x2:x0+110,y2:sy+12,stroke:"#948e81","stroke-width":2,opacity:0.7}));}
  [[580],[620]].forEach(function(ay){
   scene.appendChild(el("path",{d:"M "+(x0+112)+" "+ay[0]+" L "+(x0+66)+" "+ay[0]+" L "+(x0+54)+" "+(ay[0]-14),fill:"none",stroke:"#59606c","stroke-width":7,"stroke-linecap":"round"}));});
- scene.appendChild(el("rect",{x:x0+112,y:560,width:12,height:80,fill:"#39424c",stroke:"#1c2228","stroke-width":2}));
- scene.appendChild(el("rect",{x:x0+124,y:566,width:16,height:68,fill:"#4a5560",stroke:STEELD,"stroke-width":2}));
- scene.appendChild(el("rect",{x:x0+140,y:596,width:112,height:14,fill:"#4a5560",stroke:STEELD,"stroke-width":2}));
- scene.appendChild(el("rect",{x:x0+168,y:599,width:64,height:8,rx:4,fill:"#242b33"}));
- var adjG=el("g",{});
- adjG.appendChild(el("rect",{x:x0+150,y:584,width:114,height:12,fill:"#5b6673",stroke:STEELD,"stroke-width":2}));
- adjG.appendChild(el("rect",{x:x0+252,y:566,width:14,height:68,fill:"#5b6673",stroke:STEELD,"stroke-width":2}));
- [x0+186,x0+214].forEach(function(bx){
-  adjG.appendChild(el("circle",{cx:bx,cy:603,r:5.2,fill:"#2f3740",stroke:"#cfd6dd","stroke-width":1.5}));});
- scene.appendChild(adjG);
- var railA=el("g",{});
- railA.appendChild(el("rect",{x:x0+266,y:470,width:12,height:276,fill:"#8f897c",stroke:"#6e6a5f","stroke-width":2}));
- railA.appendChild(el("rect",{x:x0+278,y:582,width:16,height:36,fill:"#8f897c",stroke:"#6e6a5f","stroke-width":2}));
- [586,608].forEach(function(cyy){railA.appendChild(el("rect",{x:x0+254,y:cyy,width:16,height:8,rx:2,fill:"#c2570a",stroke:"#7a3608","stroke-width":1.5}));});
- scene.appendChild(railA);
- var adjArr=el("g",{});
- adjArr.appendChild(el("path",{d:"M "+(x0+168)+" 556 L "+(x0+236)+" 556 M "+(x0+168)+" 556 l 10 -6 M "+(x0+168)+" 556 l 10 6 M "+(x0+236)+" 556 l -10 -6 M "+(x0+236)+" 556 l -10 6",fill:"none",stroke:ORANGE,"stroke-width":3,"stroke-linecap":"round"}));
- scene.appendChild(adjArr);
- pill(x0+150,462,"\u2460 wall angle bolts to the insert");
- pill(x0+160,676,"\u2461 slotted \u2014 slide to plumb the rail");
- pill(x0+160,726,"\u2462 clips grip \u2014 rail can still breathe");
+ var insA=el("rect",{x:x0+112,y:560,width:12,height:80,fill:"#39424c",stroke:"#1c2228","stroke-width":2});
+ scene.appendChild(insA);
+ var setA=bracketRailSet(x0+124,600);
+ var boltsA=el("g",{opacity:0});
+ [578,622].forEach(function(by){boltsA.appendChild(el("circle",{cx:x0+132,cy:by,r:4.6,fill:"#2f3740",stroke:"#cfd6dd","stroke-width":1.4}));});
+ scene.appendChild(setA.brk);scene.appendChild(boltsA);
+ scene.appendChild(setA.rail);scene.appendChild(setA.clips);
+ pill(x0+160,462,"\u2460 insert cast into the wall");
+ pill(x0+150,676,"\u2461 THE BRACKET \u2014 bolts direct to the insert");
+ pill(x0+160,726,"\u2462 T-rail clipped to the bracket");
  /* ---- B: welded to building steel ---- */
- card(812,424,"STEEL BUILDING \u2014 weld the bracket");
+ card(812,424,"STEEL \u2014 bracket welds to the structure");
  scene.appendChild(el("rect",{x:x0+56,y:880,width:68,height:316,fill:STEEL2,stroke:STEELD,"stroke-width":3}));
  scene.appendChild(el("line",{x1:x0+70,y1:884,x2:x0+70,y2:1192,stroke:"#59606c","stroke-width":2}));
  scene.appendChild(el("line",{x1:x0+110,y1:884,x2:x0+110,y2:1192,stroke:"#59606c","stroke-width":2}));
  scene.appendChild(txt({x:x0+90,y:906,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":11,"font-weight":800,fill:"#39424c"},"STEEL"));
- scene.appendChild(el("rect",{x:x0+124,y:1006,width:16,height:68,fill:"#4a5560",stroke:STEELD,"stroke-width":2}));
- scene.appendChild(el("rect",{x:x0+140,y:1032,width:112,height:14,fill:"#4a5560",stroke:STEELD,"stroke-width":2}));
+ var setB=bracketRailSet(x0+124,1040);
+ scene.appendChild(setB.brk);
  var bead="";
  for(var wy=1006;wy<1074;wy+=8){bead+="M "+(x0+122)+" "+wy+" q -7 4 0 8 ";}
  var weld=el("path",{d:bead,fill:"none",stroke:"#ff9a3b","stroke-width":4,"stroke-linecap":"round"});
@@ -1322,14 +1623,10 @@ function buildBrackets(x0){
  scene.appendChild(el("path",{d:"M "+(x0+126)+" 1014 L "+(x0+186)+" 956 L "+(x0+266)+" 956",fill:"none",stroke:"#3a352e","stroke-width":2}));
  scene.appendChild(el("path",{d:"M "+(x0+204)+" 956 l 16 0 l -16 12 z",fill:"none",stroke:"#3a352e","stroke-width":2}));
  scene.appendChild(txt({x:x0+282,y:961,"font-family":"system-ui,Arial","font-size":11,"font-weight":700,fill:"#3a352e"},"fillet, typ"));
- var railB=el("g",{});
- railB.appendChild(el("rect",{x:x0+266,y:910,width:12,height:276,fill:"#8f897c",stroke:"#6e6a5f","stroke-width":2}));
- railB.appendChild(el("rect",{x:x0+278,y:1022,width:16,height:36,fill:"#8f897c",stroke:"#6e6a5f","stroke-width":2}));
- [1026,1048].forEach(function(cyy){railB.appendChild(el("rect",{x:x0+254,y:cyy,width:16,height:8,rx:2,fill:"#c2570a",stroke:"#7a3608","stroke-width":1.5}));});
- scene.appendChild(railB);
+ scene.appendChild(setB.rail);scene.appendChild(setB.clips);
  pill(x0+166,902,"\u2460 building steel \u2014 no inserts");
- pill(x0+160,1116,"\u2461 field-weld the bracket \u2014 both edges");
- pill(x0+150,1166,"\u2462 same rail, same clips");
+ pill(x0+150,1116,"\u2461 THE BRACKET \u2014 welded direct to the steel");
+ pill(x0+160,1166,"\u2462 same T-rail, same clips");
  /* ---- C: over 13 ft between floors ---- */
  card(1248,406,"OVER 13'-0\u2033 \u2014 add an intermediate bracket");
  scene.appendChild(el("rect",{x:x0+46,y:1316,width:250,height:18,fill:"#8f897c",stroke:"#6e6a5f","stroke-width":2}));
@@ -1360,20 +1657,34 @@ function buildBrackets(x0){
  pill(x0+140,1640,"\u2462 intermediate bracket + steel");
  COLS.push({ph:0,ratio:1,render:function(){
   var tl=this.ph;
-  /* A: slot adjustment */
-  var tA=tl%5;
-  var dx=(tA<2.2)? 9*Math.sin(tA*3.2)*(1-ez(Math.max(0,(tA-1.6)/0.6))) : 0;
-  adjG.setAttribute("transform","translate("+dx.toFixed(1)+",0)");
-  railA.setAttribute("transform","translate("+dx.toFixed(1)+",0)");
-  adjArr.setAttribute("opacity",(tA<1.9)? 1:Math.max(0,(2.4-tA)/0.5).toFixed(2));
-  /* B: welding */
-  var tB=(tl+2.0)%5;
-  var wp=(tB<1.0)? 0 : (tB<2.6? (tB-1.0)/1.6 : 1);
+  /* A: insert -> bracket bolts -> rail clips */
+  var tA=tl%5, fade1=(tA>4.6)? (5-tA)/0.4 : 1;
+  insA.setAttribute("stroke",(tA<1.0)? "#FD630D":"#1c2228");
+  insA.setAttribute("stroke-width",(tA<1.0)? (2+1.6*Math.abs(Math.sin(tA*7))).toFixed(2):"2");
+  var bxA=(tA<1.0)? -90 : (tA<1.6? -90*(1-ez((tA-1.0)/0.6)) : 0);
+  setA.brk.setAttribute("transform","translate("+bxA.toFixed(1)+",0)");
+  setA.brk.setAttribute("opacity",((tA<1.0)?0:fade1).toFixed(2));
+  boltsA.setAttribute("opacity",((tA>1.7&&tA<=4.6)?1:(tA>4.6?fade1:0)));
+  var rxA=(tA<2.2)? 70 : (tA<2.8? 70*(1-ez((tA-2.2)/0.6)) : 0);
+  setA.rail.setAttribute("transform","translate("+rxA.toFixed(1)+",0)");
+  setA.rail.setAttribute("opacity",((tA<2.2)?0:fade1).toFixed(2));
+  setA.clips.setAttribute("opacity",((tA>2.9&&tA<=4.6)?1:(tA>4.6?fade1:0)));
+  /* B: steel -> bracket welds -> rail clips */
+  var tB=(tl+2.5)%5, fade2=(tB>4.6)? (5-tB)/0.4 : 1;
+  var bxB=(tB<0.6)? -90 : (tB<1.2? -90*(1-ez((tB-0.6)/0.6)) : 0);
+  setB.brk.setAttribute("transform","translate("+bxB.toFixed(1)+",0)");
+  setB.brk.setAttribute("opacity",((tB<0.6)?0:fade2).toFixed(2));
+  var wp=(tB<1.4)? 0 : (tB<2.6? (tB-1.4)/1.2 : 1);
   weld.setAttribute("stroke-dashoffset",(140*(1-wp)).toFixed(1));
-  weld.setAttribute("stroke",(tB<3.1)? "#ff9a3b":"#a35a17");
+  weld.setAttribute("stroke",(tB<3.0)? "#ff9a3b":"#a35a17");
+  weld.setAttribute("opacity",((tB<1.4)?0:fade2).toFixed(2));
   if(wp>0&&wp<1){spark.setAttribute("opacity",(0.7+0.3*Math.sin(tl*40)).toFixed(2));
    spark.setAttribute("transform","translate("+(x0+118)+","+(1006+68*wp).toFixed(1)+")");}
   else spark.setAttribute("opacity",0);
+  var rxB=(tB<2.8)? 70 : (tB<3.4? 70*(1-ez((tB-2.8)/0.6)) : 0);
+  setB.rail.setAttribute("transform","translate("+rxB.toFixed(1)+",0)");
+  setB.rail.setAttribute("opacity",((tB<2.8)?0:fade2).toFixed(2));
+  setB.clips.setAttribute("opacity",((tB>3.5&&tB<=4.6)?1:(tB>4.6?fade2:0)));
   /* C: deflection -> intermediate bracket */
   var tC=tl%6;
   var bow=(tC<1.6)? 26*ez(tC/1.6) : (tC<2.6? 26 : (tC<3.4? 26*(1-ez((tC-2.6)/0.8)) : 0));
@@ -1383,8 +1694,192 @@ function buildBrackets(x0){
   loadArr.setAttribute("opacity",(tC>0.3&&tC<2.6)? 1:0);
   var mx=(tC<1.8)? 260 : (tC<2.6? 260*(1-ez((tC-1.8)/0.8)) : 0);
   midG.setAttribute("transform","translate("+mx.toFixed(1)+",0)");
-  midG.setAttribute("opacity",(tC<1.8)?0:((tC>5.5)? (6-tC)/0.5:1));
+  midG.setAttribute("opacity",((tC<1.8)?0:((tC>5.5)?(6-tC)/0.5:1)).toFixed(2));
   okPill.setAttribute("opacity",(tC>3.4&&tC<5.5)? 1:0);
+ }});
+}
+
+
+/* ===== hydraulic floor plan ===== */
+function buildHydroPlan(x0){
+ var cx=x0+250, LOOPQ=8;
+ title(cx,"HYDRO PLAN","Hydraulic \u2014 plan at the lowest landing","machine room sits NEXT to the shaft","power unit \u00b7 controller \u00b7 oil line \u00b7 sleeve");
+ scene.appendChild(el("rect",{x:x0+26,y:470,width:448,height:700,rx:14,fill:"#00000012",stroke:"#00000022","stroke-width":1}));
+ scene.appendChild(txt({x:cx,y:502,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":15,"font-weight":800,fill:"#3a352e"},"PLAN VIEW \u2014 shaft + machine room"));
+ var PX0=x0+30,SHX=x0+292,RX1=x0+470,PY0=620,PY1=1000,WT=22;
+ scene.appendChild(el("rect",{x:PX0,y:PY0,width:RX1-PX0,height:WT,fill:"#a49e91",stroke:"#8a8478","stroke-width":2}));
+ scene.appendChild(el("rect",{x:PX0,y:PY0,width:WT,height:PY1-PY0,fill:"#a49e91",stroke:"#8a8478","stroke-width":2}));
+ scene.appendChild(el("rect",{x:RX1-WT,y:PY0,width:WT,height:PY1-PY0,fill:"#a49e91",stroke:"#8a8478","stroke-width":2}));
+ scene.appendChild(el("rect",{x:SHX,y:PY0,width:WT,height:PY1-PY0,fill:"#a49e91",stroke:"#8a8478","stroke-width":2}));
+ scene.appendChild(el("rect",{x:PX0,y:PY1-WT,width:(x0+110)-PX0,height:WT,fill:"#a49e91",stroke:"#8a8478","stroke-width":2}));
+ scene.appendChild(el("rect",{x:x0+220,y:PY1-WT,width:(x0+396)-(x0+220),height:WT,fill:"#a49e91",stroke:"#8a8478","stroke-width":2}));
+ scene.appendChild(el("rect",{x:x0+444,y:PY1-WT,width:RX1-(x0+444),height:WT,fill:"#a49e91",stroke:"#8a8478","stroke-width":2}));
+ var hdL=el("rect",{x:x0+112,y:PY1-WT+6,width:54,height:8,fill:"#6e6a5f"});
+ var hdR=el("rect",{x:x0+166,y:PY1-WT+6,width:54,height:8,fill:"#6e6a5f"});
+ scene.appendChild(hdL);scene.appendChild(hdR);
+ scene.appendChild(el("rect",{x:x0+110,y:PY1-3,width:110,height:3,fill:"#6e6a5f"}));
+ scene.appendChild(el("rect",{x:x0+80,y:700,width:170,height:200,fill:"none",stroke:NAVY2,"stroke-width":8}));
+ scene.appendChild(el("rect",{x:x0+88,y:708,width:154,height:184,fill:NAVY3,opacity:0.35}));
+ scene.appendChild(el("rect",{x:x0+128,y:894,width:74,height:12,fill:"#efe9dd"}));
+ var cdL=el("rect",{x:x0+130,y:894,width:34,height:8,fill:NAVY2});
+ var cdR=el("rect",{x:x0+165,y:894,width:34,height:8,fill:NAVY2});
+ scene.appendChild(cdL);scene.appendChild(cdR);
+ scene.appendChild(txt({x:x0+165,y:760,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":13,"font-weight":800,fill:"#2c3e57"},"CAR"));
+ var dashEls=[];
+ function dashed(e){e.setAttribute("stroke-dasharray","9 7");dashEls.push(e);scene.appendChild(e);return e;}
+ dashed(el("circle",{cx:x0+165,cy:806,r:24,stroke:"#4a5560","stroke-width":3.5,fill:"none",opacity:0.9}));
+ scene.appendChild(el("circle",{cx:x0+165,cy:806,r:5,fill:"#59606c"}));
+ var jackP=el("circle",{cx:x0+165,cy:806,r:32,stroke:ORANGE,"stroke-width":3,fill:"none",opacity:0});
+ scene.appendChild(jackP);
+ [[PX0+WT,1],[SHX,-1]].forEach(function(r){
+  scene.appendChild(el("rect",{x:r[1]>0? r[0]:r[0]-6,y:786,width:6,height:26,fill:"#39424c"}));
+  scene.appendChild(el("rect",{x:r[1]>0? r[0]+6:r[0]-22,y:795,width:16,height:8,fill:"#39424c"}));
+ });
+ scene.appendChild(el("rect",{x:x0+326,y:660,width:96,height:110,rx:8,fill:STEEL2,stroke:STEELD,"stroke-width":2.5}));
+ scene.appendChild(el("rect",{x:x0+334,y:668,width:80,height:52,rx:5,fill:"#39424c",opacity:0.35}));
+ scene.appendChild(txt({x:x0+374,y:740,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":10.5,"font-weight":800,fill:"#39424c"},"POWER UNIT"));
+ scene.appendChild(txt({x:x0+374,y:756,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":9,"font-weight":700,fill:"#59606c"},"tank \u00b7 pump \u00b7 valve"));
+ scene.appendChild(el("rect",{x:x0+326,y:880,width:56,height:84,rx:4,fill:NAVY2,stroke:NAVYD,"stroke-width":2}));
+ scene.appendChild(el("circle",{cx:x0+338,cy:894,r:2.5,fill:"#3fae57"}));
+ scene.appendChild(el("circle",{cx:x0+338,cy:904,r:2.5,fill:"#e0a800"}));
+ scene.appendChild(txt({x:x0+354,y:930,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":10,"font-weight":800,fill:"#cfd6dd"},"CTRL"));
+ scene.appendChild(el("rect",{x:x0+394,y:PY1-WT,width:52,height:WT,fill:"#1c1f24"}));
+ var rleaf=el("rect",{x:x0+396,y:PY1-WT+2,width:48,height:4,fill:"#6e6a5f"});
+ scene.appendChild(el("path",{d:"M "+(x0+396)+" "+(PY1-WT+2)+" A 48 48 0 0 1 "+(x0+444)+" "+(PY1-WT-46),fill:"none",stroke:"#8a8478","stroke-width":1.6,"stroke-dasharray":"4 5"}));
+ scene.appendChild(rleaf);
+ scene.appendChild(el("rect",{x:SHX-2,y:752,width:WT+4,height:18,fill:"#1c1f24"}));
+ dashed(el("path",{d:"M "+(x0+326)+" 761 L "+(x0+190)+" 761 L "+(x0+172)+" 792",fill:"none",stroke:"#c98a1e","stroke-width":4.5,opacity:0.95}));
+ scene.appendChild(el("path",{d:"M "+PX0+" 600 L "+SHX+" 600 M "+PX0+" 594 L "+PX0+" 606 M "+SHX+" 594 L "+SHX+" 606",stroke:"#5a554c","stroke-width":2,fill:"none"}));
+ scene.appendChild(txt({x:x0+161,y:592,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":11,"font-weight":700,fill:"#5a554c"},"shaft"));
+ scene.appendChild(txt({x:x0+381,y:592,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":11,"font-weight":700,fill:"#5a554c"},"machine room"));
+ pill(x0+165,946,"in-ground jack \u2014 dashed (below)");
+ pill(x0+236,732,"oil line \u2014 sleeved through the wall");
+ pill(cx,1032,"no counterweight \u2014 the oil does the lifting");
+ var capB=el("rect",{x:cx-190,y:1096,width:380,height:40,rx:10,fill:NAVY,opacity:0.96});
+ var capT=txt({x:cx,y:1122,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":14,"font-weight":800,fill:"#fff"},"");
+ scene.appendChild(capB);scene.appendChild(capT);
+ var halo=el("rect",{x:0,y:0,width:10,height:10,rx:12,fill:"none",stroke:ORANGE,"stroke-width":4,opacity:0});
+ scene.appendChild(halo);
+ scene.appendChild(el("rect",{x:x0+26,y:1200,width:448,height:150,rx:14,fill:"#00000012",stroke:"#00000022","stroke-width":1}));
+ scene.appendChild(txt({x:cx,y:1236,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":14,"font-weight":800,fill:"#3a352e"},"WHY BESIDE, NOT ABOVE"));
+ scene.appendChild(txt({x:cx,y:1268,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":12.5,"font-weight":700,fill:"#5a554c"},"hydraulics don't need the overhead \u2014"));
+ scene.appendChild(txt({x:cx,y:1292,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":12.5,"font-weight":700,fill:"#5a554c"},"the room lives at the bottom, next to the pit"));
+ scene.appendChild(txt({x:cx,y:1322,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":11.5,"font-weight":700,fill:"#6a6458"},"pipe run stays short \u2014 straight into the jack"));
+ var HZ=[[x0+70,690,200,232],[x0+44,780,268,42],[x0+318,648,140,330],[x0+150,740,208,66]];
+ var CAPS=["1/4 \u2014 CAR over its IN-GROUND JACK (dashed)",
+           "2/4 \u2014 guide RAILS \u2014 no counterweight",
+           "3/4 \u2014 MACHINE ROOM right beside the shaft",
+           "4/4 \u2014 OIL LINE sleeved through the wall"];
+ COLS.push({ph:0,ratio:1,render:function(){
+  var tl=this.ph%LOOPQ, seg=Math.floor(tl/2), u=(tl%2)/2;
+  var hz=HZ[seg];
+  halo.setAttribute("x",hz[0]);halo.setAttribute("y",hz[1]);
+  halo.setAttribute("width",hz[2]);halo.setAttribute("height",hz[3]);
+  halo.setAttribute("opacity",(0.45+0.4*Math.sin(tl*6)).toFixed(2));
+  capT.textContent=CAPS[seg];
+  var dsh=(seg===0)? (u<0.25? 34*(u/0.25) : (u>0.75? 34*((1-u)/0.25) : 34)) : 0;
+  cdL.setAttribute("x",(x0+130-dsh).toFixed(1));cdR.setAttribute("x",(x0+165+dsh).toFixed(1));
+  hdL.setAttribute("x",(x0+112-dsh*1.55).toFixed(1));hdR.setAttribute("x",(x0+166+dsh*1.55).toFixed(1));
+  jackP.setAttribute("opacity",(seg===0)? (0.35+0.35*Math.sin(tl*5)).toFixed(2):0);
+  var la=(seg===2)? (u<0.35? 76*(u/0.35) : (u>0.75? 76*((1-u)/0.25) : 76)) : 0;
+  rleaf.setAttribute("transform","rotate("+(-la).toFixed(1)+" "+(x0+396)+" "+(PY1-WT+2)+")");
+  dashEls.forEach(function(e){e.setAttribute("stroke-dashoffset",(-tl*14).toFixed(1));});
+ }});
+}
+
+/* ===== hydraulic floor plan — holeless (above-ground twin jacks) ===== */
+function buildHydroPlanHoleless(x0){
+ var cx=x0+250, LOOPQ=8;
+ title(cx,"HYDRO PLAN","Holeless \u2014 plan at the lowest landing","twin jacks stand beside the car \u2014 no hole","power unit \u00b7 controller \u00b7 oil line \u00b7 twin jacks");
+ scene.appendChild(el("rect",{x:x0+26,y:470,width:448,height:700,rx:14,fill:"#00000012",stroke:"#00000022","stroke-width":1}));
+ scene.appendChild(txt({x:cx,y:502,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":15,"font-weight":800,fill:"#3a352e"},"PLAN VIEW \u2014 shaft + machine room"));
+ var PX0=x0+30,SHX=x0+292,RX1=x0+470,PY0=620,PY1=1000,WT=22;
+ scene.appendChild(el("rect",{x:PX0,y:PY0,width:RX1-PX0,height:WT,fill:"#a49e91",stroke:"#8a8478","stroke-width":2}));
+ scene.appendChild(el("rect",{x:PX0,y:PY0,width:WT,height:PY1-PY0,fill:"#a49e91",stroke:"#8a8478","stroke-width":2}));
+ scene.appendChild(el("rect",{x:RX1-WT,y:PY0,width:WT,height:PY1-PY0,fill:"#a49e91",stroke:"#8a8478","stroke-width":2}));
+ scene.appendChild(el("rect",{x:SHX,y:PY0,width:WT,height:PY1-PY0,fill:"#a49e91",stroke:"#8a8478","stroke-width":2}));
+ scene.appendChild(el("rect",{x:PX0,y:PY1-WT,width:(x0+110)-PX0,height:WT,fill:"#a49e91",stroke:"#8a8478","stroke-width":2}));
+ scene.appendChild(el("rect",{x:x0+220,y:PY1-WT,width:(x0+396)-(x0+220),height:WT,fill:"#a49e91",stroke:"#8a8478","stroke-width":2}));
+ scene.appendChild(el("rect",{x:x0+444,y:PY1-WT,width:RX1-(x0+444),height:WT,fill:"#a49e91",stroke:"#8a8478","stroke-width":2}));
+ var hdL=el("rect",{x:x0+112,y:PY1-WT+6,width:54,height:8,fill:"#6e6a5f"});
+ var hdR=el("rect",{x:x0+166,y:PY1-WT+6,width:54,height:8,fill:"#6e6a5f"});
+ scene.appendChild(hdL);scene.appendChild(hdR);
+ scene.appendChild(el("rect",{x:x0+110,y:PY1-3,width:110,height:3,fill:"#6e6a5f"}));
+ /* oil line first \u2014 solid (visible pipe), tees across the pit floor to both jacks */
+ var pipeD="M "+(x0+326)+" 761 L "+(x0+271)+" 761 L "+(x0+271)+" 690 L "+(x0+66)+" 690 L "+(x0+66)+" 729";
+ scene.appendChild(el("path",{d:pipeD,fill:"none",stroke:"#7a5a17","stroke-width":5.5,"stroke-linejoin":"round"}));
+ var flow=el("path",{d:pipeD,fill:"none",stroke:"#c98a1e","stroke-width":4,"stroke-linejoin":"round","stroke-dasharray":"10 9",opacity:0.95});
+ scene.appendChild(flow);
+ /* car \u2014 slightly narrower so the side jacks read clearly */
+ scene.appendChild(el("rect",{x:x0+84,y:700,width:162,height:200,fill:"none",stroke:NAVY2,"stroke-width":8}));
+ scene.appendChild(el("rect",{x:x0+92,y:708,width:146,height:184,fill:NAVY3,opacity:0.35}));
+ scene.appendChild(el("rect",{x:x0+128,y:894,width:74,height:12,fill:"#efe9dd"}));
+ var cdL=el("rect",{x:x0+130,y:894,width:34,height:8,fill:NAVY2});
+ var cdR=el("rect",{x:x0+165,y:894,width:34,height:8,fill:NAVY2});
+ scene.appendChild(cdL);scene.appendChild(cdR);
+ scene.appendChild(txt({x:x0+165,y:760,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":13,"font-weight":800,fill:"#2c3e57"},"CAR"));
+ [[PX0+WT,1],[SHX,-1]].forEach(function(r){
+  scene.appendChild(el("rect",{x:r[1]>0? r[0]:r[0]-6,y:786,width:6,height:26,fill:"#39424c"}));
+  scene.appendChild(el("rect",{x:r[1]>0? r[0]+6:r[0]-22,y:795,width:16,height:8,fill:"#39424c"}));
+ });
+ /* twin jacks \u2014 SOLID: they stand on the pit floor, nothing below */
+ var jackHalos=[];
+ [x0+66,x0+271].forEach(function(jx){
+  var h=el("circle",{cx:jx,cy:740,r:15,stroke:ORANGE,"stroke-width":3,fill:"none",opacity:0});
+  scene.appendChild(h);jackHalos.push(h);
+  scene.appendChild(el("circle",{cx:jx,cy:740,r:11,fill:STEEL2,stroke:ORANGE,"stroke-width":3.2}));
+  scene.appendChild(el("circle",{cx:jx,cy:740,r:3.2,fill:"#59606c"}));
+ });
+ /* machine room \u2014 identical to in-ground: same room, same kit */
+ scene.appendChild(el("rect",{x:x0+326,y:660,width:96,height:110,rx:8,fill:STEEL2,stroke:STEELD,"stroke-width":2.5}));
+ scene.appendChild(el("rect",{x:x0+334,y:668,width:80,height:52,rx:5,fill:"#39424c",opacity:0.35}));
+ scene.appendChild(txt({x:x0+374,y:740,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":10.5,"font-weight":800,fill:"#39424c"},"POWER UNIT"));
+ scene.appendChild(txt({x:x0+374,y:756,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":9,"font-weight":700,fill:"#59606c"},"tank \u00b7 pump \u00b7 valve"));
+ scene.appendChild(el("rect",{x:x0+326,y:880,width:56,height:84,rx:4,fill:NAVY2,stroke:NAVYD,"stroke-width":2}));
+ scene.appendChild(el("circle",{cx:x0+338,cy:894,r:2.5,fill:"#3fae57"}));
+ scene.appendChild(el("circle",{cx:x0+338,cy:904,r:2.5,fill:"#e0a800"}));
+ scene.appendChild(txt({x:x0+354,y:930,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":10,"font-weight":800,fill:"#cfd6dd"},"CTRL"));
+ scene.appendChild(el("rect",{x:x0+394,y:PY1-WT,width:52,height:WT,fill:"#1c1f24"}));
+ var rleaf=el("rect",{x:x0+396,y:PY1-WT+2,width:48,height:4,fill:"#6e6a5f"});
+ scene.appendChild(el("path",{d:"M "+(x0+396)+" "+(PY1-WT+2)+" A 48 48 0 0 1 "+(x0+444)+" "+(PY1-WT-46),fill:"none",stroke:"#8a8478","stroke-width":1.6,"stroke-dasharray":"4 5"}));
+ scene.appendChild(rleaf);
+ scene.appendChild(el("rect",{x:SHX-2,y:752,width:WT+4,height:18,fill:"#1c1f24"}));
+ scene.appendChild(el("path",{d:"M "+PX0+" 600 L "+SHX+" 600 M "+PX0+" 594 L "+PX0+" 606 M "+SHX+" 594 L "+SHX+" 606",stroke:"#5a554c","stroke-width":2,fill:"none"}));
+ scene.appendChild(txt({x:x0+161,y:592,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":11,"font-weight":700,fill:"#5a554c"},"shaft"));
+ scene.appendChild(txt({x:x0+381,y:592,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":11,"font-weight":700,fill:"#5a554c"},"machine room"));
+ pill(x0+168,664,"oil line \u2014 tees to both jacks");
+ pill(x0+165,946,"twin jacks \u2014 no hole in the ground");
+ pill(cx,1032,"no counterweight \u2014 and nothing below the pit");
+ var capB=el("rect",{x:cx-190,y:1096,width:380,height:40,rx:10,fill:NAVY,opacity:0.96});
+ var capT=txt({x:cx,y:1122,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":14,"font-weight":800,fill:"#fff"},"");
+ scene.appendChild(capB);scene.appendChild(capT);
+ var halo=el("rect",{x:0,y:0,width:10,height:10,rx:12,fill:"none",stroke:ORANGE,"stroke-width":4,opacity:0});
+ scene.appendChild(halo);
+ scene.appendChild(el("rect",{x:x0+26,y:1200,width:448,height:150,rx:14,fill:"#00000012",stroke:"#00000022","stroke-width":1}));
+ scene.appendChild(txt({x:cx,y:1236,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":14,"font-weight":800,fill:"#3a352e"},"WHY HOLELESS"));
+ scene.appendChild(txt({x:cx,y:1268,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":12.5,"font-weight":700,fill:"#5a554c"},"no drilling, no casing, no ground risk \u2014"));
+ scene.appendChild(txt({x:cx,y:1292,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":12.5,"font-weight":700,fill:"#5a554c"},"the jacks simply stand in the pit"));
+ scene.appendChild(txt({x:cx,y:1322,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":11.5,"font-weight":700,fill:"#6a6458"},"trade-off: rise is limited by jack length"));
+ var HZ=[[x0+44,712,236,64],[x0+38,634,246,352],[x0+318,648,140,330],[x0+50,650,296,132]];
+ var CAPS=["1/4 \u2014 TWIN JACKS \u2014 one each side of the car",
+           "2/4 \u2014 NO HOLE \u2014 nothing below the pit floor",
+           "3/4 \u2014 MACHINE ROOM \u2014 same, beside the shaft",
+           "4/4 \u2014 OIL LINE tees to BOTH jacks"];
+ COLS.push({ph:0,ratio:1,render:function(){
+  var tl=this.ph%LOOPQ, seg=Math.floor(tl/2), u=(tl%2)/2;
+  var hz=HZ[seg];
+  halo.setAttribute("x",hz[0]);halo.setAttribute("y",hz[1]);
+  halo.setAttribute("width",hz[2]);halo.setAttribute("height",hz[3]);
+  halo.setAttribute("opacity",(0.45+0.4*Math.sin(tl*6)).toFixed(2));
+  capT.textContent=CAPS[seg];
+  var dsh=(seg===0)? (u<0.25? 34*(u/0.25) : (u>0.75? 34*((1-u)/0.25) : 34)) : 0;
+  cdL.setAttribute("x",(x0+130-dsh).toFixed(1));cdR.setAttribute("x",(x0+165+dsh).toFixed(1));
+  hdL.setAttribute("x",(x0+112-dsh*1.55).toFixed(1));hdR.setAttribute("x",(x0+166+dsh*1.55).toFixed(1));
+  var jp=(seg===0)? (0.35+0.35*Math.sin(tl*5)).toFixed(2):0;
+  jackHalos.forEach(function(h){h.setAttribute("opacity",jp);});
+  var la=(seg===2)? (u<0.35? 76*(u/0.35) : (u>0.75? 76*((1-u)/0.25) : 76)) : 0;
+  rleaf.setAttribute("transform","rotate("+(-la).toFixed(1)+" "+(x0+396)+" "+(PY1-WT+2)+")");
+  flow.setAttribute("stroke-dashoffset",(-tl*16).toFixed(1));
  }});
 }
 
@@ -1408,8 +1903,13 @@ grouped(function(){buildHoistway(4500);});
 grouped(function(){buildShaftPlan(5000);});
 grouped(function(){buildDetails(5500);});
 grouped(function(){buildBrackets(6000);});
+grouped(function(){buildHydroPlan(6500);});
+grouped(function(){buildHydroPlanHoleless(7000);});
 var brandTxt=txt({x:2966,y:1664,"text-anchor":"end","font-family":"system-ui,Arial","font-size":42,"font-weight":900,fill:ORANGE,"letter-spacing":"2"},"LIFTREX");
 scene.appendChild(brandTxt);
+var revTxt=txt({x:34,y:1664,"text-anchor":"start","font-family":"system-ui,Arial","font-size":42,"font-weight":900,fill:"#93a7bc","letter-spacing":"2"},"REVEMP");
+scene.appendChild(revTxt);
+scene.appendChild(el("rect",{x:36,y:1672,width:170,height:5,rx:2.5,fill:ORANGE}));
 
 /* ---------- column filter ---------- */
 var worldG=el("g",{id:"worldG"});
@@ -1421,10 +1921,10 @@ var emptyMsg=el("g",{});
 emptyMsg.appendChild(txt({x:250,y:816,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":21,"font-weight":800,fill:"#6a6458"},"no panels selected"));
 emptyMsg.appendChild(txt({x:250,y:850,"text-anchor":"middle","font-family":"system-ui,Arial","font-size":16,"font-weight":700,fill:"#6a6458"},"tap a system above"));
 emptyMsg.style.display="none";scene.appendChild(emptyMsg);
-var visible=[true,true,true,true,true,true,true,true,true,true,true,true,true];
+var visible=[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true];
 var stageDiv=document.querySelector(".stage");
 var chips=[].slice.call(document.querySelectorAll(".fchip"));
-var baseW=6500, vw={x:0,y:0,z:1,cw:6500,ch:1700}, zfit, fitW=2060, zsw=2060, zsh=1000;
+var baseW=7000, vw={x:0,y:0,z:1,cw:7000,ch:1700}, zfit, fitW=2060, zsw=2060, zsh=1000;
 function applyFilter(){
  var count=0;visible.forEach(function(v){if(v)count++;});
  var k=0;
@@ -1441,7 +1941,7 @@ function applyFilter(){
  brandTxt.setAttribute("x",Math.max(1,count)*500-34);
  stageDiv.style.margin="0 auto";
  chips.forEach(function(ch){var v=ch.getAttribute("data-i");
-  if(v==="all"){ch.classList.toggle("on",count===13);}
+  if(v==="all"){ch.classList.toggle("on",count===15);}
   else if(v==="none"){ch.classList.toggle("on",count===0);}
   else{ch.classList.toggle("on",visible[+v]);}});
 }
@@ -1450,7 +1950,7 @@ chips.forEach(function(ch){ch.onclick=function(){
  if(v==="all"){visible=visible.map(function(){return true;});}
  else if(v==="none"){visible=visible.map(function(){return false;});}
  else{var i=+v,count=0;visible.forEach(function(x){if(x)count++;});
-  if(count===13){visible=visible.map(function(_,j){return j===i;});}
+  if(count===15){visible=visible.map(function(_,j){return j===i;});}
   else{visible[i]=!visible[i];}
  }
  applyFilter();
